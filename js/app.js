@@ -41,8 +41,6 @@ $(document).ready(function(e) {
 
 	$(".dz-default.dz-message").html("<b>Drop an Image here to upload.</b><br><span>Or Click here to select a file.</span>");
 
-	$("#video-select").hide();	
-
 
 	$("#option1").click(function(){
 		var exists = $("#label1").hasClass("active");

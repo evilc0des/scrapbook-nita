@@ -109,6 +109,10 @@ body {
 	width: 30vw;
 }
 
+.btn-group{
+	margin-bottom: 10px;
+}
+
 .close-btn{
 	cursor: pointer;
 }
@@ -138,3 +142,6 @@ body {
 	background-color: #b2b2b2;
 }
 
+#video-select{
+	display: none;
+}
