@@ -41,18 +41,30 @@ $(document).ready(function(e) {
 
 	$(".dz-default.dz-message").html("<b>Drop an Image here to upload.</b><br><span>Or Click here to select a file.</span>");
 
+	$("#video-select").hide();	
+
+
 	$("#option1").click(function(){
-		$("#label1").addClass("active");	
-		$("#label2").removeClass("active");	
-		$(".dz-default.dz-message").html("<b>Drop an image here to upload.</b><br><span>Or Click here to select a file.</span>");
+		var exists = $("#label1").hasClass("active");
+		if(!exists)
+		{
+			$("#label1").addClass("active");	
+			$("#label2").removeClass("active");
+			$("#video-select").hide();	
+			$("#image-select").show();	
+		}
 	});
-	
 
 
 	$("#option2").click(function(){
-		$("#label2").addClass("active");	
-		$("#label1").removeClass("active");	
-		$(".dz-default.dz-message").html("<b>Drop a video here to upload.</b><br><span>Or Click here to select a file.</span>");
+		var exists = $("#label2").hasClass("active");
+		if(!exists)
+		{
+			$("#label2").addClass("active");	
+			$("#label1").removeClass("active");
+			$("#image-select").hide();	
+			$("#video-select").show();	
+		}
 	});
 	
 
