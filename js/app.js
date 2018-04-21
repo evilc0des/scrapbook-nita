@@ -75,6 +75,17 @@ $(document).ready(function(e) {
 	$("#branch-field").change(function(e) {
 		validForm = checkSendValidity();
 	});
+	$("#video-link").blur(function(e) {
+		var regex = /^(https:\/\/www\.youtube\.com\/watch.*)|(https:\/\/youtu\.be\/.*)$/;
+		var givenUrl = $("#video-link").val();
+		if(givenUrl!='' || givenUrl != undefined){
+			var matchStatus = givenUrl.match(regex);
+			if(!matchStatus){
+				$("#video-link").val('');
+				$("#video-link").attr("placeholder","Error! Please enter valid youtube url");
+			}
+		}
+	});
 })
 
 
