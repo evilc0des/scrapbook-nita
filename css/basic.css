@@ -1,0 +1,136 @@
+body {
+	margin: 0;
+	height: 100vh;
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+	background-color: #d3bb74; 
+	overflow: hidden;
+}
+
+.logo-text {
+	color: #7a5e3a;
+	font-size: 52px;
+	padding: 15px 25px 0px;
+	border: 5px solid #7a5e3a;
+	font-family: 'Sacramento', cursive;
+	margin-bottom: 0px;
+
+}
+
+.bylogo-text {
+	color: #7a5e3a;
+	font-size: 20px;
+	font-family: 'Rajdhani', sans-serif;
+	margin-top: 0px;
+}
+
+.add-btn {
+	color: white;
+	font-size: 24px;
+	border: none;
+	background-color: rgba(44, 45, 45, 0.6);
+	padding: 15px 20px;
+	border-radius: 50%;
+	position: absolute;
+	bottom: 5vh;
+	right: 3vw;
+	cursor: pointer;
+}
+
+.add-btn:hover {
+	background-color: black;
+}
+
+.add-container {
+	min-height: 100vh;
+	width: 45vw;
+	position: absolute;
+	top: 0px;
+	right: -45vw;
+	background-color: rgba(255, 255, 255, 0.8);
+	
+}
+
+.add-container>* {
+	margin-left: 35px;
+}
+
+.add-container .close-btn {
+	font-size: 24px;
+	position: absolute;
+	top: 3vh;
+	right: 3vw;
+}
+
+.add-container h1 {
+	font-family: 'Lato';
+	font-size: 20px;
+	font-weight: 700;
+	margin-top: 30px;
+	margin-bottom: 5px;
+}
+
+.add-container h2 {
+	font-family: 'Lato';
+	font-size: 16px;
+	font-weight: 400;
+	margin-top: 0px;
+}
+
+.add-form {
+	font-family: 'Lato';
+	margin-top: 40px;
+}
+
+.add-form .field-title {
+	margin-bottom: 5px;
+	font-size: 14px;
+	font-weight: 700;
+}
+
+.add-form .field {
+	min-width: 30vw;
+	border-radius: 8px;
+	border: none;
+	background-color: gainsboro;
+}
+
+.text-msg-field {
+	height: 10vh;
+}
+
+#image-select {
+	width: 30vw;
+}
+
+.add-form .form-group{
+	width: 30vw;
+}
+
+.send-btn {
+	color: white;
+	font-size: 24px;
+	border: none;
+	background-color: rgb(66, 244, 119);
+	padding: 15px 20px;
+	border-radius: 50%;
+	position: absolute;
+	bottom: 5vh;
+	right: 3vw;
+	cursor: pointer;
+}
+
+.send-btn:hover {
+	background-color: #01a532;
+}
+
+.send-btn.disabled {
+	background-color: #b2b2b2;
+}
+
+.send-btn.disabled:hover {
+	background-color: #b2b2b2;
+}
+

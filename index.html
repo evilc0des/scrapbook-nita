@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Memorabilia - NIT Agartala 2014-18</title>
+	<link href="https://fonts.googleapis.com/css?family=Rajdhani|Sacramento|Lato:300,700" rel="stylesheet">
+	<link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css" integrity="sha384-9gVQ4dYFwwWSjIDZnLEWnxCjeSWFphJiwGPXr1jddIhOegiu1FwO5qRGvFXOdJZ4" crossorigin="anonymous">
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/dropzone/5.4.0/dropzone.css" />
+	<link rel="stylesheet" type="text/css" href="./css/basic.css">
+</head>
+<body>
+<h1 class="logo-text">Memoribilia</h1>
+<p class="bylogo-text">NITA 2014-18 BATCH</p>
+<button class="add-btn"><i class="fa fa-plus" aria-hidden="true"></i></button>
+<div class="add-container">
+	<p class="close-btn"><i class="fa fa-times" aria-hidden="true"></i></p>
+	<h1>CREATE A NOTE</h1>
+	<h2>Add a text, image or video note to our memory wall.</h2>
+	<form class="add-form">
+		<div class="form-group">
+			<p class="field-title">LEAVE A MESSAGE</p>
+			<textarea id="text-message" value="" class="form-control field text-msg-field"></textarea>
+
+		</div>
+
+		<div class="form-group">
+			<p class="field-title">ADD SOME MEDIA <span style="font-size: 12px; font-weight: 400"> (OPTIONAL)</span></p>
+			<div class="btn-group btn-group-toggle" data-toggle="buttons" style="width: 30vw">
+			  <label class="btn btn-outline-info active" style="width: 50%">
+			    <input type="radio" name="options" id="option1" autocomplete="off" checked><i class="fa fa-picture-o" aria-hidden="true"></i> Image
+			  </label>
+			  <label class="btn btn-outline-info" style="width: 50%">
+			    <input type="radio" name="options" id="option2" autocomplete="off"><i class="fa fa-video-camera" aria-hidden="true"></i> Video
+			  </label>
+			</div>
+			<div class="dropzone" id="image-select"></div>
+		</div>
+
+		<div class="form-group">
+			<p class="field-title">SIGN IT</p>
+			<input class="form-control" type="text" value="" name="name" placeholder="Enter Your Name" id="name-field"></input>
+			<select class="form-control" placeholder="Select Your Department" id="branch-field">
+				<option value="" disabled selected>Select Your Department</option>
+		      <option value="CSE">Computer Science and Engineering</option>
+		      <option value="ME">Mechanical Engineering</option>
+		      <option value="EE">Electrical Engineering</option>
+		      <option value="CE">Civil Engineering</option>
+		      <option value="ECE">Electronics and Communication Engineering</option>
+		      <option value="EIE">Electronics and Instrumentation Engineering</option>
+		      <option value="CHEM">Chemical Engineering</option>
+		      <option value="PE">Production Engineering</option>
+		    </select>
+		</div>
+	</form>
+	<button class="send-btn disabled"><i class="fa fa-check" aria-hidden="true"></i></button>
+
+</div>
+<script src="http://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>  
+</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/1.20.2/TweenMax.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/dropzone/5.4.0/dropzone.js"></script>
+<script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+<script type="text/javascript" src="./js/app.js"></script>
+</body>
+</html>
