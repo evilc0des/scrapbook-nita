@@ -109,6 +109,10 @@ body {
 	width: 30vw;
 }
 
+.close-btn{
+	cursor: pointer;
+}
+
 .send-btn {
 	color: white;
 	font-size: 24px;

@@ -35,7 +35,26 @@ $(document).ready(function(e) {
 		TweenMax.to(".add-container", 1, {right: "0vw", ease:Power2.easeInOut});
 	});
 
+	$(".close-btn").click(function(e) {
+		TweenMax.to(".add-container", 1, {right: "-45vw", ease:Power2.easeInOut});
+	});
+
 	$(".dz-default.dz-message").html("<b>Drop an Image here to upload.</b><br><span>Or Click here to select a file.</span>");
+
+	$("#option1").click(function(){
+		$("#label1").addClass("active");	
+		$("#label2").removeClass("active");	
+		$(".dz-default.dz-message").html("<b>Drop an image here to upload.</b><br><span>Or Click here to select a file.</span>");
+	});
+	
+
+
+	$("#option2").click(function(){
+		$("#label2").addClass("active");	
+		$("#label1").removeClass("active");	
+		$(".dz-default.dz-message").html("<b>Drop a video here to upload.</b><br><span>Or Click here to select a file.</span>");
+	});
+	
 
 	$("#text-message").blur(function(e) {
 		validForm = checkSendValidity();
