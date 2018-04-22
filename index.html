@@ -7,10 +7,70 @@
 	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css" integrity="sha384-9gVQ4dYFwwWSjIDZnLEWnxCjeSWFphJiwGPXr1jddIhOegiu1FwO5qRGvFXOdJZ4" crossorigin="anonymous">
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/dropzone/5.4.0/dropzone.css" />
 	<link rel="stylesheet" type="text/css" href="./css/basic.css">
+	<link rel="stylesheet" type="text/css" href="./css/scrapboard.css">
 </head>
 <body>
 <h1 class="logo-text">Memorabilia</h1>
 <p class="bylogo-text">NITA 2014-18 BATCH</p>
+<div class="scrap-board">
+	<div class="note image-note">
+		<div class="img-element"><img src="http://res.cloudinary.com/dhrqglqw8/image/upload/v1524317728/znxezqzesesy2nyixx0w.png"></div>
+		<div class="text-element">
+			<p>Hello This is a test Container. It is just to see the note layout. Thank you.</p>
+			<h6 style="text-align: right;">-- Dk Saha <span style="font-size: smaller; font-weight: 400">CSE</span></h6>
+		</div>
+	</div>
+	<div class="note image-note">
+		<div class="img-element"><img src="http://res.cloudinary.com/dhrqglqw8/image/upload/v1524256287/sample.jpg"></div>
+		<div class="text-element">
+			<p>Hello This is a test Container. It is just to see the note layout. Thank you.</p>
+			<h6 style="text-align: right;">-- Dk Saha <span style="font-size: smaller; font-weight: 400">CSE</span></h6>
+		</div>
+	</div>
+	<div class="note image-note">
+		<div class="img-element"><img src="http://res.cloudinary.com/dhrqglqw8/image/upload/v1524258790/ktfgjj3q91x0fnlnxjkk.png"></div>
+		<div class="text-element">
+			<p>Hello This is a test Container. It is just to see the note layout. Thank you.</p>
+			<h6 style="text-align: right;">-- Dk Saha <span style="font-size: smaller; font-weight: 400">CSE</span></h6>
+		</div>
+	</div>
+	<div class="note text-note">
+			<h2>Hello This is a test Container. It is just to see the note layout. Thank you.</h2>
+			<h6 style="text-align: right; width: 100%">-- Dk Saha <span style="font-size: smaller; font-weight: 400">CSE</span></h6>
+	</div>
+	<div class="note text-note">
+			<h2>Another test note. It is just to see the note layout. Adios.</h2>
+			<h6 style="text-align: right; width: 100%">-- Dk Saha <span style="font-size: smaller; font-weight: 400">CSE</span></h6>
+	</div>
+	<div class="note image-note">
+		<div class="img-element"><img src="http://res.cloudinary.com/dhrqglqw8/image/upload/v1524340273/a4cmfzbgj4u8jcz7gspe.jpg"></div>
+		<div class="text-element">
+			<p>Hello This is a test Container. It is just to see the note layout. Thank you.</p>
+			<h6 style="text-align: right;">-- Dk Saha <span style="font-size: smaller; font-weight: 400">CSE</span></h6>
+		</div>
+	</div>
+	<div class="note image-note">
+		<div class="img-element"><img src="http://res.cloudinary.com/dhrqglqw8/image/upload/v1524340273/a4cmfzbgj4u8jcz7gspe.jpg"></div>
+		<div class="text-element">
+			<p>Hello This is a test Container. It is just to see the note layout. Thank you.</p>
+			<h6 style="text-align: right;">-- Dk Saha <span style="font-size: smaller; font-weight: 400">CSE</span></h6>
+		</div>
+	</div>
+	<div class="note image-note">
+		<div class="img-element"><img src="http://res.cloudinary.com/dhrqglqw8/image/upload/v1524340273/a4cmfzbgj4u8jcz7gspe.jpg"></div>
+		<div class="text-element">
+			<p>Hello This is a test Container. It is just to see the note layout. Thank you.</p>
+			<h6 style="text-align: right;">-- Dk Saha <span style="font-size: smaller; font-weight: 400">CSE</span></h6>
+		</div>
+	</div>
+	<div class="note image-note">
+		<div class="img-element"><img src="http://res.cloudinary.com/dhrqglqw8/image/upload/v1524340273/a4cmfzbgj4u8jcz7gspe.jpg"></div>
+		<div class="text-element">
+			<p>Hello This is a test Container. It is just to see the note layout. Thank you.</p>
+			<h6 style="text-align: right;">-- Dk Saha <span style="font-size: smaller; font-weight: 400">CSE</span></h6>
+		</div>
+	</div>
+</div>
 <button class="add-btn"><i class="fa fa-plus" aria-hidden="true"></i></button>
 <div class="add-container">
 	<p class="close-btn"><i class="fa fa-times" aria-hidden="true"></i></p>
@@ -35,7 +95,7 @@
 			</div>
 			<div class="dropzone" id="image-select"></div>
 			<div id="video-select">
-				<input type="url" id="video-link" placeholder = "Enter Youtube link" size="56"></input>
+				<input class="form-control" type="url" id="video-field" placeholder = "Enter Youtube link" size="56"></input>
 			</div>
 		</div>
 
@@ -52,6 +112,12 @@
 		      <option value="EIE">Electronics and Instrumentation Engineering</option>
 		      <option value="CHEM">Chemical Engineering</option>
 		      <option value="PE">Production Engineering</option>
+   		      <option value="BIO">Bio Engineering</option>
+		      <option value="PH">Physics</option>
+		      <option value="CHE">Chemistry</option>
+		      <option value="MAT">Mathematics</option>
+
+
 		    </select>
 		</div>
 	</form>
@@ -63,6 +129,7 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/1.20.2/TweenMax.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/dropzone/5.4.0/dropzone.js"></script>
 <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
 <script type="text/javascript" src="./js/app.js"></script>
 </body>
 </html>
