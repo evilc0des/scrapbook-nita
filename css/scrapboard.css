@@ -1,0 +1,46 @@
+.scrap-board {
+	display: flex;
+	position: absolute;
+	width: 100vw;
+	height: 100vh;
+	top: 0;
+	left: 0;
+	align-items: flex-start;
+	flex-wrap: wrap;
+}
+
+
+.note {
+	position: relative;
+	padding-top: 10px;
+	padding-bottom: 10px;
+	width: 320px;
+	background-color: white;
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+	overflow: hidden;
+}
+
+.text-note {
+	padding: 10px;
+}
+
+.img-element {
+	width: 94%;
+}
+
+
+.img-element img {
+	width: 100%;
+}
+
+.text-element {
+	position: absolute;
+	width: 100%;
+	height: 50%;
+	bottom: -50%;
+	padding: 5px 10px;
+	background-color: rgba(255, 255, 255, 0.8);
+}

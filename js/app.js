@@ -4,6 +4,9 @@
 Dropzone.autoDiscover = false;
 
 var validForm = false;
+var imgUrl = null;
+
+var notes = [];
 
 $(document).ready(function(e) {
 	var myDropzone = new Dropzone("div#image-select", { 
@@ -25,8 +28,9 @@ $(document).ready(function(e) {
 			});
 
 			this.on("success", function(file, response) {
-		  		console.log(file);
 		  		console.log(response);
+		  		imgUrl = response.url;
+		  		console.log(imgUrl);
 			});
 		}
 	});
@@ -75,6 +79,54 @@ $(document).ready(function(e) {
 	$("#branch-field").change(function(e) {
 		validForm = checkSendValidity();
 	});
+
+	$(".send-btn").click(function(e){
+		console.log(imgUrl);
+		if(validForm) {
+			axios.post('http://localhost:3000/notes/add', {
+			    name: $("#name-field").val(),
+			    branch: $("#branch-field").val(),
+			    text: $("#text-message").val(),
+			    imageUrl: imgUrl,
+			    videourl: $("#video-field").val()
+			})
+			.then(function (response) {
+			    console.log(response);
+			    if(response.data.s == 'p'){
+			    	$("#name-field").val('');
+			    	$("#branch-field").val(null);
+			    	$("#text-message").val('');
+			    	$("#video-field").val(null);
+			    	myDropzone.removeAllFiles();
+			    	TweenMax.to(".add-container", 1, {right: "-45vw", ease:Power2.easeInOut});
+			    	swal("Great!", "You have added your note!", "success");
+			    }
+			    
+			})
+			.catch(function (error) {
+			    console.log(error);
+			});
+		}
+	});
+
+	fetchNotes();
+	var noteFetchInterval = window.setInterval(fetchNotes, 30000);
+
+	$(".image-note").mouseenter(function(e) {
+		TweenMax.to( $(this).find('.text-element'), 0.5, {bottom: "0", ease:Power2.easeInOut});
+	});
+
+	$(".image-note").mouseleave(function(e) {
+		TweenMax.to( $(this).find('.text-element'), 0.5, {bottom: "-50%", ease:Power2.easeInOut});
+	});
+
+	$(".note").each(function(){
+		$(this).css({'transform' : 'rotate('+ Math.floor(Math.random() * Math.floor(20) * (Math.round(Math.random()) * 2 - 1)) +'deg)'});
+	});
+
+	$(".text-note").each(function(){
+		$(this).css({'background' : getRandomColor()});
+	});
 })
 
 
@@ -89,4 +141,30 @@ var checkSendValidity = function(){
 
 	return false;
 	
+}
+
+
+var fetchNotes = function() {
+	axios.get('http://localhost:3000/notes/fetch')
+	.then(function (response) {
+	    console.log(response);
+
+	    if(response.data.s == 'p'){
+	    	notes = response.data.notes;
+	    	updateView();
+	    }
+	})
+	.catch(function (error) {
+	    console.log(error);
+	});
+
+}
+
+var updateView = function() {
+	console.log(notes);
+}
+
+function getRandomColor() {
+  color = "hsl(" + Math.random() * 360 + ", 100%, 75%)";
+  return color;
 }
