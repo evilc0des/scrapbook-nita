@@ -39,8 +39,16 @@ body {
 	cursor: pointer;
 }
 
+.add-btn:focus{
+	outline: none;
+}
+
 .add-btn:hover {
 	background-color: black;
+}
+
+.send-btn:focus{
+	outline: none;
 }
 
 .add-container {

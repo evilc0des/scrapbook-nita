@@ -127,6 +127,10 @@ $(document).ready(function(e) {
 	$(".text-note").each(function(){
 		$(this).css({'background' : getRandomColor()});
 	});
+
+	$("#video-field").blur(function(e) {
+		validForm = checkSendValidity();
+	});
 })
 
 
@@ -134,6 +138,16 @@ var checkSendValidity = function(){
 	console.log($("#text-message").val()+ ' '+ $("#name-field").val() + ' ' + $("#branch-field").val())
 	if($("#text-message").val() != '' && $("#name-field").val() != '' && $("#branch-field").val() != null)
 	{
+		var regex = /^(https:\/\/www\.youtube\.com\/watch.*)|(https:\/\/youtu\.be\/.*)$/;
+		var givenUrl = $("#video-field").val();
+		if(givenUrl!='' || givenUrl != undefined){
+			var matchStatus = givenUrl.match(regex);
+			if(!matchStatus){
+				$("#video-field").val('');
+				$("#video-field").attr("placeholder","Error! Please enter valid youtube url");
+				return false;
+			}
+		}
 		$(".send-btn").removeClass('disabled');
 		return true;
 		
