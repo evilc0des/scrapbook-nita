@@ -41,18 +41,28 @@ $(document).ready(function(e) {
 
 	$(".dz-default.dz-message").html("<b>Drop an Image here to upload.</b><br><span>Or Click here to select a file.</span>");
 
+
 	$("#option1").click(function(){
-		$("#label1").addClass("active");	
-		$("#label2").removeClass("active");	
-		$(".dz-default.dz-message").html("<b>Drop an image here to upload.</b><br><span>Or Click here to select a file.</span>");
+		var exists = $("#label1").hasClass("active");
+		if(!exists)
+		{
+			$("#label1").addClass("active");	
+			$("#label2").removeClass("active");
+			$("#video-select").hide();	
+			$("#image-select").show();	
+		}
 	});
-	
 
 
 	$("#option2").click(function(){
-		$("#label2").addClass("active");	
-		$("#label1").removeClass("active");	
-		$(".dz-default.dz-message").html("<b>Drop a video here to upload.</b><br><span>Or Click here to select a file.</span>");
+		var exists = $("#label2").hasClass("active");
+		if(!exists)
+		{
+			$("#label2").addClass("active");	
+			$("#label1").removeClass("active");
+			$("#image-select").hide();	
+			$("#video-select").show();	
+		}
 	});
 	
 
@@ -64,6 +74,17 @@ $(document).ready(function(e) {
 	});
 	$("#branch-field").change(function(e) {
 		validForm = checkSendValidity();
+	});
+	$("#video-link").blur(function(e) {
+		var regex = /^(https:\/\/www\.youtube\.com\/watch.*)|(https:\/\/youtu\.be\/.*)$/;
+		var givenUrl = $("#video-link").val();
+		if(givenUrl!='' || givenUrl != undefined){
+			var matchStatus = givenUrl.match(regex);
+			if(!matchStatus){
+				$("#video-link").val('');
+				$("#video-link").attr("placeholder","Error! Please enter valid youtube url");
+			}
+		}
 	});
 })
 
