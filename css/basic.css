@@ -14,6 +14,7 @@ body {
 }
 
 .navbar-dark .navbar-brand{
+	font-family: 'Sacramento', cursive;
 	color:white;
 	font-size: 200%;
 }
