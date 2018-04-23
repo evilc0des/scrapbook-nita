@@ -9,6 +9,25 @@ body {
 	overflow: hidden;
 }
 
+.navbar-dark{
+	background:rgba(0,0,0,0.5);
+}
+
+.navbar-dark .navbar-brand{
+	color:white;
+	font-size: 200%;
+}
+
+.navbar-dark .navbar-nav .nav-link {
+	color: white;
+	font-size: 150%;
+}
+
+.navbar-dark .navbar-text{
+	color:white;
+	font-size: 150%;
+}
+
 .logo-text {
 	color: #7a5e3a;
 	font-size: 52px;
