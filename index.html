@@ -11,30 +11,33 @@
 </head>
 <body>
 
-		<nav class="navbar navbar-expand-sm navbar-dark fixed-bottom">
-				<div class="navbar-collapse collapse w-100 order-1 order-md-0 dual-collapse2">
-					<ul class="navbar-nav mr-auto">
-						<li class="nav-item">
-							<a class="nav-link" href="#">Demo-Link</a>
-						</li>
-						<li class="nav-item">
-							<a class="nav-link" href="#">Demo-Link</a>
-						</li>
-						<li class="nav-item">
-							<a class="nav-link" href="#">Demo-Link</a>
-						</li>
-					</ul>
-				</div>
+		<nav id="footer-navbar" class="navbar navbar-expand-sm navbar-dark fixed-bottom">
 				<div class="mx-auto order-0">
-					<a class="navbar-brand mx-auto" href="#">Memorabilia</a>
+					<a class="navbar-brand mx-auto" id="footer-logo-text" href="#">Memorabilia</a>
 					<button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".dual-collapse2">
 						<span class="navbar-toggler-icon"></span>
 					</button>
 				</div>
-				<div class="navbar-collapse collapse w-100 order-3 dual-collapse2">
-					<ul class="navbar-nav ml-auto">
+				<div class="navbar-collapse collapse w-100 order-1 order-md-0 dual-collapse2">
+					<ul class="navbar-nav mr-auto">
 						<li class="nav-item">
-							<a class="nav-link" href="#">FboiLogix</a>
+							<a class="nav-link" href="#">Team</a>
+						</li>
+						<li class="nav-item">
+							<a class="nav-link" href="#">About</a>
+						</li>
+						<li class="nav-item">
+							<a class="nav-link" href="#">Donate</a>
+						</li>
+					</ul>
+				</div>
+				<div class="navbar-collapse collapse w-100 order-3 dual-collapse2">
+					<ul class="navbar-nav ml-auto" style="align-items: flex-end;">
+						<li class="nav-item">
+							<p style="font-size: 12px; margin-bottom: 5px;">All Rights Reserved. Copyright &copy; Fboilogix. 2018</p>
+						</li>
+						<li class="nav-item">
+							<a class="nav-link" href="#"><img id ="footer-team-logo" src="./assets/fboilogo.png"></a>
 						</li>
 					</ul>
 				</div>
@@ -72,34 +75,6 @@
 	<div class="note text-note">
 			<h2>Another test note. It is just to see the note layout. Adios.</h2>
 			<h6 style="text-align: right; width: 100%">-- Dk Saha <span style="font-size: smaller; font-weight: 400">CSE</span></h6>
-	</div>
-	<div class="note image-note">
-		<div class="img-element"><img src="http://res.cloudinary.com/dhrqglqw8/image/upload/v1524340273/a4cmfzbgj4u8jcz7gspe.jpg"></div>
-		<div class="text-element">
-			<p>Hello This is a test Container. It is just to see the note layout. Thank you.</p>
-			<h6 style="text-align: right;">-- Dk Saha <span style="font-size: smaller; font-weight: 400">CSE</span></h6>
-		</div>
-	</div>
-	<div class="note image-note">
-		<div class="img-element"><img src="http://res.cloudinary.com/dhrqglqw8/image/upload/v1524340273/a4cmfzbgj4u8jcz7gspe.jpg"></div>
-		<div class="text-element">
-			<p>Hello This is a test Container. It is just to see the note layout. Thank you.</p>
-			<h6 style="text-align: right;">-- Dk Saha <span style="font-size: smaller; font-weight: 400">CSE</span></h6>
-		</div>
-	</div>
-	<div class="note image-note">
-		<div class="img-element"><img src="http://res.cloudinary.com/dhrqglqw8/image/upload/v1524340273/a4cmfzbgj4u8jcz7gspe.jpg"></div>
-		<div class="text-element">
-			<p>Hello This is a test Container. It is just to see the note layout. Thank you.</p>
-			<h6 style="text-align: right;">-- Dk Saha <span style="font-size: smaller; font-weight: 400">CSE</span></h6>
-		</div>
-	</div>
-	<div class="note image-note">
-		<div class="img-element"><img src="http://res.cloudinary.com/dhrqglqw8/image/upload/v1524340273/a4cmfzbgj4u8jcz7gspe.jpg"></div>
-		<div class="text-element">
-			<p>Hello This is a test Container. It is just to see the note layout. Thank you.</p>
-			<h6 style="text-align: right;">-- Dk Saha <span style="font-size: smaller; font-weight: 400">CSE</span></h6>
-		</div>
 	</div>
 </div>
 <button class="add-btn"><i class="fa fa-plus" aria-hidden="true"></i></button>
@@ -158,6 +133,8 @@
 <script src="http://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>  
 </script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.0/js/bootstrap.min.js"></script>
+<script src="./js/jquery.panzoom.min.js"></script>
+<script src="./js/jquery.mousewheel.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/1.20.2/TweenMax.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/dropzone/5.4.0/dropzone.js"></script>
 <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
