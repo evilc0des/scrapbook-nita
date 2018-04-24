@@ -112,6 +112,20 @@ $(document).ready(function(e) {
 	fetchNotes();
 	var noteFetchInterval = window.setInterval(fetchNotes, 30000);
 
+	setTimeout(function(){ 
+		console.log($("#footer-navbar").outerHeight());
+		TweenMax.to( "#footer-navbar", 1, {bottom: "-" + ($("#footer-navbar").outerHeight() - 10) + "px", ease:Power2.easeInOut}); 
+	}, 3000);
+
+
+	$("#footer-navbar").mouseenter(function(e) {
+		TweenMax.to( "#footer-navbar", 0.6, {bottom: "0", ease:Power2.easeInOut});
+	});
+
+	$("#footer-navbar").mouseleave(function(e) {
+		TweenMax.to( "#footer-navbar", 0.6, {bottom: "-" + ($("#footer-navbar").outerHeight() - 10) + "px", ease:Power2.easeInOut}); 
+	});
+
 	$(".image-note").mouseenter(function(e) {
 		TweenMax.to( $(this).find('.text-element'), 0.5, {bottom: "0", ease:Power2.easeInOut});
 	});
@@ -130,6 +144,21 @@ $(document).ready(function(e) {
 
 	$("#video-field").blur(function(e) {
 		validForm = checkSendValidity();
+	});
+
+	$(".scrap-board").panzoom({minScale: 1, contain: "invert"});
+
+	//$elem.panzoom("zoom");
+
+	$(".scrap-board").on('mousewheel.focal', function(event) {
+	    //console.log(event.deltaX, event.deltaY, event.deltaFactor);
+
+	    if(event.deltaY > 0){
+	    	$(this).panzoom("zoom", { focal: event });
+	    }
+	    if(event.deltaY < 0){
+	    	$(this).panzoom("zoom", true, { focal: event });
+	    }
 	});
 })
 
