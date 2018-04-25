@@ -115,8 +115,9 @@ $(document).ready(function(e) {
 			    	$("#video-field").val(null);
 			    	myDropzone.removeAllFiles();
 			    	TweenMax.to(".add-container", 1, {right: "-45vw", ease:Power2.easeInOut});
+			    	var notes = currNotes.slice();
 			    	notes.push(response.data.d);
-			    	updateView();
+			    	updateView(notes);
 			    	swal("Great!", "You have added your note!", "success");
 			    }
 			    
@@ -175,8 +176,8 @@ $(document).ready(function(e) {
 	    if(event.deltaY < 0){
 	    	$(this).panzoom("zoom", true, { focal: event });
 	    }
+	    zoomed = true;
 	});
-	zoomed = true;
 	//console.log(body);
 	//console.log(scrapBoard)
 	
@@ -190,7 +191,7 @@ var checkSendValidity = function(){
 		var regex = /^(https:\/\/www\.youtube\.com\/watch.*)|(https:\/\/youtu\.be\/.*)$/;
 		var givenUrl = $("#video-field").val();
 		if(givenUrl!='' && givenUrl != undefined && givenUrl != null){
-			console.log(givenUrl);
+			//console.log(givenUrl);
 			var matchStatus = givenUrl.match(regex);
 			if(!matchStatus){
 				$("#video-field").val('');
@@ -198,7 +199,7 @@ var checkSendValidity = function(){
 				return false;
 			}
 		}
-		console.log("validity out");
+		//console.log("validity out");
 		$(".send-btn").removeClass('disabled');
 		return true;
 		
@@ -235,28 +236,30 @@ var updateView = function(notes) {
 		*
 		*/
 		var columnSize = 4;
+		var rowSize = 1;
 		var n = notes.length;
 		var a = Math.pow(n/2, 0.5);
 		var b = a - Math.floor(a);
 		if(b > 0.5 || b == 0)
 		{
-			columnSize = 2 * Math.ceil(a);
+			rowSize = Math.ceil(a);
+			columnSize = 2 * rowSize;
+
 		}
 		else {
 			var c = n % (2 * Math.floor(a));
+			rowSize = Math.floor(a);
 			if(c > Math.floor(a)){
-				columnSize = 2 * Math.floor(a) + 2;
+				columnSize = 2 * rowSize + 2;
 			}
 			else {
-				columnSize = 2 * Math.floor(a) + 1;
+				columnSize = 2 * rowSize + 1;
 			}
 		}
 
 		$(".scrap-board").width(columnSize * 310);
 		var minScale = body.clientWidth/scrapBoard.clientWidth ;
-		if(!zoomed || ($(".scrap-board").panzoom("getMatrix")[0] <= minScale)){
-			$(".scrap-board").panzoom("option", "minScale", minScale).panzoom("zoom", minScale).panzoom("pan", 0, 0);
-		}
+		$(".scrap-board").panzoom("option", "minScale", minScale).panzoom("zoom", minScale).panzoom("pan", 0, 0);
 
 
 		/*
@@ -282,16 +285,22 @@ var updateView = function(notes) {
 						TweenMax.to( $(this).find('.text-element'), 0.5, {bottom: "0", ease:Power2.easeInOut});
 					})
 					.mouseleave(function(e) {
-						TweenMax.to( $(this).find('.text-element'), 0.5, {bottom: "-50%", ease:Power2.easeInOut});
+						TweenMax.to($(this).find('.text-element'), 0.5, {bottom: "-50%", ease:Power2.easeInOut});
 					})
-					.css({'transform' : 'rotate('+ Math.floor(Math.random() * Math.floor(20) * (Math.round(Math.random()) * 2 - 1)) +'deg)', 'display' : 'flex', 'clear' : ((renderedElem % columnSize == 0) ? 'both' : 'none' )});
+					.click({noteData: note}, function(e) {
+						console.log(e.data.noteData._id);
+					})
+					.css({'transform' : 'rotate('+ Math.floor(Math.random() * Math.floor(20) * (Math.round(Math.random()) * 2 - 1)) +'deg)', 'display' : 'flex'});
 					renderedElem++;
 				}
 				else {
 
 					noteHtml = '<div class="note text-note"><h2>'+note.text+'</h2><h6 style="text-align: right; width: 100%">-- '+note.name+' <span style="font-size: smaller; font-weight: 400">'+note.branch+'</span></h6></div>';
 					$(noteHtml).appendTo(".scrap-board")
-					.css({'transform' : 'rotate('+ Math.floor(Math.random() * Math.floor(20) * (Math.round(Math.random()) * 2 - 1)) +'deg)', 'background' : getRandomColor(), 'display' : 'flex', 'clear' : ((renderedElem % columnSize == 0) ? 'both' : 'none' )});
+					.click({noteData: note}, function(e) {
+						console.log(e.data.noteData._id);
+					})
+					.css({'transform' : 'rotate('+ Math.floor(Math.random() * Math.floor(20) * (Math.round(Math.random()) * 2 - 1)) +'deg)', 'background' : getRandomColor(), 'display' : 'flex'});
 					renderedElem++;
 				}
 				newNoteNumber--;
@@ -300,6 +309,11 @@ var updateView = function(notes) {
 				break;
 		};
 		
+
+		$(".note").css({'clear': 'none'});
+		for(var i = 1; i < rowSize; i++) {
+				$(".note").eq(columnSize * i).css({'clear': 'both'});
+		}
 
 		if(currNotes.length == 0) {
 			TweenMax.from(".note",2,{opacity: 0});
