@@ -38,6 +38,14 @@ $(document).ready(function(e) {
 		}
 	});
 
+
+	$(".text-note").each(function(){
+		$(this).css({'background' : getRandomColor()});
+	});
+
+	$(".note").css({'display' : 'flex'});
+	TweenMax.from(".note",2,{opacity: 0});
+
 	$(".add-btn").click(function(e) {
 		TweenMax.to(".add-container", 1, {right: "0vw", ease:Power2.easeInOut});
 	});
@@ -141,10 +149,6 @@ $(document).ready(function(e) {
 
 	$(".note").each(function(){
 		$(this).css({'transform' : 'rotate('+ Math.floor(Math.random() * Math.floor(20) * (Math.round(Math.random()) * 2 - 1)) +'deg)'});
-	});
-
-	$(".text-note").each(function(){
-		$(this).css({'background' : getRandomColor()});
 	});
 
 	$("#video-field").blur(function(e) {
