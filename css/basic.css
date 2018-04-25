@@ -19,12 +19,17 @@ body {
 	font-size: 200%;
 }
 
-.navbar-dark .navbar-nav .nav-link {
+.navbar-dark .navbar-nav .nav-link:link {
 	color: #7a5e3a;
 	font-size: 18px;
 }
 
 .navbar-dark .navbar-nav .nav-link:hover {
+	color: #7a5e3a;
+	font-weight: 700;
+}
+
+.navbar-dark .navbar-nav .nav-link:visited {
 	color: #7a5e3a;
 	font-weight: 700;
 }
@@ -142,7 +147,6 @@ body {
 	min-width: 30vw;
 	border-radius: 8px;
 	border: none;
-	background-color: gainsboro;
 }
 
 .text-msg-field {
