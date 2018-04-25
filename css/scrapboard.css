@@ -1,26 +1,38 @@
 .scrap-board {
-	display: flex;
+	/*display: flex;
+	flex-direction: column;*/
 	position: absolute;
-	width: 100vw;
+	width: 1820px;
 	height: 100vh;
 	top: 0;
 	left: 0;
-	align-items: flex-start;
-	flex-wrap: wrap;
+	justify-content: space-around;
+	align-items: center;
+}
+.scrap-board-row {
+	width: 100%;
+	display: flex;
+	align-items: center;
+	justify-content: center;
 }
 
 
 .note {
+	float: left;
+	margin-right: 10px;
 	position: relative;
 	padding-top: 10px;
 	padding-bottom: 10px;
-	width: 320px;
+	width: 300px;
+	min-height: 200px;
 	background-color: white;
 	display: flex;
 	flex-direction: column;
 	justify-content: center;
 	align-items: center;
 	overflow: hidden;
+	margin-bottom: 20px;
+	margin-top: 20px;
 }
 
 .text-note {

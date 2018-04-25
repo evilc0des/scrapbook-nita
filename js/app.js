@@ -8,6 +8,9 @@ var imgUrl = null;
 
 var notes = [];
 
+var scrapBoard = document.querySelector(".scrap-board");
+var body = document.querySelector("body");
+
 $(document).ready(function(e) {
 	var myDropzone = new Dropzone("div#image-select", { 
 		url: "https://api.cloudinary.com/v1_1/dhrqglqw8/image/upload",
@@ -99,6 +102,8 @@ $(document).ready(function(e) {
 			    	$("#video-field").val(null);
 			    	myDropzone.removeAllFiles();
 			    	TweenMax.to(".add-container", 1, {right: "-45vw", ease:Power2.easeInOut});
+			    	notes.push(response.data.d);
+			    	updateView();
 			    	swal("Great!", "You have added your note!", "success");
 			    }
 			    
@@ -148,6 +153,8 @@ $(document).ready(function(e) {
 
 	$(".scrap-board").panzoom({minScale: 1, contain: "invert"});
 
+	
+
 	//$elem.panzoom("zoom");
 
 	$(".scrap-board").on('mousewheel.focal', function(event) {
@@ -160,6 +167,10 @@ $(document).ready(function(e) {
 	    	$(this).panzoom("zoom", true, { focal: event });
 	    }
 	});
+
+	//console.log(body);
+	//console.log(scrapBoard)
+	
 })
 
 
@@ -205,6 +216,61 @@ var fetchNotes = function() {
 
 var updateView = function() {
 	console.log(notes);
+	$(".scrap-board").html("");
+	notes.map(function(note) {
+		console.log(note);
+		if(note.imageURL){
+			$(".scrap-board").append(
+				'<div class="note image-note"><div class="img-element"><img src="'+note.imageURL+'"></div><div class="text-element"><p>'+note.text+'</p><h6 style="text-align: right;">-- '+note.name+' <span style="font-size: smaller; font-weight: 400">'+note.branch+'</span></h6></div></div>'
+			);
+		}
+		else {
+			$(".scrap-board").append(
+				'<div class="note text-note"><h2>'+note.text+'</h2><h6 style="text-align: right; width: 100%">-- '+note.name+' <span style="font-size: smaller; font-weight: 400">'+note.branch+'</span></h6></div>'
+			);
+		}
+	});
+
+	console.log("here");
+	$(".image-note").mouseenter(function(e) {
+		TweenMax.to( $(this).find('.text-element'), 0.5, {bottom: "0", ease:Power2.easeInOut});
+	});
+	console.log("here2");
+	$(".image-note").mouseleave(function(e) {
+		TweenMax.to( $(this).find('.text-element'), 0.5, {bottom: "-50%", ease:Power2.easeInOut});
+	});
+
+	$(".note").each(function(){
+		$(this).css({'transform' : 'rotate('+ Math.floor(Math.random() * Math.floor(20) * (Math.round(Math.random()) * 2 - 1)) +'deg)'});
+	});
+
+	$(".text-note").each(function(){
+		$(this).css({'background' : getRandomColor()});
+	});
+	var columnSize = 4;
+	var n = notes.length;
+	var a = Math.pow(n/2, 0.5);
+	var b = a - Math.floor(a);
+	if(b > 0.5 || b == 0)
+	{
+		columnSize = 2 * Math.ceil(a);
+	}
+	else {
+		var c = n % (2 * Math.floor(a));
+		if(c > Math.floor(a)){
+			columnSize = 2 * Math.floor(a) + 2;
+		}
+		else {
+			columnSize = 2 * Math.floor(a) + 1;
+		}
+	}
+
+	$(".scrap-board").width(columnSize * 310);
+	var minScale = body.clientWidth/scrapBoard.clientWidth ;
+	$(".scrap-board").panzoom("option", "minScale", minScale).panzoom("zoom", minScale).panzoom("pan", 0, 0);
+	console.log(minScale);
+
+	//$(".scrap-board").panzoom("zoom", 2.0);
 }
 
 function getRandomColor() {
