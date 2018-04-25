@@ -43,9 +43,6 @@ $(document).ready(function(e) {
 		$(this).css({'background' : getRandomColor()});
 	});
 
-	$(".note").css({'display' : 'flex'});
-	TweenMax.from(".note",2,{opacity: 0});
-
 	$(".add-btn").click(function(e) {
 		TweenMax.to(".add-container", 1, {right: "0vw", ease:Power2.easeInOut});
 	});
@@ -234,6 +231,9 @@ var updateView = function() {
 			);
 		}
 	});
+
+	$(".note").css({'display' : 'flex'});
+	TweenMax.from(".note",2,{opacity: 0});
 
 	console.log("here");
 	$(".image-note").mouseenter(function(e) {
