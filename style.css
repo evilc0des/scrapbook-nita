@@ -1,0 +1,69 @@
+body {
+	margin: 0;
+	height: 100vh;
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+	background-color: #d3bb74;
+	overflow: hidden;
+}
+.team-section{
+	overflow: hidden;
+	text-align: center;
+	background: #d3bb74;
+	padding: 60px;
+}
+.team-section h1{
+	margin-bottom: 60px;
+	color: #7a5e3a;
+	font-size: 40px;
+	font-family: 'Sacramento', cursive;
+}
+.border{
+	display: block;
+	margin: auto;
+	width: 160px;
+	height: 3px;
+	background: #7a5e3a;
+	margin-bottom: 40px;
+}
+.photo{
+	margin-bottom: 40px;
+}
+.photo a{
+	display: inline-block;
+	margin: 0 30px;
+	width: 160px;
+	height: 160px;
+	overflow: hidden;
+	border-radius: 50%;
+}
+.photo a img{
+	width: 100%;
+	filter: grayscale(100%);
+	transition: 0.4s all;
+}
+.photo a:hover > img{
+	filter: none;
+
+}
+.section{
+	width: 600px;
+	margin: auto;
+	font-size: 20px;
+	color: #7a5e3a;
+	text-align: justify;
+	height: 0;
+	overflow: hidden;
+}
+.section:target{
+	height: auto;
+}
+.name{
+	display: block;
+	margin-bottom: 30px;
+	text-align: center;
+	font-size: 22px;
+	font-family: 'Sacramento', cursive;
+}
