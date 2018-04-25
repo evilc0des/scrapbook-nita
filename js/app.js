@@ -289,6 +289,7 @@ var updateView = function(notes) {
 					})
 					.click({noteData: note}, function(e) {
 						console.log(e.data.noteData._id);
+						$.featherlight("<h1>"+e.data.noteData._id+"</h1><h3>"+e.data.noteData.text+"</h3>");
 					})
 					.css({'transform' : 'rotate('+ Math.floor(Math.random() * Math.floor(20) * (Math.round(Math.random()) * 2 - 1)) +'deg)', 'display' : 'flex'});
 					renderedElem++;
@@ -299,6 +300,7 @@ var updateView = function(notes) {
 					$(noteHtml).appendTo(".scrap-board")
 					.click({noteData: note}, function(e) {
 						console.log(e.data.noteData._id);
+						$.featherlight("<h1>"+e.data.noteData._id+"</h1><h3>"+e.data.noteData.text+"</h3>");
 					})
 					.css({'transform' : 'rotate('+ Math.floor(Math.random() * Math.floor(20) * (Math.round(Math.random()) * 2 - 1)) +'deg)', 'background' : getRandomColor(), 'display' : 'flex'});
 					renderedElem++;
