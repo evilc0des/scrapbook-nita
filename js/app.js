@@ -6,10 +6,14 @@ Dropzone.autoDiscover = false;
 var validForm = false;
 var imgUrl = null;
 
-var notes = [];
+var currNotes = [];
 
 var scrapBoard = document.querySelector(".scrap-board");
 var body = document.querySelector("body");
+
+var zoomed = false;
+
+var renderedElem = 0;
 
 $(document).ready(function(e) {
 	var myDropzone = new Dropzone("div#image-select", { 
@@ -54,25 +58,29 @@ $(document).ready(function(e) {
 	$(".dz-default.dz-message").html("<b>Drop an Image here to upload.</b><br><span>Or Click here to select a file.</span>");
 
 
-	$("#option1").click(function(){
+	$("#label1").click(function(){
 		var exists = $("#label1").hasClass("active");
+		console.log(exists);
 		if(!exists)
 		{
 			$("#label1").addClass("active");	
 			$("#label2").removeClass("active");
-			$("#video-select").hide();	
+			$("#video-select").hide();
+			console.log("show img");	
 			$("#image-select").show();	
 		}
 	});
 
 
-	$("#option2").click(function(){
+	$("#label2").click(function(){
 		var exists = $("#label2").hasClass("active");
+		console.log(exists);
 		if(!exists)
 		{
 			$("#label2").addClass("active");	
 			$("#label1").removeClass("active");
-			$("#image-select").hide();	
+			$("#image-select").hide();
+			console.log("show vid");	
 			$("#video-select").show();	
 		}
 	});
@@ -107,8 +115,9 @@ $(document).ready(function(e) {
 			    	$("#video-field").val(null);
 			    	myDropzone.removeAllFiles();
 			    	TweenMax.to(".add-container", 1, {right: "-45vw", ease:Power2.easeInOut});
+			    	var notes = currNotes.slice();
 			    	notes.push(response.data.d);
-			    	updateView();
+			    	updateView(notes);
 			    	swal("Great!", "You have added your note!", "success");
 			    }
 			    
@@ -167,8 +176,8 @@ $(document).ready(function(e) {
 	    if(event.deltaY < 0){
 	    	$(this).panzoom("zoom", true, { focal: event });
 	    }
+	    zoomed = true;
 	});
-
 	//console.log(body);
 	//console.log(scrapBoard)
 	
@@ -176,12 +185,13 @@ $(document).ready(function(e) {
 
 
 var checkSendValidity = function(){
-	console.log($("#text-message").val()+ ' '+ $("#name-field").val() + ' ' + $("#branch-field").val())
+	//console.log($("#text-message").val()+ ' '+ $("#name-field").val() + ' ' +  $("#video-field").val())
 	if($("#text-message").val() != '' && $("#name-field").val() != '' && $("#branch-field").val() != null)
 	{
 		var regex = /^(https:\/\/www\.youtube\.com\/watch.*)|(https:\/\/youtu\.be\/.*)$/;
 		var givenUrl = $("#video-field").val();
-		if(givenUrl!='' || givenUrl != undefined){
+		if(givenUrl!='' && givenUrl != undefined && givenUrl != null){
+			//console.log(givenUrl);
 			var matchStatus = givenUrl.match(regex);
 			if(!matchStatus){
 				$("#video-field").val('');
@@ -189,6 +199,7 @@ var checkSendValidity = function(){
 				return false;
 			}
 		}
+		//console.log("validity out");
 		$(".send-btn").removeClass('disabled');
 		return true;
 		
@@ -205,8 +216,8 @@ var fetchNotes = function() {
 	    console.log(response);
 
 	    if(response.data.s == 'p'){
-	    	notes = response.data.notes;
-	    	updateView();
+	    	var notes = response.data.notes;
+	    	updateView(notes);
 	    }
 	})
 	.catch(function (error) {
@@ -215,66 +226,106 @@ var fetchNotes = function() {
 
 }
 
-var updateView = function() {
+var updateView = function(notes) {
 	console.log(notes);
-	$(".scrap-board").html("");
-	notes.map(function(note) {
-		console.log(note);
-		if(note.imageURL){
-			$(".scrap-board").append(
-				'<div class="note image-note"><div class="img-element"><img src="'+note.imageURL+'"></div><div class="text-element"><p>'+note.text+'</p><h6 style="text-align: right;">-- '+note.name+' <span style="font-size: smaller; font-weight: 400">'+note.branch+'</span></h6></div></div>'
-			);
+	if(currNotes.length !== notes.length) {
+		//$(".scrap-board").html("");
+
+		/*--
+		* Infinity View Implementation
+		*
+		*/
+		var columnSize = 4;
+		var rowSize = 1;
+		var n = notes.length;
+		var a = Math.pow(n/2, 0.5);
+		var b = a - Math.floor(a);
+		if(b > 0.5 || b == 0)
+		{
+			rowSize = Math.ceil(a);
+			columnSize = 2 * rowSize;
+
 		}
 		else {
-			$(".scrap-board").append(
-				'<div class="note text-note"><h2>'+note.text+'</h2><h6 style="text-align: right; width: 100%">-- '+note.name+' <span style="font-size: smaller; font-weight: 400">'+note.branch+'</span></h6></div>'
-			);
+			var c = n % (2 * Math.floor(a));
+			rowSize = Math.floor(a);
+			if(c > Math.floor(a)){
+				columnSize = 2 * rowSize + 2;
+			}
+			else {
+				columnSize = 2 * rowSize + 1;
+			}
 		}
-	});
 
-	$(".note").css({'display' : 'flex'});
-	TweenMax.from(".note",2,{opacity: 0});
+		$(".scrap-board").width(columnSize * 310);
+		var minScale = body.clientWidth/scrapBoard.clientWidth ;
+		$(".scrap-board").panzoom("option", "minScale", minScale).panzoom("zoom", minScale).panzoom("pan", 0, 0);
 
-	console.log("here");
-	$(".image-note").mouseenter(function(e) {
-		TweenMax.to( $(this).find('.text-element'), 0.5, {bottom: "0", ease:Power2.easeInOut});
-	});
-	console.log("here2");
-	$(".image-note").mouseleave(function(e) {
-		TweenMax.to( $(this).find('.text-element'), 0.5, {bottom: "-50%", ease:Power2.easeInOut});
-	});
 
-	$(".note").each(function(){
-		$(this).css({'transform' : 'rotate('+ Math.floor(Math.random() * Math.floor(20) * (Math.round(Math.random()) * 2 - 1)) +'deg)'});
-	});
+		/*
+		* Rendering the Notes in scrapboard.
+		* Comparing the Id to render only the difference.
+		* More optimization could be done using the timestamps on notes
+		*/
+		var newNoteNumber = notes.length - currNotes.length;
+		for(var i = notes.length; i > 0; i--){
+			var j;
+			for(j = currNotes.length; j > 0; j--) {
+				if(notes[i - 1]._id == currNotes[j - 1]._id)
+					break;
+			}
+			if(j == 0) {
+				var noteHtml = '';
+				var note = notes[i - 1];
+				if(note.imageURL){
 
-	$(".text-note").each(function(){
-		$(this).css({'background' : getRandomColor()});
-	});
-	var columnSize = 4;
-	var n = notes.length;
-	var a = Math.pow(n/2, 0.5);
-	var b = a - Math.floor(a);
-	if(b > 0.5 || b == 0)
-	{
-		columnSize = 2 * Math.ceil(a);
+					noteHtml = '<div class="note image-note"><div class="img-element"><img src="'+note.imageURL+'"></div><div class="text-element"><p>'+note.text+'</p><h6 style="text-align: right;">-- '+note.name+' <span style="font-size: smaller; font-weight: 400">'+note.branch+'</span></h6></div></div>';
+					$(noteHtml).appendTo(".scrap-board")
+					.mouseenter(function(e) {
+						TweenMax.to( $(this).find('.text-element'), 0.5, {bottom: "0", ease:Power2.easeInOut});
+					})
+					.mouseleave(function(e) {
+						TweenMax.to($(this).find('.text-element'), 0.5, {bottom: "-50%", ease:Power2.easeInOut});
+					})
+					.click({noteData: note}, function(e) {
+						console.log(e.data.noteData._id);
+						$.featherlight("<h1>"+e.data.noteData._id+"</h1><h3>"+e.data.noteData.text+"</h3>");
+					})
+					.css({'transform' : 'rotate('+ Math.floor(Math.random() * Math.floor(20) * (Math.round(Math.random()) * 2 - 1)) +'deg)', 'display' : 'flex'});
+					renderedElem++;
+				}
+				else {
+
+					noteHtml = '<div class="note text-note"><h2>'+note.text+'</h2><h6 style="text-align: right; width: 100%">-- '+note.name+' <span style="font-size: smaller; font-weight: 400">'+note.branch+'</span></h6></div>';
+					$(noteHtml).appendTo(".scrap-board")
+					.click({noteData: note}, function(e) {
+						console.log(e.data.noteData._id);
+						$.featherlight("<h1>"+e.data.noteData._id+"</h1><h3>"+e.data.noteData.text+"</h3>");
+					})
+					.css({'transform' : 'rotate('+ Math.floor(Math.random() * Math.floor(20) * (Math.round(Math.random()) * 2 - 1)) +'deg)', 'background' : getRandomColor(), 'display' : 'flex'});
+					renderedElem++;
+				}
+				newNoteNumber--;
+			}
+			if(newNoteNumber == 0)
+				break;
+		};
+		
+>>>>>>> 94467a8cdce1d559843de79e2a48d0d77743619e
+
+		$(".note").css({'clear': 'none'});
+		for(var i = 1; i < rowSize; i++) {
+				$(".note").eq(columnSize * i).css({'clear': 'both'});
+		}
+
+		if(currNotes.length == 0) {
+			TweenMax.from(".note",2,{opacity: 0});
+		}
+		console.log(minScale);
+
+		
+		currNotes = notes;
 	}
-	else {
-		var c = n % (2 * Math.floor(a));
-		if(c > Math.floor(a)){
-			columnSize = 2 * Math.floor(a) + 2;
-		}
-		else {
-			columnSize = 2 * Math.floor(a) + 1;
-		}
-	}
-
-	$(".scrap-board").width(columnSize * 310);
-	var minScale = body.clientWidth/scrapBoard.clientWidth ;
-	$(".scrap-board").panzoom("option", "minScale", minScale).panzoom("zoom", minScale).panzoom("pan", 0, 0);
-	console.log(minScale);
-
-	//$(".scrap-board").panzoom("zoom", 2.0);
 }
 
 function getRandomColor() {
