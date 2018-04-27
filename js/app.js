@@ -311,7 +311,6 @@ var updateView = function(notes) {
 				break;
 		};
 		
->>>>>>> 94467a8cdce1d559843de79e2a48d0d77743619e
 
 		$(".note").css({'clear': 'none'});
 		for(var i = 1; i < rowSize; i++) {
