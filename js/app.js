@@ -16,6 +16,9 @@ var zoomed = false;
 var renderedElem = 0;
 
 $(document).ready(function(e) {
+	//object-fit Polyfill for IE, Edge, Safari Support
+	objectFitImages();
+
 	var myDropzone = new Dropzone("div#image-select", { 
 		url: "https://api.cloudinary.com/v1_1/dhrqglqw8/image/upload",
 		paramName: "file",
@@ -288,8 +291,19 @@ var updateView = function(notes) {
 						TweenMax.to($(this).find('.text-element'), 0.5, {bottom: "-50%", ease:Power2.easeInOut});
 					})
 					.click({noteData: note}, function(e) {
-						console.log(e.data.noteData._id);
-						$.featherlight("<h1>"+e.data.noteData._id+"</h1><h3>"+e.data.noteData.text+"</h3>");
+						console.log(e.data.noteData);
+
+						var data = {
+							name: e.data.noteData.name,
+							branch: e.data.noteData.branch,
+							text: e.data.noteData.text,
+							time: getTimeString(parseInt(e.data.noteData.created)),
+							imgUrl: e.data.noteData.imageURL
+						}
+						var template = $('#image-note-view-template').html();
+						var compiledTemplate = Handlebars.compile(template);
+						var result = compiledTemplate(data);
+						$.featherlight(result);
 					})
 					.css({'transform' : 'rotate('+ Math.floor(Math.random() * Math.floor(20) * (Math.round(Math.random()) * 2 - 1)) +'deg)', 'display' : 'flex'});
 					renderedElem++;
@@ -299,8 +313,18 @@ var updateView = function(notes) {
 					noteHtml = '<div class="note text-note"><h2>'+note.text+'</h2><h6 style="text-align: right; width: 100%">-- '+note.name+' <span style="font-size: smaller; font-weight: 400">'+note.branch+'</span></h6></div>';
 					$(noteHtml).appendTo(".scrap-board")
 					.click({noteData: note}, function(e) {
-						console.log(e.data.noteData._id);
-						$.featherlight("<h1>"+e.data.noteData._id+"</h1><h3>"+e.data.noteData.text+"</h3>");
+						console.log(e.data.noteData);
+
+						var data = {
+							name: e.data.noteData.name,
+							branch: e.data.noteData.branch,
+							text: e.data.noteData.text,
+							time: getTimeString(parseInt(e.data.noteData.created))
+						}
+						var template = $('#text-note-view-template').html();
+						var compiledTemplate = Handlebars.compile(template);
+						var result = compiledTemplate(data);
+						$.featherlight(result);
 					})
 					.css({'transform' : 'rotate('+ Math.floor(Math.random() * Math.floor(20) * (Math.round(Math.random()) * 2 - 1)) +'deg)', 'background' : getRandomColor(), 'display' : 'flex'});
 					renderedElem++;
@@ -330,4 +354,24 @@ var updateView = function(notes) {
 function getRandomColor() {
   color = "hsl(" + Math.random() * 360 + ", 100%, 75%)";
   return color;
+}
+
+function getTimeString(timestamp) {
+	var a = new Date(timestamp);
+	var now = Date.now();
+
+	if(now - timestamp < 60*1000)
+		return "Just Now"
+	if(now - timestamp < 60*60*1000)
+		return (now - timestamp)/(1000*60)+" Minutes Ago";
+	if(now - timestamp < 24*60*60*1000)
+		return (now - timestamp)/(60*60*1000)+" Hours Ago";
+	if(now - timestamp < 2*24*60*60*1000)
+		return "Yesterday";
+  var months = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+  var year = a.getFullYear();
+  var month = months[a.getMonth()];
+  var date = a.getDate();
+  var time = date + ' ' + month + ' ' + year ;
+  return time;
 }

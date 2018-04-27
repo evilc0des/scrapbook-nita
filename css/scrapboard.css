@@ -59,3 +59,78 @@
 	padding: 5px 10px;
 	background-color: rgba(255, 255, 255, 0.8);
 }
+
+.featherlight .featherlight-content {
+	border-radius: 8px;
+	padding: 0;
+	border-bottom: none;
+}
+
+#text-note-view {
+	width: 42vw;
+}
+
+#note-view-header {
+	display: flex;
+	justify-content: space-between;
+	padding: 25px;
+}
+#note-view-name {
+	font-size: 18px;
+	margin-bottom: 0;
+}
+#note-view-branch {
+	font-size: 13px;
+	font-weight: 400;
+}
+#note-view-time {
+	font-size: 13px;
+	font-weight: 400;
+}
+
+#note-view-content {
+	padding: 10px 25px;
+	margin-bottom: 20px;
+}
+
+#text-note-view-text {
+	font-size: 32px;
+}
+
+#note-view-btn-toolbar {
+	width: 100%;
+	margin-bottom: 0;
+}
+
+#note-view-btn-toolbar button {
+	flex: 1 0 14vw;
+}
+
+#image-note-container{
+	display: flex;
+	width: 80vw;
+}
+
+
+#image-note-container #text-note-view {
+	width: 30vw;
+}
+
+#image-note-view {
+	width: 50vw;
+	min-height: 80vh;
+	background-color: black;
+	display: flex;
+	align-items: center;
+}
+
+#image-note-container #note-view-btn-toolbar button {
+	flex: 1 0 10vw;
+}
+
+#image-note-view img{
+	object-fit: contain;
+	font-family: 'object-fit: contain;';
+	height: 100%;
+  width: 100%;
+}

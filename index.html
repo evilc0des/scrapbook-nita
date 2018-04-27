@@ -151,19 +151,70 @@
 		</div>
 	</form>
 	<button class="send-btn disabled"><i class="fa fa-check" aria-hidden="true"></i></button>
-
 </div>
+<template id="text-note-view-template">
+	<div id="text-note-view">
+		<div id="note-view-header">
+			<div>
+				<h1 id="note-view-name">{{name}}</h1>
+				<h2 id="note-view-branch">{{branch}}</h2>
+			</div>
+			<div>
+				<p id="note-view-time">{{time}}</p>
+			</div>
+		</div>
+		<div id="note-view-content">
+			<p id="text-note-view-text">{{text}}</p>
+		</div>
+		<div id="note-view-toolbar">
+			<div id="note-view-btn-toolbar" class="btn-group" role="group" aria-label="Basic example">
+			  <button type="button" class="btn btn-outline-secondary"><i class="fa fa-heart-o" aria-hidden="true"></i> Like</button>
+			  <button type="button" class="btn btn-outline-secondary"><i class="fa fa-share" aria-hidden="true"></i> Share</button>
+			  <button type="button" class="btn btn-outline-secondary"><i class="fa fa-comment" aria-hidden="true"></i> Comment</button>
+			</div>
+		</div>
+	</div>	
+</template>
+<template id="image-note-view-template">
+	<div id="image-note-container">
+		<div id="image-note-view">
+			<img src="{{imgUrl}}"/>
+		</div>
+		<div id="text-note-view">
+			<div id="note-view-header">
+				<div>
+					<h1 id="note-view-name">{{name}}</h1>
+					<h2 id="note-view-branch">{{branch}}</h2>
+				</div>
+				<div>
+					<p id="note-view-time">{{time}}</p>
+				</div>
+			</div>
+			<div id="note-view-content">
+				<p id="image-note-view-text">{{text}}</p>
+			</div>
+			<div id="note-view-toolbar">
+				<div id="note-view-btn-toolbar" class="btn-group" role="group" aria-label="Basic example">
+				  <button type="button" class="btn btn-outline-secondary"><i class="fa fa-heart-o" aria-hidden="true"></i> Like</button>
+				  <button type="button" class="btn btn-outline-secondary"><i class="fa fa-share" aria-hidden="true"></i> Share</button>
+				  <button type="button" class="btn btn-outline-secondary"><i class="fa fa-comment" aria-hidden="true"></i> Comment</button>
+				</div>
+			</div>
+		</div>	
+	</div>
+</template>
 <script src="http://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>  
 </script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.0/js/bootstrap.min.js"></script>
 <script src="./js/jquery.panzoom.min.js"></script>
 <script src="./js/jquery.mousewheel.min.js"></script>
-<script src="./js/fit.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/1.20.2/TweenMax.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/dropzone/5.4.0/dropzone.js"></script>
 <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/4.0.11/handlebars.min.js"></script>
 <script src="http://cdn.rawgit.com/noelboss/featherlight/1.7.13/release/featherlight.min.js" type="text/javascript" charset="utf-8"></script>
 <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/object-fit-images/3.2.3/ofi.min.js"></script>
 <script type="text/javascript" src="./js/app.js"></script>
 </body>
 </html>
