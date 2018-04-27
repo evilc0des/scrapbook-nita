@@ -5,18 +5,18 @@ body {
 	flex-direction: column;
 	justify-content: center;
 	align-items: center;
-	background-color: #d3bb74;
+	background-color: white;
 	overflow: hidden;
 }
 .team-section{
 	overflow: hidden;
 	text-align: center;
-	background: #d3bb74;
+	background: white;
 	padding: 60px;
 }
 .team-section h1{
 	margin-bottom: 60px;
-	color: #7a5e3a;
+	color: #d3bb74;
 	font-size: 40px;
 	font-family: 'Sacramento', cursive;
 }
@@ -33,16 +33,17 @@ body {
 }
 .photo a{
 	display: inline-block;
-	margin: 0 30px;
+	margin: 32px;
 	width: 160px;
 	height: 160px;
 	overflow: hidden;
-	border-radius: 50%;
+	transform: rotate(45deg);
 }
 .photo a img{
 	width: 100%;
 	filter: grayscale(100%);
 	transition: 0.4s all;
+	transform: rotate(-45deg) scale(1.42);
 }
 .photo a:hover > img{
 	filter: none;
@@ -52,7 +53,7 @@ body {
 	width: 600px;
 	margin: auto;
 	font-size: 20px;
-	color: #7a5e3a;
+	color: #d3bb74;
 	text-align: justify;
 	height: 0;
 	overflow: hidden;
@@ -65,5 +66,5 @@ body {
 	margin-bottom: 30px;
 	text-align: center;
 	font-size: 22px;
-	font-family: 'Sacramento', cursive;
+	font-family: 'Rajdhani';
 }
