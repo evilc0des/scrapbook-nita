@@ -11,18 +11,19 @@
 	<link rel="stylesheet" type="text/css" href="./css/scrapboard.css">
 </head>
 <body>
+<!--Footer-->
 
 		<nav id="footer-navbar" class="navbar navbar-expand-sm navbar-dark fixed-bottom">
 				<div class="mx-auto order-0">
 					<a class="navbar-brand mx-auto" id="footer-logo-text" href="#">Memorabilia</a>
 					<button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".dual-collapse2">
-						<span class="navbar-toggler-icon"></span>
+					<span class="navbar-toggler-icon"></span>
 					</button>
 				</div>
 				<div class="navbar-collapse collapse w-100 order-1 order-md-0 dual-collapse2">
 					<ul class="navbar-nav mr-auto">
 						<li class="nav-item">
-							<a class="nav-link" href="#">Team</a>
+							<a class="nav-link" href="team.html">Team</a>
 						</li>
 						<li class="nav-item">
 							<a class="nav-link" href="#">About</a>
@@ -43,8 +44,9 @@
 					</ul>
 				</div>
 			</nav>
+<!--Footer end-->
 			
-
+<!--Main Page-->
 <h1 class="logo-text">Memorabilia</h1>
 <p class="bylogo-text">NITA 2014-18 BATCH</p>
 <div class="scrap-board">
@@ -101,6 +103,8 @@
 	</div-->
 </div>
 <button class="add-btn"><i class="fa fa-plus" aria-hidden="true"></i></button>
+<!--Main Page end-->
+<!--Upload slider-->
 <div class="add-container">
 	<p class="close-btn"><i class="fa fa-times" aria-hidden="true"></i></p>
 	<h1>CREATE A NOTE</h1>
@@ -152,6 +156,9 @@
 	</form>
 	<button class="send-btn disabled"><i class="fa fa-check" aria-hidden="true"></i></button>
 </div>
+<!--Upload SLider end-->
+
+<!--Start of Templates for Client side rendering-->
 <template id="text-note-view-template">
 	<div id="text-note-view">
 		<div id="note-view-header">
@@ -211,6 +218,9 @@
 		</div>	
 	</div>
 </template>
+<!--End of Templates-->
+
+<!--JS Files-->
 <script src="http://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>  
 </script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.0/js/bootstrap.min.js"></script>
@@ -224,5 +234,6 @@
 <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/object-fit-images/3.2.3/ofi.min.js"></script>
 <script type="text/javascript" src="./js/app.js"></script>
+<!-- JS Files end-->
 </body>
 </html>
