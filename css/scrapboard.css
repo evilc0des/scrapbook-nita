@@ -132,5 +132,13 @@
 	object-fit: contain;
 	font-family: 'object-fit: contain;';
 	height: 100%;
-  width: 100%;
+  	width: 100%;
+}
+
+#note-view-info-toolbar {
+	padding: 0px 25px;
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	
 }

@@ -298,7 +298,9 @@ var updateView = function(notes) {
 							branch: e.data.noteData.branch,
 							text: e.data.noteData.text,
 							time: getTimeString(parseInt(e.data.noteData.created)),
-							imgUrl: e.data.noteData.imageURL
+							imgUrl: e.data.noteData.imageURL,
+							commentsCount: 5,
+							likesCount: 64
 						}
 						var template = $('#image-note-view-template').html();
 						var compiledTemplate = Handlebars.compile(template);
@@ -319,7 +321,9 @@ var updateView = function(notes) {
 							name: e.data.noteData.name,
 							branch: e.data.noteData.branch,
 							text: e.data.noteData.text,
-							time: getTimeString(parseInt(e.data.noteData.created))
+							time: getTimeString(parseInt(e.data.noteData.created)),
+							commentsCount: 5,
+							likesCount: 64
 						}
 						var template = $('#text-note-view-template').html();
 						var compiledTemplate = Handlebars.compile(template);
