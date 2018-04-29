@@ -50,6 +50,7 @@
 <h1 class="logo-text">Memorabilia</h1>
 <p class="bylogo-text">NITA 2014-18 BATCH</p>
 <div class="scrap-board">
+
 	<!--div class="scrap-board-row">
 		<div class="note image-note">
 			<div class="img-element"><img src="http://res.cloudinary.com/dhrqglqw8/image/upload/v1524317728/znxezqzesesy2nyixx0w.png"></div>
@@ -190,6 +191,38 @@
 	<div id="image-note-container">
 		<div id="image-note-view">
 			<img src="{{imgUrl}}"/>
+		</div>
+		<div id="text-note-view">
+			<div id="note-view-header">
+				<div>
+					<h1 id="note-view-name">{{name}}</h1>
+					<h2 id="note-view-branch">{{branch}}</h2>
+				</div>
+				<div>
+					<p id="note-view-time">{{time}}</p>
+				</div>
+			</div>
+			<div id="note-view-content">
+				<p id="image-note-view-text">{{text}}</p>
+			</div>
+			<div id="note-view-toolbar">
+				<div id="note-view-info-toolbar">
+					<p><b>{{likesCount}}</b> LIKES. <b>{{commentsCount}}</b> COMMENTS</p>
+					<p><span style="font-size: 14px;">More Options </span> <i class="fa fa-ellipsis-h" aria-hidden="true" style="vertical-align: middle;"></i></p>
+				</div>
+				<div id="note-view-btn-toolbar" class="btn-group" role="group" aria-label="Basic example">
+				  <button type="button" class="btn btn-outline-secondary"><i class="fa fa-heart-o" aria-hidden="true"></i> Like</button>
+				  <button type="button" class="btn btn-outline-secondary"><i class="fa fa-share" aria-hidden="true"></i> Share</button>
+				  <button type="button" class="btn btn-outline-secondary"><i class="fa fa-comment" aria-hidden="true"></i> Comment</button>
+				</div>
+			</div>
+		</div>	
+	</div>
+</template>
+<template id="video-note-view-template">
+	<div id="video-note-container">
+		<div id="video-note-view">
+			<iframe src="{{videoUrl}}" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
 		</div>
 		<div id="text-note-view">
 			<div id="note-view-header">
