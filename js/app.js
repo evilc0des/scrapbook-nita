@@ -5,6 +5,7 @@ Dropzone.autoDiscover = false;
 
 var validForm = false;
 var imgUrl = null;
+var vidUrl = null;
 
 var currNotes = [];
 
@@ -60,7 +61,6 @@ $(document).ready(function(e) {
 
 	$(".dz-default.dz-message").html("<b>Drop an Image here to upload.</b><br><span>Or Click here to select a file.</span>");
 
-
 	$("#label1").click(function(){
 		var exists = $("#label1").hasClass("active");
 		console.log(exists);
@@ -101,13 +101,15 @@ $(document).ready(function(e) {
 
 	$(".send-btn").click(function(e){
 		console.log(imgUrl);
+		vidUrl = $("#video-field").val();
+		console.log(vidUrl); 
 		if(validForm) {
 			axios.post('http://localhost:3000/notes/add', {
 			    name: $("#name-field").val(),
 			    branch: $("#branch-field").val(),
 			    text: $("#text-message").val(),
 			    imageUrl: imgUrl,
-			    videourl: $("#video-field").val()
+			    videoUrl: vidUrl
 			})
 			.then(function (response) {
 			    console.log(response);
@@ -164,6 +166,7 @@ $(document).ready(function(e) {
 		validForm = checkSendValidity();
 	});
 
+	
 	$(".scrap-board").panzoom({minScale: 1, contain: "invert"});
 
 	
@@ -230,6 +233,7 @@ var fetchNotes = function() {
 }
 
 var updateView = function(notes) {
+	console.log('Notes display');
 	console.log(notes);
 	if(currNotes.length !== notes.length) {
 		//$(".scrap-board").html("");
@@ -280,8 +284,10 @@ var updateView = function(notes) {
 			if(j == 0) {
 				var noteHtml = '';
 				var note = notes[i - 1];
+				console.log(note.imageURL);
+				console.log('Bridge');
+				console.log(note.videoURL);
 				if(note.imageURL){
-
 					noteHtml = '<div class="note image-note"><div class="img-element"><img src="'+note.imageURL+'"></div><div class="text-element"><p>'+note.text+'</p><h6 style="text-align: right;">-- '+note.name+' <span style="font-size: smaller; font-weight: 400">'+note.branch+'</span></h6></div></div>';
 					$(noteHtml).appendTo(".scrap-board")
 					.mouseenter(function(e) {
@@ -310,8 +316,36 @@ var updateView = function(notes) {
 					.css({'transform' : 'rotate('+ Math.floor(Math.random() * Math.floor(20) * (Math.round(Math.random()) * 2 - 1)) +'deg)', 'display' : 'flex'});
 					renderedElem++;
 				}
-				else {
+				else if(note.videoURL){
+					noteHtml = '<div class="note video-note"><div class="video-element"><iframe src="'+embed(note.videoURL)+'" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe></div><div class="text-element"><p>'+note.text+'</p><h6 style="text-align: right;">-- '+note.name+' <span style="font-size: smaller; font-weight: 400">'+note.branch+'</span></h6></div></div>';
+					$(noteHtml).appendTo(".scrap-board")
+					.mouseenter(function(e) {
+						TweenMax.to( $(this).find('.text-element'), 0.5, {bottom: "0", ease:Power2.easeInOut});
+					})
+					.mouseleave(function(e) {
+						TweenMax.to($(this).find('.text-element'), 0.5, {bottom: "-50%", ease:Power2.easeInOut});
+					})
+					.click({noteData: note}, function(e) {
+						console.log(e.data.noteData);
 
+						var data = {
+							name: e.data.noteData.name,
+							branch: e.data.noteData.branch,
+							text: e.data.noteData.text,
+							time: getTimeString(parseInt(e.data.noteData.created)),
+							videoUrl: embed(e.data.noteData.videoURL),
+							commentsCount: 5,
+							likesCount: 64
+						}
+						var template = $('#video-note-view-template').html();
+						var compiledTemplate = Handlebars.compile(template);
+						var result = compiledTemplate(data);
+						$.featherlight(result);
+					})
+					.css({'transform' : 'rotate('+ Math.floor(Math.random() * Math.floor(20) * (Math.round(Math.random()) * 2 - 1)) +'deg)', 'background' : getRandomColor(), 'display' : 'flex'});
+					renderedElem++;
+				}
+				else {
 					noteHtml = '<div class="note text-note"><h2>'+note.text+'</h2><h6 style="text-align: right; width: 100%">-- '+note.name+' <span style="font-size: smaller; font-weight: 400">'+note.branch+'</span></h6></div>';
 					$(noteHtml).appendTo(".scrap-board")
 					.click({noteData: note}, function(e) {
@@ -378,4 +412,12 @@ function getTimeString(timestamp) {
   var date = a.getDate();
   var time = date + ' ' + month + ' ' + year ;
   return time;
+}
+
+function embed(url)
+{
+	console.log(url);
+	modUrl = "https://www.youtube.com/embed/" + url.split('&')[0].substring(url.indexOf('=')+1);
+	console.log("Embed: " + modUrl);
+	return modUrl;
 }

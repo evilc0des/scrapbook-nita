@@ -38,6 +38,10 @@
 .image-note{
 }
 
+.video-note{
+
+}
+
 .text-note {
 	padding: 10px;
 }
@@ -48,6 +52,10 @@
 
 
 .img-element img {
+	width: 100%;
+}
+
+.video-element{
 	width: 100%;
 }
 
@@ -142,3 +150,21 @@
 	align-items: center;
 	
 }
+
+#video-note-container{
+	display: flex;
+	width: 100%;
+}
+
+#video-note-container #text-note-view{
+	width: 30vw;
+}
+
+#video-note-view{
+	width: 30vw;
+	height: 100vh;
+	display: flex;
+	background-color: black;
+	align-items: center;
+}
+

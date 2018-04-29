@@ -13,9 +13,11 @@ router.post('/add', function(req, res, next) {
 	if(req.body.imageUrl)
 		newNote.imageURL = req.body.imageUrl;
 	if(req.body.videoUrl)
-		newNote.imageURL = req.body.videoUrl;
+		newNote.videoURL = req.body.videoUrl;
 	newNote.created = Date.now();
-	//console.log(newNote.imageUrl);
+	console.log(newNote.imageUrl);
+	console.log('Lool');
+	console.log(newNote.videoUrl);
 	newNote.save((err) => {
 		if(err)
 			throw err;
