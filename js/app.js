@@ -263,11 +263,16 @@ var updateView = function(notes) {
 				columnSize = 2 * rowSize + 1;
 			}
 		}
-
-		$(".scrap-board").width(columnSize * 310);
+		//var offsetY = $(".scrap-board").
+		$(".scrap-board").width(columnSize * 310 + 200);
 		var minScale = body.clientWidth/scrapBoard.clientWidth ;
 		$(".scrap-board").panzoom("option", "minScale", minScale).panzoom("zoom", minScale).panzoom("pan", 0, 0);
-
+		$(".scrap-board").css({"top": "-45%", "padding": "100px"}).height($(document).height()/0.55);
+		//var transformMatrix = $(".scrap-board").panzoom("getMatrix").slice(0,5);
+		//transformMatrix.push(0);
+		//console.log(transformMatrix);
+		//$(".scrap-board").panzoom("setMatrix", transformMatrix);
+		//console.log($(".scrap-board").panzoom("getMatrix"));
 
 		/*
 		* Rendering the Notes in scrapboard.
@@ -342,7 +347,7 @@ var updateView = function(notes) {
 						var result = compiledTemplate(data);
 						$.featherlight(result);
 					})
-					.css({'transform' : 'rotate('+ Math.floor(Math.random() * Math.floor(20) * (Math.round(Math.random()) * 2 - 1)) +'deg)', 'background' : getRandomColor(), 'display' : 'flex'});
+					.css({'transform' : 'rotate('+ Math.floor(Math.random() * Math.floor(20) * (Math.round(Math.random()) * 2 - 1)) +'deg)', 'display' : 'flex'});
 					renderedElem++;
 				}
 				else {
@@ -380,7 +385,8 @@ var updateView = function(notes) {
 		}
 
 		if(currNotes.length == 0) {
-			TweenMax.from(".note",2,{opacity: 0});
+
+			TweenMax.staggerFrom(".note",2,{opacity: 0}, 0.1);
 		}
 		console.log(minScale);
 
@@ -401,9 +407,9 @@ function getTimeString(timestamp) {
 	if(now - timestamp < 60*1000)
 		return "Just Now"
 	if(now - timestamp < 60*60*1000)
-		return (now - timestamp)/(1000*60)+" Minutes Ago";
+		return parseInt((now - timestamp)/(1000*60))+" Minutes Ago";
 	if(now - timestamp < 24*60*60*1000)
-		return (now - timestamp)/(60*60*1000)+" Hours Ago";
+		return parseInt((now - timestamp)/(60*60*1000))+" Hours Ago";
 	if(now - timestamp < 2*24*60*60*1000)
 		return "Yesterday";
   var months = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
