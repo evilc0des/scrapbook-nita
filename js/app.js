@@ -309,6 +309,7 @@ var updateView = function(notes) {
 							branch: e.data.noteData.branch,
 							text: e.data.noteData.text,
 							time: getTimeString(parseInt(e.data.noteData.created)),
+							actualTime: parseInt(e.data.noteData.created),
 							imgUrl: e.data.noteData.imageURL,
 							commentsCount: 5,
 							likesCount: 64
@@ -338,6 +339,7 @@ var updateView = function(notes) {
 							branch: e.data.noteData.branch,
 							text: e.data.noteData.text,
 							time: getTimeString(parseInt(e.data.noteData.created)),
+							actualTime: parseInt(e.data.noteData.created),
 							videoUrl: embed(e.data.noteData.videoURL),
 							commentsCount: 5,
 							likesCount: 64
@@ -361,6 +363,7 @@ var updateView = function(notes) {
 							branch: e.data.noteData.branch,
 							text: e.data.noteData.text,
 							time: getTimeString(parseInt(e.data.noteData.created)),
+							actualTime: parseInt(e.data.noteData.created),
 							commentsCount: 5,
 							likesCount: 64
 						}
@@ -427,3 +430,8 @@ function embed(url)
 	console.log("Embed: " + modUrl);
 	return modUrl;
 }
+
+
+
+
+
