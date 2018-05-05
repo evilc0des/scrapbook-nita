@@ -98,40 +98,80 @@ $(document).ready(function(e) {
 	$("#branch-field").change(function(e) {
 		validForm = checkSendValidity();
 	});
+	$("#video-field").blur(function(e) {
+		validForm = checkSendValidity();
+	});
 
 	$(".send-btn").click(function(e){
 		console.log(imgUrl);
 		vidUrl = $("#video-field").val();
-		console.log(vidUrl); 
-		if(validForm) {
-			axios.post('http://localhost:3000/notes/add', {
-			    name: $("#name-field").val(),
-			    branch: $("#branch-field").val(),
-			    text: $("#text-message").val(),
-			    imageUrl: imgUrl,
-			    videoUrl: vidUrl
-			})
-			.then(function (response) {
-			    console.log(response);
-			    if(response.data.s == 'p'){
-			    	$("#name-field").val('');
-			    	$("#branch-field").val(null);
-			    	$("#text-message").val('');
-			    	$("#video-field").val(null);
-			    	myDropzone.removeAllFiles();
-			    	TweenMax.to(".add-container", 1, {right: "-45vw", ease:Power2.easeInOut});
-			    	var notes = currNotes.slice();
-			    	notes.push(response.data.d);
-			    	updateView(notes);
-			    	swal("Great!", "You have added your note!", "success");
-			    }
-			    
-			})
-			.catch(function (error) {
-			    console.log(error);
-			});
-		}
-	});
+		console.log(vidUrl);
+		if(validForm){
+			validForm = false;
+			var tempnote;
+			var name =  $("#name-field").val();
+			var branch = $("#branch-field").val();
+			var text = $("#text-message").val();
+			if(imgUrl){
+				tempnote = '<div class="note image-note" style="width: 100%; float:none; margin-left:auto; margin-right:auto"><div class="img-element"><img src="'+imgUrl+'"></div><div class="text-element" style="bottom: -20%"><p>'+text+'</p><h6 style="text-align: right;">-- '+name+' <span style="font-size: smaller; font-weight: 400">'+branch+'</span></h6></div></div>';
+			}
+			else if(vidUrl){
+				tempnote = '<div class="note video-note" style="width: 100%; float:none; margin-left:auto; margin-right:auto"><div class="video-element"><iframe src="'+embed(vidUrl)+'" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe></div><div class="text-element" style="bottom: -15%"><p>'+text+'</p><h6 style="text-align: right;">-- '+name+' <span style="font-size: smaller; font-weight: 400">'+branch+'</span></h6></div></div>';
+			}
+			else{
+			tempnote = '<div class="note text-note" style="width:100%; background:'+getRandomColor()+'"><h2>'+text+'</h2><h6 style="text-align: right; width: 100%">-- '+name+' <span style="font-size: smaller; font-weight: 400">'+branch+'</span></h6></div>';
+			}
+			$("#name-field").val('');
+			$("#branch-field").val(null);
+			$("#text-message").val('');
+			$("#video-field").val(null);
+			myDropzone.removeAllFiles();
+			TweenMax.to(".add-container", 1, {right: "-45vw", ease:Power2.easeInOut});
+			$(".send-btn").addClass('disabled');
+			swal({
+  			title: "You designed a new card!",
+			imageUrl: "./assets/thumb-up.png",	
+  			html: tempnote,
+  			showCancelButton: true,
+  			confirmButtonClass: "btn-danger",
+	  		cancelButtonColor: "#d33",
+  			confirmButtonText: "Yes, submit it!",
+  			cancelButtonText: "No, cancel it!",
+  			allowOutsideClick: false,
+  			footer: "<em>In case of image cards and video cards, the card description would appear only when someone hovers the pointer above them!</em>"
+   			})
+  			.then((result) => {
+  			   	if(result.value){
+					axios.post('http://localhost:3000/notes/add', {
+				    name: name,
+				    branch: branch,
+				    text: text,
+				    imageUrl: imgUrl,
+				    videoUrl: vidUrl
+				})
+				.then(function (response) {
+				    console.log(response);
+				    if(response.data.s == 'p'){
+				    	imgUrl = null;
+				       	var notes = currNotes.slice();
+				    	notes.push(response.data.d);
+				    	updateView(notes);
+				    	swal("Great!", "You have added your note!", "success");
+			    	}
+				})
+				.catch(function (error) {
+			   		console.log(error);
+		    		imgUrl = null;
+   		    		swal("Awww!","Some unexpected shit has occurred!","error");
+				});
+				}
+  		    	else{
+		    		imgUrl = null;
+  		    		swal("Cancelled!","The note was not submitted!","error");
+  		    	}
+  			});
+  		}
+  	});	
 
 	fetchNotes();
 	var noteFetchInterval = window.setInterval(fetchNotes, 30000);
@@ -162,11 +202,7 @@ $(document).ready(function(e) {
 		$(this).css({'transform' : 'rotate('+ Math.floor(Math.random() * Math.floor(20) * (Math.round(Math.random()) * 2 - 1)) +'deg)'});
 	});
 
-	$("#video-field").blur(function(e) {
-		validForm = checkSendValidity();
-	});
 
-	
 	$(".scrap-board").panzoom({minScale: 1, contain: "invert"});
 
 	
@@ -186,6 +222,8 @@ $(document).ready(function(e) {
 	});
 	//console.log(body);
 	//console.log(scrapBoard)
+	$(".scrap-board").css({"top": "-45%", "padding": "100px"}).height($(document).height()/0.55);
+
 	
 })
 
@@ -267,7 +305,6 @@ var updateView = function(notes) {
 		$(".scrap-board").width(columnSize * 310 + 200);
 		var minScale = body.clientWidth/scrapBoard.clientWidth ;
 		$(".scrap-board").panzoom("option", "minScale", minScale).panzoom("zoom", minScale).panzoom("pan", 0, 0);
-		$(".scrap-board").css({"top": "-45%", "padding": "100px"}).height($(document).height()/0.55);
 		//var transformMatrix = $(".scrap-board").panzoom("getMatrix").slice(0,5);
 		//transformMatrix.push(0);
 		//console.log(transformMatrix);

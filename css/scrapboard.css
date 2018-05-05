@@ -26,7 +26,7 @@
 	width: 300px;
 	min-height: 200px;
 	background-color: white;
-	display: none;
+	display: flex;
 	flex-direction: column;
 	justify-content: center;
 	align-items: center;
@@ -167,4 +167,3 @@
 	background-color: black;
 	align-items: center;
 }
-
