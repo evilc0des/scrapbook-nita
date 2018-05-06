@@ -1,6 +1,7 @@
 var express = require('express');
 var router = express.Router();
 const Note = require('../model/post');
+var request = require('request')
 
 /* GET users listing. */
 router.post('/add', function(req, res, next) {
@@ -42,6 +43,17 @@ router.get('/fetch', function(req, res, next) {
 		}
     });
   	//res.send('respond with a resource');
+});
+
+router.get('/api',function(req,res,next){
+	var url = "http://disqus.com/api/3.0/threads/details.json?api_key=KXWM0ZEeMPFjdLLoXkpieefAtBqF28rMqg4r1C88rjUonigvuOCk9u9EZKGcoFJD&forum=memorabilia-1&thread:ident="+req.query.threadid;
+	request.get(url,function(error,response,body){
+		if(!error && res.statusCode == 200){
+			res.json({s:'p',apidata:body});
+		}else{
+			console.log(error);
+		}
+	})
 });
 
 module.exports = router;
