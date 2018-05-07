@@ -6,6 +6,7 @@ Dropzone.autoDiscover = false;
 var validForm = false;
 var imgUrl = null;
 var vidUrl = null;
+var threadInf = -1;
 
 var currNotes = [];
 
@@ -15,10 +16,6 @@ var body = document.querySelector("body");
 var zoomed = false;
 
 var renderedElem = 0;
-
-$('.lazy').click(function(){
-	genModal();
-});
 
 $(document).ready(function(e) {
 	//object-fit Polyfill for IE, Edge, Safari Support
@@ -90,6 +87,10 @@ $(document).ready(function(e) {
 			console.log("show vid");	
 			$("#video-select").show();	
 		}
+	});
+
+	$('.lazy').click(function(){
+	genModal();
 	});
 
 	$('#close-modal').click(function(e){
@@ -353,7 +354,9 @@ var updateView = function(notes) {
 					})
 					.click({noteData: note}, function(e) {
 						console.log(e.data.noteData);
-
+						findDisqusThread(parseInt(e.data.noteData.created));
+						var likesc = 0;
+						var commentsc = 0;
 						var data = {
 							name: e.data.noteData.name,
 							branch: e.data.noteData.branch,
@@ -361,8 +364,8 @@ var updateView = function(notes) {
 							time: getTimeString(parseInt(e.data.noteData.created)),
 							actualTime: parseInt(e.data.noteData.created),
 							imgUrl: e.data.noteData.imageURL,
-							commentsCount: 5,
-							likesCount: 64
+							commentsCount: commentsc,
+							likesCount: likesc
 						}
 						var template = $('#image-note-view-template').html();
 						var compiledTemplate = Handlebars.compile(template);
@@ -383,7 +386,9 @@ var updateView = function(notes) {
 					})
 					.click({noteData: note}, function(e) {
 						console.log(e.data.noteData);
-
+						findDisqusThread(parseInt(e.data.noteData.created));
+						var likesc = 0;
+						var commentsc = 0;
 						var data = {
 							name: e.data.noteData.name,
 							branch: e.data.noteData.branch,
@@ -391,8 +396,8 @@ var updateView = function(notes) {
 							time: getTimeString(parseInt(e.data.noteData.created)),
 							actualTime: parseInt(e.data.noteData.created),
 							videoUrl: embed(e.data.noteData.videoURL),
-							commentsCount: 5,
-							likesCount: 64
+							commentsCount: commentsc ,
+							likesCount: likesc
 						}
 						var template = $('#video-note-view-template').html();
 						var compiledTemplate = Handlebars.compile(template);
@@ -407,15 +412,17 @@ var updateView = function(notes) {
 					$(noteHtml).appendTo(".scrap-board")
 					.click({noteData: note}, function(e) {
 						console.log(e.data.noteData);
-
+						findDisqusThread(parseInt(e.data.noteData.created));
+						var likesc = 0;
+						var commentsc = 0;
 						var data = {
 							name: e.data.noteData.name,
 							branch: e.data.noteData.branch,
 							text: e.data.noteData.text,
 							time: getTimeString(parseInt(e.data.noteData.created)),
 							actualTime: parseInt(e.data.noteData.created),
-							commentsCount: 5,
-							likesCount: 64
+							commentsCount: commentsc,
+							likesCount: likesc
 						}
 						var template = $('#text-note-view-template').html();
 						var compiledTemplate = Handlebars.compile(template);
@@ -481,6 +488,44 @@ function embed(url)
 	return modUrl;
 }
 
+function findDisqusThread(id){
+	var postUrl = window.location.href;   
+	var ans=false; 
+	var jsonData;
+   	postUrl += '&id='+id
+	axios.get('http://localhost:3000/notes/api',{
+		params:{
+			threadid:id,
+			threadUrl:postUrl
+		}
+	})
+	.then(function (response) {
+	    console.log(response);
+
+	    if(response.data.s == 'p'){
+	    	var dataRecieved = response.data.apidata;
+			console.log(dataRecieved);
+		    jsonData = JSON.parse(dataRecieved);
+			 console.log(jsonData.response.likes);
+			 console.log(jsonData.response.posts);
+			 ans=true;
+		}
+		else ans=false;
+
+		if(ans==true)
+		threadInf = jsonData;
+		else
+		threadInf = -1;
+
+		document.getElementById("likes-text").innerHTML = jsonData.response.likes;
+		document.getElementById("comments-text").innerHTML = jsonData.response.posts;
+	})
+	.catch(function (error) {
+		console.log(error);
+	});
+}
+
+
 function genModal(){
 		//$(".carousel").append('<img src="./assets/thumb-up.png" class="carousel-cell"></img>');
 		/*
@@ -511,7 +556,6 @@ function genModal(){
   	$('#modal-container').removeAttr('class').addClass('one');
   	$('body').addClass('modal-active');
 }
-
 
 
 
