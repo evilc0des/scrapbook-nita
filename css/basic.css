@@ -9,6 +9,7 @@ body {
 	overflow: hidden;
 }
 
+
 .navbar-dark{
 	background:rgba(255,255,255,0.8);
 }
@@ -204,3 +205,150 @@ iframe{
 	padding: 0px 10px 0px 10px;
 }
 
+.lazy{
+	width: 100px;
+	position: absolute;
+	bottom: 10vh;
+	right: 10vw;
+	cursor: pointer;
+}
+
+* { 
+  box-sizing: border-box;
+}
+
+html,body{
+  background-size: cover;
+  background-position: top center;
+  overflow: hidden;
+}
+
+html.modal-active, body.modal-active {
+  overflow: hidden;
+}
+
+.modal-note{
+  margin-bottom: 20px;
+  margin-top: 20px;
+  margin-right: auto;
+  margin-left: auto;
+  position: relative;
+  padding-top: 10px;
+  padding-bottom: 10px;
+  width: 25vw;
+  height: 30vh;
+}
+
+#modal-container {
+  background-color: #EEE;
+  position: absolute;
+  display: table;
+  height: 70vh;
+  width: 100vw;
+  margin: 0vh auto 20vh auto;
+  transform: scale(0);
+  z-index: 1;
+}
+
+#close-modal{
+  position: absolute;
+  cursor: pointer;
+  float: right;
+  right: 15px;
+}
+
+#modal-container.one {
+  transform: scaleY(0.01) scaleX(0);
+  animation: unfoldIn 1s cubic-bezier(0.165, 0.84, 0.44, 1) forwards;
+}
+#modal-container.one .modal-background .modal {
+  transform: scale(0);
+  animation: zoomIn 0.5s 0.8s cubic-bezier(0.165, 0.84, 0.44, 1) forwards;
+}
+#modal-container.one.out {
+  transform: scale(1);
+  animation: unfoldOut 1s 0.3s cubic-bezier(0.165, 0.84, 0.44, 1) forwards;
+}
+#modal-container.one.out .modal-background .modal {
+  animation: zoomOut 0.5s cubic-bezier(0.165, 0.84, 0.44, 1) forwards;
+}
+#modal-container .modal-background {
+  display: table-cell;
+  background: rgba(0, 0, 0, 0.8);
+  text-align: center;
+  vertical-align: middle;
+}
+#modal-container .modal-background .modal {
+  background: white;
+  padding: 50px;
+  display: inline-block;
+  border-radius: 3px;
+  font-weight: 300;
+  position: relative;
+}
+
+@keyframes unfoldIn {
+  0% {
+    transform: scaleY(0.005) scaleX(0);
+  }
+  50% {
+    transform: scaleY(0.005) scaleX(1);
+  }
+  100% {
+    transform: scaleY(1) scaleX(1);
+  }
+}
+@keyframes unfoldOut {
+  0% {
+    transform: scaleY(1) scaleX(1);
+  }
+  50% {
+    transform: scaleY(0.005) scaleX(1);
+  }
+  100% {
+    transform: scaleY(0.005) scaleX(0);
+  }
+}
+@keyframes zoomIn {
+  0% {
+    transform: scale(0);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+@keyframes zoomOut {
+  0% {
+    transform: scale(1);
+  }
+  100% {
+    transform: scale(0);
+  }
+}
+
+
+
+.carousel {
+  background-color: #ffffff;
+  margin: 5vh auto 5vh auto;
+  position: relative;
+}
+
+.carousel-cell {
+  width: 60vw;
+  height: 60vh;
+  margin-right: 10px;
+  border-radius: 5px;
+}
+
+
+.carousel-cell:before {
+  display: block;
+  text-align: center;
+  line-height: 200px;
+}
+
+.carousel img{
+	max-width: 50vw;
+	max-height: 60vh;
+}

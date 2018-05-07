@@ -7,6 +7,7 @@
 	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css" integrity="sha384-9gVQ4dYFwwWSjIDZnLEWnxCjeSWFphJiwGPXr1jddIhOegiu1FwO5qRGvFXOdJZ4" crossorigin="anonymous">
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/dropzone/5.4.0/dropzone.css" />
 	<link href="http://cdn.rawgit.com/noelboss/featherlight/1.7.13/release/featherlight.min.css" type="text/css" rel="stylesheet" />
+	<link rel="stylesheet" href="https://unpkg.com/flickity@2/dist/flickity.min.css">
 	<link rel="stylesheet" type="text/css" href="./css/basic.css">
 	<link rel="stylesheet" type="text/css" href="./css/scrapboard.css">
 </head>
@@ -49,6 +50,22 @@
 <!--Main Page-->
 <h1 class="logo-text">Memorabilia</h1>
 <p class="bylogo-text">NITA 2014-18 BATCH</p>
+
+<div id="modal-container">
+    <span id="close-modal">Close</span> 
+        <div class="carousel" data-flickity='{ "wrapAround": true }'>
+        	        	
+    	    <img src="assets\1.jpg" class="carousel-cell"></img>
+        	<img src="assets\2.svg" class="carousel-cell"></img> 
+        	<img src="assets\thumb-up.png" class="carousel-cell"></img>
+        	<img src="assets\fboilogo.png" class="carousel-cell"></img> 
+        	<iframe class = "carousel-cell" src="https://www.youtube.com/embed/mHlaRJvNjsA" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
+        	<img src="assets/3.jpeg" class="carousel-cell"></img>
+        	<div class="carousel-cell note text-note"><h2>Let's try</h2><h6 style="text-align: right; width: 100%">-- Stark<span style="font-size: smaller; font-weight: 400">CSE</span></h6></div>
+
+        </div>    
+</div>
+
 <div class="scrap-board">
 
 	<!--div class="scrap-board-row">
@@ -104,6 +121,8 @@
 	</div-->
 </div>
 <button class="add-btn"><i class="fa fa-plus" aria-hidden="true"></i></button>
+<button class="lazy btn-primary">I m lazy</button>
+
 <!--Main Page end-->
 <!--Upload slider-->
 <div class="add-container">
@@ -319,6 +338,7 @@
 <script src="http://cdn.rawgit.com/noelboss/featherlight/1.7.13/release/featherlight.min.js" type="text/javascript" charset="utf-8"></script>
 <script src="https://unpkg.com/sweetalert2@7.19.3/dist/sweetalert2.all.js"></script>
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/object-fit-images/3.2.3/ofi.min.js"></script>
+<script src="https://unpkg.com/flickity@2/dist/flickity.pkgd.min.js"></script>
 <script type="text/javascript" src="./js/app.js"></script>
 <!-- JS Files end-->
 </body>

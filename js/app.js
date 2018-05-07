@@ -16,6 +16,10 @@ var zoomed = false;
 
 var renderedElem = 0;
 
+$('.lazy').click(function(){
+	genModal();
+});
+
 $(document).ready(function(e) {
 	//object-fit Polyfill for IE, Edge, Safari Support
 	objectFitImages();
@@ -86,6 +90,11 @@ $(document).ready(function(e) {
 			console.log("show vid");	
 			$("#video-select").show();	
 		}
+	});
+
+	$('#close-modal').click(function(e){
+  	$('body').removeClass('modal-active');
+  	$('#modal-container').addClass('out');
 	});
 	
 
@@ -200,6 +209,10 @@ $(document).ready(function(e) {
 
 	$(".note").each(function(){
 		$(this).css({'transform' : 'rotate('+ Math.floor(Math.random() * Math.floor(20) * (Math.round(Math.random()) * 2 - 1)) +'deg)'});
+	});
+
+	$(".carousel .note").each(function(){
+		$(this).css({'transform' : 'rotate(0deg)'});
 	});
 
 
@@ -462,10 +475,41 @@ function getTimeString(timestamp) {
 
 function embed(url)
 {
-	console.log(url);
+//	console.log(url);
 	modUrl = "https://www.youtube.com/embed/" + url.split('&')[0].substring(url.indexOf('=')+1);
-	console.log("Embed: " + modUrl);
+//	console.log("Embed: " + modUrl);
 	return modUrl;
+}
+
+function genModal(){
+		//$(".carousel").append('<img src="./assets/thumb-up.png" class="carousel-cell"></img>');
+		/*
+		console.log("Eibar");
+		console.log(currNotes);
+		var tempnote;
+		var noteHtml;
+		
+		for(var j = 8 ; j >= 6 ; j--)
+		{
+			tempnote = currNotes[j-1]; 
+			if(tempnote.imageURL){
+					noteHtml = '<img class="carousel-cell" src="'+tempnote.imageURL+'"></img>';
+					$(noteHtml).appendTo(".carousel");
+				}
+				else if(tempnote.videoURL){
+					continue;
+					noteHtml = '<iframe class = "carousel-cell" src="'+embed(vidUrl)+'" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>';
+					$(noteHtml).appendTo(".carousel");
+				}
+				else {
+					continue;
+					noteHtml = '<div class="carousel-cell"></div>';
+					$(noteHtml).appendTo(".carousel")
+					.css({'background' : getRandomColor()});
+				}
+		}*/
+  	$('#modal-container').removeAttr('class').addClass('one');
+  	$('body').addClass('modal-active');
 }
 
 
