@@ -8,6 +8,12 @@ var imgUrl = null;
 var vidUrl = null;
 var threadInf = -1;
 
+var currcell; 
+var currRnote;
+var currLnote;
+var currRpos;
+var currLpos;
+
 var currNotes = [];
 
 var scrapBoard = document.querySelector(".scrap-board");
@@ -18,6 +24,7 @@ var zoomed = false;
 var renderedElem = 0;
 
 $(document).ready(function(e) {
+
 	//object-fit Polyfill for IE, Edge, Safari Support
 	objectFitImages();
 
@@ -75,7 +82,6 @@ $(document).ready(function(e) {
 		}
 	});
 
-
 	$("#label2").click(function(){
 		var exists = $("#label2").hasClass("active");
 		console.log(exists);
@@ -97,8 +103,15 @@ $(document).ready(function(e) {
   	$('body').removeClass('modal-active');
   	$('#modal-container').addClass('out');
 	});
-	
 
+	$('.previous').click(function(){
+		prevClick();
+	});
+
+	$('.next').click(function(){
+		nextClick();
+	});
+	
 	$("#text-message").blur(function(e) {
 		validForm = checkSendValidity();
 	});
@@ -211,11 +224,11 @@ $(document).ready(function(e) {
 	$(".note").each(function(){
 		$(this).css({'transform' : 'rotate('+ Math.floor(Math.random() * Math.floor(20) * (Math.round(Math.random()) * 2 - 1)) +'deg)'});
 	});
-
+/*
 	$(".carousel .note").each(function(){
 		$(this).css({'transform' : 'rotate(0deg)'});
 	});
-
+*/
 
 	$(".scrap-board").panzoom({minScale: 1, contain: "invert"});
 
@@ -464,20 +477,16 @@ function getTimeString(timestamp) {
 	var a = new Date(timestamp);
 	var now = Date.now();
 
-	if(now - timestamp < 60*1000)
-		return "Just Now"
-	if(now - timestamp < 60*60*1000)
-		return parseInt((now - timestamp)/(1000*60))+" Minutes Ago";
-	if(now - timestamp < 24*60*60*1000)
-		return parseInt((now - timestamp)/(60*60*1000))+" Hours Ago";
+	if(now - timestamp < 60*1000)		return "Just Now"
+	if(now - timestamp < 60*60*1000)		return parseInt((now - timestamp)/(1000*60))+" Minutes Ago";
+	if(now - timestamp < 24*60*60*1000)		return parseInt((now - timestamp)/(60*60*1000))+" Hours Ago";
 	if(now - timestamp < 2*24*60*60*1000)
 		return "Yesterday";
   var months = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
   var year = a.getFullYear();
   var month = months[a.getMonth()];
   var date = a.getDate();
-  var time = date + ' ' + month + ' ' + year ;
-  return time;
+  var time = date + ' ' + month + ' ' + year ;  return time;
 }
 
 function embed(url)
@@ -527,36 +536,147 @@ function findDisqusThread(id){
 
 
 function genModal(){
-		//$(".carousel").append('<img src="./assets/thumb-up.png" class="carousel-cell"></img>');
 		/*
+		$("#cell1").append('<img src="./assets/1.jpg"></img>');
+		$("#cell2").append('<img src="./assets/2.svg"></img>');
+		$("#cell3").append('<img src="./assets/4.jpg"></img>');
+		$("#cell4").append('<img src="./assets/5.jpg"></img>'); 
+		$("#cell5").append('<iframe src="https://www.youtube.com/embed/mHlaRJvNjsA" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>');
+		$("#cell6").append('<div class="note text-note" style="background-color: '+getRandomColor()+'" ><h2 style="text-align: center">Let\'s try</h2><h6 style="text-align: right; width: 100%">-- Stark<span style="font-size: smaller; font-weight: 400">CSE</span></h6></div>');
+		$("#cell7").append('<img src="./assets/3.jpeg"></img>');
+		*/
+		currcell = 0; 
+		currRnote = 2;
+		currLnote = 0;
+		currRpos = 1;
+		currLpos = 2;
+		$('.carousel-cell').empty();
 		console.log("Eibar");
 		console.log(currNotes);
 		var tempnote;
 		var noteHtml;
-		
-		for(var j = 8 ; j >= 6 ; j--)
+		var cellID;
+		for(var j = 0 ; j < 3 ; j++)
 		{
-			tempnote = currNotes[j-1]; 
+			if(j == 0)
+			currcell = 2;
+			else
+			if(j == 1)
+			currcell = 0;
+			else
+			currcell = 1;	
+			cellID = "#cell" + currcell; 
+			tempnote = currNotes[j]; 
 			if(tempnote.imageURL){
-					noteHtml = '<img class="carousel-cell" src="'+tempnote.imageURL+'"></img>';
-					$(noteHtml).appendTo(".carousel");
-				}
+					console.log('imgg');
+					noteHtml = '<img class = "modalcard" src="'+tempnote.imageURL+'"></img><div class="modalcard text-element" style="bottom: -30%"><p style="width: 100%">'+tempnote.text+'</p><h6 style="margin-top: 20px; width: 100%; text-align: right">-- '+tempnote.name+' <span style="font-size: smaller; font-weight: 400">'+tempnote.branch+'</span></h6></div></div>';
+					$(noteHtml).appendTo(cellID)
+					.mouseenter(function(e) {
+						console.log("Enter");
+						TweenMax.to( $(this).find('.text-element'), 0.5, {bottom: "0", ease:Power2.easeInOut});
+					})
+					.mouseleave(function(e) {
+						TweenMax.to($(this).find('.text-element'), 0.5, {bottom: "-50%", ease:Power2.easeInOut});
+					})
+					.css({'display' : 'flex'});
+			}
 				else if(tempnote.videoURL){
-					continue;
-					noteHtml = '<iframe class = "carousel-cell" src="'+embed(vidUrl)+'" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>';
-					$(noteHtml).appendTo(".carousel");
+					console.log('vidd');
+					noteHtml = '<iframe class = "modalcard" src="'+embed(vidUrl)+'" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe><div class="modalcard text-element" style="bottom: -30%"><p>'+tempnote.text+'</p><h6 style="text-align: right;">-- '+tempnote.name+' <span style="font-size: smaller; font-weight: 400">'+tempnote.branch+'</span></h6></div></div>';
+					$(noteHtml).appendTo(cellID);
 				}
 				else {
-					continue;
-					noteHtml = '<div class="carousel-cell"></div>';
-					$(noteHtml).appendTo(".carousel")
-					.css({'background' : getRandomColor()});
+					console.log('notee');
+					noteHtml = '<div class="modalcard note text-note" style="background-color: '+getRandomColor()+'"><h2 style="text-align: center">'+tempnote.text+'</h2><h6 style="text-align: right; width: 100%">-- '+tempnote.name+' <span style="font-size: smaller; font-weight: 400">'+tempnote.branch+'</span></h6></div>';
+					$(noteHtml).appendTo(cellID);
 				}
-		}*/
+		}
   	$('#modal-container').removeAttr('class').addClass('one');
   	$('body').addClass('modal-active');
 }
 
+function prevClick(){
+	currLpos--;
+	currRpos--;
+	if(currLpos == -1)
+		currLpos = 2;
+	if(currRpos == -1)
+		currRpos = 2;
+	currLnote--;
+	currRnote--;
+	if(currLnote == -1)
+		currLnote = currNotes.length - 1;
+	if(currRnote == -1)
+		currRnote = currNotes.length - 1;
+	var tempnote = currNotes[currLnote];
+	var cellID = "#cell" + currLpos;
+	$(cellID).find(".modalcard").remove();
+	if(tempnote.imageURL){
+		console.log('imgg');
+		noteHtml = '<img class = "modalcard" src="'+tempnote.imageURL+'"></img><div class="modalcard text-element" style="bottom: -30%"><p style="width: 100%">'+tempnote.text+'</p><h6 style="margin-top: 20px; width: 100%; text-align: right">-- '+tempnote.name+' <span style="font-size: smaller; font-weight: 400">'+tempnote.branch+'</span></h6></div></div>';
+		$(noteHtml).appendTo(cellID)
+		.mouseenter(function(e) {
+		console.log("Enter");
+		TweenMax.to( $(this).find('.text-element'), 0.5, {bottom: "0", ease:Power2.easeInOut});
+		})
+		.mouseleave(function(e) {
+		TweenMax.to($(this).find('.text-element'), 0.5, {bottom: "-50%", ease:Power2.easeInOut});
+		})
+		.css({'display' : 'flex'});
+	}
+	else if(tempnote.videoURL){
+		console.log('vidd');
+		noteHtml = '<iframe class="modalcard" src="'+embed(tempnote.videoURL)+'" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe><div class="modalcard text-element" style="bottom: -30%"><p>'+tempnote.text+'</p><h6 style="text-align: right;">-- '+tempnote.name+' <span style="font-size: smaller; font-weight: 400">'+tempnote.branch+'</span></h6></div></div>';
+		$(noteHtml).appendTo(cellID);
+	}
+	else {
+		console.log('notee');
+		noteHtml = '<div class="modalcard note text-note" style="background-color: '+getRandomColor()+'"><h2 style="text-align: center">'+tempnote.text+'</h2><h6 style="text-align: right; width: 100%">-- '+tempnote.name+' <span style="font-size: smaller; font-weight: 400">'+tempnote.branch+'</span></h6></div>';
+		$(noteHtml).appendTo(cellID);
+	}
+}
+
+function nextClick(){
+	currRpos++;
+	currLpos++;
+	if(currRpos == 3)
+		currRpos = 0;
+	if(currLpos == 3)
+		currLpos = 0;
+	currRnote++;
+	currLnote++;
+	if(currRnote == currNotes.length)
+		currRnote = 0;
+	if(currLnote == currNotes.length)
+		currLnote = 0;
+	var tempnote = currNotes[currRnote];
+	var cellID = "#cell" + currRpos;
+	$(cellID).find(".modalcard").remove();
+	if(tempnote.imageURL){
+		console.log('imgg');
+		noteHtml = '<img class = "modalcard" src="'+tempnote.imageURL+'"></img><div class="modalcard text-element" style="bottom: -30%"><p style="width: 100%">'+tempnote.text+'</p><h6 style="margin-top: 40px; width: 100%; text-align: right">-- '+tempnote.name+' <span style="font-size: smaller; font-weight: 400">'+tempnote.branch+'</span></h6></div></div>';
+		$(noteHtml).appendTo(cellID)
+		.mouseenter(function(e) {
+		console.log("Enter");
+		TweenMax.to( $(this).find('.text-element'), 0.5, {bottom: "0", ease:Power2.easeInOut});
+		})
+		.mouseleave(function(e) {
+		TweenMax.to($(this).find('.text-element'), 0.5, {bottom: "-50%", ease:Power2.easeInOut});
+		})
+		.css({'display' : 'flex'});
+
+	}
+	else if(tempnote.videoURL){
+		console.log('vidd');
+		noteHtml = '<iframe class="modalcard" src="'+embed(tempnote.videoURL)+'" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe><div class="modalcard text-element" style="bottom: -30%"><p>'+tempnote.text+'</p><h6 style="text-align: right;">-- '+tempnote.name+' <span style="font-size: smaller; font-weight: 400">'+tempnote.branch+'</span></h6></div></div>';
+		$(noteHtml).appendTo(cellID);
+	}
+	else {
+		console.log('notee');
+		noteHtml = '<div class="modalcard note text-note" style="background-color: '+getRandomColor()+'"><h2 style="text-align: center">'+tempnote.text+'</h2><h6 style="text-align: right; width: 100%">-- '+tempnote.name+' <span style="font-size: smaller; font-weight: 400">'+tempnote.branch+'</span></h6></div>';
+		$(noteHtml).appendTo(cellID);
+	}
+}
 
 
 
