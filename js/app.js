@@ -8,12 +8,8 @@ var imgUrl = null;
 var vidUrl = null;
 var threadInf = -1;
 
-var currcell; 
-var currRnote;
-var currLnote;
-var currRpos;
-var currLpos;
-
+var currcellPos = 0;
+var carouselNotes = [];
 var currNotes = [];
 
 var scrapBoard = document.querySelector(".scrap-board");
@@ -95,20 +91,17 @@ $(document).ready(function(e) {
 		}
 	});
 
-	$('.lazy').click(function(){
-	genModal();
-	});
 
 	$('#close-modal').click(function(e){
   	$('body').removeClass('modal-active');
   	$('#modal-container').addClass('out');
 	});
 
-	$('.previous').click(function(){
+	$('.flickity-prev-next-button.previous').click(function(){
 		prevClick();
 	});
 
-	$('.next').click(function(){
+	$('.flickity-prev-next-button.next').click(function(){
 		nextClick();
 	});
 	
@@ -197,6 +190,11 @@ $(document).ready(function(e) {
   	});	
 
 	fetchNotes();
+
+	$('.lazy').click(function(){
+	genModal();
+	});
+
 	var noteFetchInterval = window.setInterval(fetchNotes, 30000);
 
 	setTimeout(function(){ 
@@ -536,146 +534,286 @@ function findDisqusThread(id){
 
 
 function genModal(){
-		/*
-		$("#cell1").append('<img src="./assets/1.jpg"></img>');
-		$("#cell2").append('<img src="./assets/2.svg"></img>');
-		$("#cell3").append('<img src="./assets/4.jpg"></img>');
-		$("#cell4").append('<img src="./assets/5.jpg"></img>'); 
-		$("#cell5").append('<iframe src="https://www.youtube.com/embed/mHlaRJvNjsA" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>');
-		$("#cell6").append('<div class="note text-note" style="background-color: '+getRandomColor()+'" ><h2 style="text-align: center">Let\'s try</h2><h6 style="text-align: right; width: 100%">-- Stark<span style="font-size: smaller; font-weight: 400">CSE</span></h6></div>');
-		$("#cell7").append('<img src="./assets/3.jpeg"></img>');
-		*/
-		currcell = 0; 
-		currRnote = 2;
-		currLnote = 0;
-		currRpos = 1;
-		currLpos = 2;
 		$('.carousel-cell').empty();
-		console.log("Eibar");
-		console.log(currNotes);
 		var tempnote;
 		var noteHtml;
 		var cellID;
-		for(var j = 0 ; j < 3 ; j++)
+		if(carouselNotes.length == 0)
+			carouselNotes = [0,1,2,currNotes.length-2,currNotes.length-1];
+		for(var j = 0 ; j < 5 ; j++)
 		{
-			if(j == 0)
-			currcell = 2;
-			else
-			if(j == 1)
-			currcell = 0;
-			else
-			currcell = 1;	
-			cellID = "#cell" + currcell; 
-			tempnote = currNotes[j]; 
+			cellID = "#cell" + j; 
+			console.log("dz "+carouselNotes[j]);
+			tempnote = currNotes[carouselNotes[j]]; 
 			if(tempnote.imageURL){
 					console.log('imgg');
 					noteHtml = '<img class = "modalcard" src="'+tempnote.imageURL+'"></img><div class="modalcard text-element" style="bottom: -30%"><p style="width: 100%">'+tempnote.text+'</p><h6 style="margin-top: 20px; width: 100%; text-align: right">-- '+tempnote.name+' <span style="font-size: smaller; font-weight: 400">'+tempnote.branch+'</span></h6></div></div>';
 					$(noteHtml).appendTo(cellID)
-					.mouseenter(function(e) {
-						console.log("Enter");
-						TweenMax.to( $(this).find('.text-element'), 0.5, {bottom: "0", ease:Power2.easeInOut});
-					})
-					.mouseleave(function(e) {
-						TweenMax.to($(this).find('.text-element'), 0.5, {bottom: "-50%", ease:Power2.easeInOut});
+					.click({noteData: tempnote}, function(e) {
+						console.log(e.data.noteData);
+						findDisqusThread(parseInt(e.data.noteData.created));
+						var likesc = 0;
+						var commentsc = 0;
+						var data = {
+							name: e.data.noteData.name,
+							branch: e.data.noteData.branch,
+							text: e.data.noteData.text,
+							time: getTimeString(parseInt(e.data.noteData.created)),
+							actualTime: parseInt(e.data.noteData.created),
+							imgUrl: e.data.noteData.imageURL,
+							commentsCount: commentsc,
+							likesCount: likesc
+						}
+						var template = $('#image-note-view-template').html();
+						var compiledTemplate = Handlebars.compile(template);
+						var result = compiledTemplate(data);
+						$.featherlight(result);
 					})
 					.css({'display' : 'flex'});
 			}
 				else if(tempnote.videoURL){
 					console.log('vidd');
 					noteHtml = '<iframe class = "modalcard" src="'+embed(vidUrl)+'" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe><div class="modalcard text-element" style="bottom: -30%"><p>'+tempnote.text+'</p><h6 style="text-align: right;">-- '+tempnote.name+' <span style="font-size: smaller; font-weight: 400">'+tempnote.branch+'</span></h6></div></div>';
-					$(noteHtml).appendTo(cellID);
+					$(noteHtml).appendTo(cellID)
+					.click({noteData: tempnote}, function(e) {
+						console.log(e.data.noteData);
+						findDisqusThread(parseInt(e.data.noteData.created));
+						var likesc = 0;
+						var commentsc = 0;
+						var data = {
+							name: e.data.noteData.name,
+							branch: e.data.noteData.branch,
+							text: e.data.noteData.text,
+							time: getTimeString(parseInt(e.data.noteData.created)),
+							actualTime: parseInt(e.data.noteData.created),
+							videoUrl: embed(e.data.noteData.videoURL),
+							commentsCount: commentsc ,
+							likesCount: likesc
+						}
+						var template = $('#video-note-view-template').html();
+						var compiledTemplate = Handlebars.compile(template);
+						var result = compiledTemplate(data);
+						$.featherlight(result);
+					});
 				}
 				else {
 					console.log('notee');
 					noteHtml = '<div class="modalcard note text-note" style="background-color: '+getRandomColor()+'"><h2 style="text-align: center">'+tempnote.text+'</h2><h6 style="text-align: right; width: 100%">-- '+tempnote.name+' <span style="font-size: smaller; font-weight: 400">'+tempnote.branch+'</span></h6></div>';
-					$(noteHtml).appendTo(cellID);
+					$(noteHtml).appendTo(cellID)
+					.click({noteData: tempnote}, function(e) {
+						console.log(e.data.noteData);
+						findDisqusThread(parseInt(e.data.noteData.created));
+						var likesc = 0;
+						var commentsc = 0;
+						var data = {
+							name: e.data.noteData.name,
+							branch: e.data.noteData.branch,
+							text: e.data.noteData.text,
+							time: getTimeString(parseInt(e.data.noteData.created)),
+							actualTime: parseInt(e.data.noteData.created),
+							commentsCount: commentsc,
+							likesCount: likesc
+						}
+						var template = $('#text-note-view-template').html();
+						var compiledTemplate = Handlebars.compile(template);
+						var result = compiledTemplate(data);
+						$.featherlight(result);
+					});
 				}
 		}
   	$('#modal-container').removeAttr('class').addClass('one');
   	$('body').addClass('modal-active');
+  	var left = (currcellPos + 4)%5;
+	var right = (currcellPos + 1)%5;
+	TweenMax.to($("#cell" + left),2,{opacity: 0.3});
+	TweenMax.to($("#cell" + right),2,{opacity: 0.3});
+  	console.log("Currcell: " + currcellPos);
+  	console.log("Current contents: " + carouselNotes);
 }
 
 function prevClick(){
-	currLpos--;
-	currRpos--;
-	if(currLpos == -1)
-		currLpos = 2;
-	if(currRpos == -1)
-		currRpos = 2;
-	currLnote--;
-	currRnote--;
-	if(currLnote == -1)
-		currLnote = currNotes.length - 1;
-	if(currRnote == -1)
-		currRnote = currNotes.length - 1;
-	var tempnote = currNotes[currLnote];
-	var cellID = "#cell" + currLpos;
+	for(var i = 0 ; i < 5 ; i++)
+	{
+	TweenMax.to($("#cell" + currcellPos),2,{opacity: 0.3});
+	TweenMax.to($("#cell" + (currcellPos+1)%5),2,{opacity: 1});
+	TweenMax.to($("#cell" + (currcellPos+3)%5),2,{opacity: 0.3});
+	TweenMax.to($("#cell" + (currcellPos+4)%5),2,{opacity: 1});
+	}
+	carouselNotes[(currcellPos+2)%5] = (carouselNotes[(currcellPos+2)%5]+currNotes.length-5)%currNotes.length;
+	var tempnote = currNotes[carouselNotes[(currcellPos+2)%5]];
+	var cellID = "#cell" + (currcellPos+2)%5;
 	$(cellID).find(".modalcard").remove();
 	if(tempnote.imageURL){
 		console.log('imgg');
 		noteHtml = '<img class = "modalcard" src="'+tempnote.imageURL+'"></img><div class="modalcard text-element" style="bottom: -30%"><p style="width: 100%">'+tempnote.text+'</p><h6 style="margin-top: 20px; width: 100%; text-align: right">-- '+tempnote.name+' <span style="font-size: smaller; font-weight: 400">'+tempnote.branch+'</span></h6></div></div>';
 		$(noteHtml).appendTo(cellID)
-		.mouseenter(function(e) {
-		console.log("Enter");
-		TweenMax.to( $(this).find('.text-element'), 0.5, {bottom: "0", ease:Power2.easeInOut});
-		})
-		.mouseleave(function(e) {
-		TweenMax.to($(this).find('.text-element'), 0.5, {bottom: "-50%", ease:Power2.easeInOut});
-		})
+		.click({noteData: tempnote}, function(e) {
+						console.log(e.data.noteData);
+						findDisqusThread(parseInt(e.data.noteData.created));
+						var likesc = 0;
+						var commentsc = 0;
+						var data = {
+							name: e.data.noteData.name,
+							branch: e.data.noteData.branch,
+							text: e.data.noteData.text,
+							time: getTimeString(parseInt(e.data.noteData.created)),
+							actualTime: parseInt(e.data.noteData.created),
+							imgUrl: e.data.noteData.imageURL,
+							commentsCount: commentsc,
+							likesCount: likesc
+						}
+						var template = $('#image-note-view-template').html();
+						var compiledTemplate = Handlebars.compile(template);
+						var result = compiledTemplate(data);
+						$.featherlight(result);
+					})
 		.css({'display' : 'flex'});
 	}
 	else if(tempnote.videoURL){
 		console.log('vidd');
 		noteHtml = '<iframe class="modalcard" src="'+embed(tempnote.videoURL)+'" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe><div class="modalcard text-element" style="bottom: -30%"><p>'+tempnote.text+'</p><h6 style="text-align: right;">-- '+tempnote.name+' <span style="font-size: smaller; font-weight: 400">'+tempnote.branch+'</span></h6></div></div>';
-		$(noteHtml).appendTo(cellID);
+		$(noteHtml).appendTo(cellID)
+		.click({noteData: tempnote}, function(e) {
+						console.log(e.data.noteData);
+						findDisqusThread(parseInt(e.data.noteData.created));
+						var likesc = 0;
+						var commentsc = 0;
+						var data = {
+							name: e.data.noteData.name,
+							branch: e.data.noteData.branch,
+							text: e.data.noteData.text,
+							time: getTimeString(parseInt(e.data.noteData.created)),
+							actualTime: parseInt(e.data.noteData.created),
+							videoUrl: embed(e.data.noteData.videoURL),
+							commentsCount: commentsc ,
+							likesCount: likesc
+						}
+						var template = $('#video-note-view-template').html();
+						var compiledTemplate = Handlebars.compile(template);
+						var result = compiledTemplate(data);
+						$.featherlight(result);
+					});
 	}
 	else {
 		console.log('notee');
 		noteHtml = '<div class="modalcard note text-note" style="background-color: '+getRandomColor()+'"><h2 style="text-align: center">'+tempnote.text+'</h2><h6 style="text-align: right; width: 100%">-- '+tempnote.name+' <span style="font-size: smaller; font-weight: 400">'+tempnote.branch+'</span></h6></div>';
-		$(noteHtml).appendTo(cellID);
+		$(noteHtml).appendTo(cellID)
+		.click({noteData: tempnote}, function(e) {
+						console.log(e.data.noteData);
+						findDisqusThread(parseInt(e.data.noteData.created));
+						var likesc = 0;
+						var commentsc = 0;
+						var data = {
+							name: e.data.noteData.name,
+							branch: e.data.noteData.branch,
+							text: e.data.noteData.text,
+							time: getTimeString(parseInt(e.data.noteData.created)),
+							actualTime: parseInt(e.data.noteData.created),
+							commentsCount: commentsc,
+							likesCount: likesc
+						}
+						var template = $('#text-note-view-template').html();
+						var compiledTemplate = Handlebars.compile(template);
+						var result = compiledTemplate(data);
+						$.featherlight(result);
+					});
 	}
+	currcellPos = (currcellPos + 4)%5;
+  	console.log("Currcell: " + currcellPos);
+  	console.log("Current contents: " + carouselNotes);
+
 }
 
 function nextClick(){
-	currRpos++;
-	currLpos++;
-	if(currRpos == 3)
-		currRpos = 0;
-	if(currLpos == 3)
-		currLpos = 0;
-	currRnote++;
-	currLnote++;
-	if(currRnote == currNotes.length)
-		currRnote = 0;
-	if(currLnote == currNotes.length)
-		currLnote = 0;
-	var tempnote = currNotes[currRnote];
-	var cellID = "#cell" + currRpos;
+	for(var i = 0 ; i < 5 ; i++)
+	{
+	TweenMax.to($("#cell" + currcellPos),2,{opacity: 0.3});
+	TweenMax.to($("#cell" + (currcellPos+1)%5),2,{opacity: 1});
+	TweenMax.to($("#cell" + (currcellPos+2)%5),2,{opacity: 0.3});
+	TweenMax.to($("#cell" + (currcellPos+4)%5),2,{opacity: 1});
+	}
+	carouselNotes[(currcellPos+3)%5] = (carouselNotes[(currcellPos+3)%5]+5)%currNotes.length;
+	var tempnote = currNotes[carouselNotes[(currcellPos+3)%5]];
+	var cellID = "#cell" + (currcellPos+3)%5;
 	$(cellID).find(".modalcard").remove();
 	if(tempnote.imageURL){
 		console.log('imgg');
-		noteHtml = '<img class = "modalcard" src="'+tempnote.imageURL+'"></img><div class="modalcard text-element" style="bottom: -30%"><p style="width: 100%">'+tempnote.text+'</p><h6 style="margin-top: 40px; width: 100%; text-align: right">-- '+tempnote.name+' <span style="font-size: smaller; font-weight: 400">'+tempnote.branch+'</span></h6></div></div>';
+		noteHtml = '<img class = "modalcard" src="'+tempnote.imageURL+'"></img><div class="modalcard text-element" style="bottom: -30%"><p style="width: 100%">'+tempnote.text+'</p><h6 style="margin-top: 20px; width: 100%; text-align: right">-- '+tempnote.name+' <span style="font-size: smaller; font-weight: 400">'+tempnote.branch+'</span></h6></div></div>';
 		$(noteHtml).appendTo(cellID)
-		.mouseenter(function(e) {
-		console.log("Enter");
-		TweenMax.to( $(this).find('.text-element'), 0.5, {bottom: "0", ease:Power2.easeInOut});
-		})
-		.mouseleave(function(e) {
-		TweenMax.to($(this).find('.text-element'), 0.5, {bottom: "-50%", ease:Power2.easeInOut});
-		})
+		.click({noteData: tempnote}, function(e) {
+						console.log(e.data.noteData);
+						findDisqusThread(parseInt(e.data.noteData.created));
+						var likesc = 0;
+						var commentsc = 0;
+						var data = {
+							name: e.data.noteData.name,
+							branch: e.data.noteData.branch,
+							text: e.data.noteData.text,
+							time: getTimeString(parseInt(e.data.noteData.created)),
+							actualTime: parseInt(e.data.noteData.created),
+							imgUrl: e.data.noteData.imageURL,
+							commentsCount: commentsc,
+							likesCount: likesc
+						}
+						var template = $('#image-note-view-template').html();
+						var compiledTemplate = Handlebars.compile(template);
+						var result = compiledTemplate(data);
+						$.featherlight(result);
+					})
 		.css({'display' : 'flex'});
-
 	}
 	else if(tempnote.videoURL){
 		console.log('vidd');
 		noteHtml = '<iframe class="modalcard" src="'+embed(tempnote.videoURL)+'" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe><div class="modalcard text-element" style="bottom: -30%"><p>'+tempnote.text+'</p><h6 style="text-align: right;">-- '+tempnote.name+' <span style="font-size: smaller; font-weight: 400">'+tempnote.branch+'</span></h6></div></div>';
-		$(noteHtml).appendTo(cellID);
+		$(noteHtml).appendTo(cellID)
+		.click({noteData: tempnote}, function(e) {
+						console.log(e.data.noteData);
+						findDisqusThread(parseInt(e.data.noteData.created));
+						var likesc = 0;
+						var commentsc = 0;
+						var data = {
+							name: e.data.noteData.name,
+							branch: e.data.noteData.branch,
+							text: e.data.noteData.text,
+							time: getTimeString(parseInt(e.data.noteData.created)),
+							actualTime: parseInt(e.data.noteData.created),
+							videoUrl: embed(e.data.noteData.videoURL),
+							commentsCount: commentsc ,
+							likesCount: likesc
+						}
+						var template = $('#video-note-view-template').html();
+						var compiledTemplate = Handlebars.compile(template);
+						var result = compiledTemplate(data);
+						$.featherlight(result);
+					});
 	}
 	else {
 		console.log('notee');
 		noteHtml = '<div class="modalcard note text-note" style="background-color: '+getRandomColor()+'"><h2 style="text-align: center">'+tempnote.text+'</h2><h6 style="text-align: right; width: 100%">-- '+tempnote.name+' <span style="font-size: smaller; font-weight: 400">'+tempnote.branch+'</span></h6></div>';
-		$(noteHtml).appendTo(cellID);
+		$(noteHtml).appendTo(cellID)
+		.click({noteData: tempnote}, function(e) {
+						console.log(e.data.noteData);
+						findDisqusThread(parseInt(e.data.noteData.created));
+						var likesc = 0;
+						var commentsc = 0;
+						var data = {
+							name: e.data.noteData.name,
+							branch: e.data.noteData.branch,
+							text: e.data.noteData.text,
+							time: getTimeString(parseInt(e.data.noteData.created)),
+							actualTime: parseInt(e.data.noteData.created),
+							commentsCount: commentsc,
+							likesCount: likesc
+						}
+						var template = $('#text-note-view-template').html();
+						var compiledTemplate = Handlebars.compile(template);
+						var result = compiledTemplate(data);
+						$.featherlight(result);
+					});
 	}
+	currcellPos = (currcellPos + 1)%5;
+  	console.log("Currcell: " + currcellPos);
+  	console.log("Current contents: " + carouselNotes);
 }
 
 
