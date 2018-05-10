@@ -625,19 +625,19 @@ function genModal(){
   	$('body').addClass('modal-active');
   	var left = (currcellPos + 4)%5;
 	var right = (currcellPos + 1)%5;
-	TweenMax.to($("#cell" + left),2,{opacity: 0.3});
-	TweenMax.to($("#cell" + right),2,{opacity: 0.3});
-  	console.log("Currcell: " + currcellPos);
-  	console.log("Current contents: " + carouselNotes);
+	TweenMax.to($("#cell" + left),1,{opacity: 0.3});
+	TweenMax.to($("#cell" + right),1,{opacity: 0.3});
+  	//console.log("Currcell: " + currcellPos);
+  	//console.log("Current contents: " + carouselNotes);
 }
 
 function prevClick(){
 	for(var i = 0 ; i < 5 ; i++)
 	{
-	TweenMax.to($("#cell" + currcellPos),2,{opacity: 0.3});
-	TweenMax.to($("#cell" + (currcellPos+1)%5),2,{opacity: 1});
-	TweenMax.to($("#cell" + (currcellPos+3)%5),2,{opacity: 0.3});
-	TweenMax.to($("#cell" + (currcellPos+4)%5),2,{opacity: 1});
+	TweenMax.to($("#cell" + currcellPos),1,{opacity: 0.3});
+	TweenMax.to($("#cell" + (currcellPos+1)%5),1,{opacity: 1});
+	TweenMax.to($("#cell" + (currcellPos+3)%5),1,{opacity: 0.3});
+	TweenMax.to($("#cell" + (currcellPos+4)%5),1,{opacity: 1});
 	}
 	carouselNotes[(currcellPos+2)%5] = (carouselNotes[(currcellPos+2)%5]+currNotes.length-5)%currNotes.length;
 	var tempnote = currNotes[carouselNotes[(currcellPos+2)%5]];
@@ -719,18 +719,18 @@ function prevClick(){
 					});
 	}
 	currcellPos = (currcellPos + 4)%5;
-  	console.log("Currcell: " + currcellPos);
-  	console.log("Current contents: " + carouselNotes);
+  	//console.log("Currcell: " + currcellPos);
+  	//console.log("Current contents: " + carouselNotes);
 
 }
 
 function nextClick(){
 	for(var i = 0 ; i < 5 ; i++)
 	{
-	TweenMax.to($("#cell" + currcellPos),2,{opacity: 0.3});
-	TweenMax.to($("#cell" + (currcellPos+1)%5),2,{opacity: 1});
-	TweenMax.to($("#cell" + (currcellPos+2)%5),2,{opacity: 0.3});
-	TweenMax.to($("#cell" + (currcellPos+4)%5),2,{opacity: 1});
+	TweenMax.to($("#cell" + currcellPos),1,{opacity: 0.3});
+	TweenMax.to($("#cell" + (currcellPos+1)%5),1,{opacity: 1});
+	TweenMax.to($("#cell" + (currcellPos+2)%5),1,{opacity: 0.3});
+	TweenMax.to($("#cell" + (currcellPos+4)%5),1,{opacity: 1});
 	}
 	carouselNotes[(currcellPos+3)%5] = (carouselNotes[(currcellPos+3)%5]+5)%currNotes.length;
 	var tempnote = currNotes[carouselNotes[(currcellPos+3)%5]];
@@ -812,8 +812,8 @@ function nextClick(){
 					});
 	}
 	currcellPos = (currcellPos + 1)%5;
-  	console.log("Currcell: " + currcellPos);
-  	console.log("Current contents: " + carouselNotes);
+  	//console.log("Currcell: " + currcellPos);
+  	//console.log("Current contents: " + carouselNotes);
 }
 
 
