@@ -48,9 +48,10 @@
 <!--Footer end-->
 			
 <!--Main Page-->
+<div class="pageinfo">
 <h1 class="logo-text">Memorabilia</h1>
 <p class="bylogo-text">NITA 2014-18 BATCH</p>
-
+</div>
 <div id="modal-container">
     <span id="close-modal"><strong>X</strong></span> 
         <div class="carousel" data-flickity='{ "wrapAround": true , "accessibility": false, "draggable": false}'>
@@ -68,7 +69,7 @@
     	</div>    
 </div>
 
-<div class="scrap-board">
+<div id = "board1" class="scrap-board">
 
 	<!--div class="scrap-board-row">
 		<div class="note image-note">
@@ -123,8 +124,11 @@
 	</div-->
 </div>
 <button class="add-btn"><i class="fa fa-plus" aria-hidden="true"></i></button>
-<button class="lazy btn-primary">I m lazy</button>
-
+<div class="buttons">
+<button class="prevbtn btn btn-danger disabled">Previous Board</button> 
+<button class="lazy btn btn-primary">Gotcha  display  'em  all!</button>
+<button class="nextbtn btn btn-danger">Next Board</button> 
+</div>
 <!--Main Page end-->
 <!--Upload slider-->
 <div class="add-container">
@@ -331,8 +335,7 @@
 <script src="http://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>  
 </script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.0/js/bootstrap.min.js"></script>
-<script src="./js/jquery.panzoom.min.js"></script>
-<script src="./js/jquery.mousewheel.min.js"></script>
+
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/1.20.2/TweenMax.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/dropzone/5.4.0/dropzone.js"></script>
 <script src="https://unpkg.com/axios/dist/axios.min.js"></script>

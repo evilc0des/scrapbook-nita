@@ -9,6 +9,13 @@ body {
 	overflow: hidden;
 }
 
+.pageinfo{
+	position: absolute;
+	width: 22vw;
+	height: 20vh;
+	margin: 0px auto auto auto; 
+	top: 2vh;
+}
 
 .navbar-dark{
 	background:rgba(255,255,255,0.8);
@@ -46,7 +53,7 @@ body {
 	padding: 15px 25px 0px;
 	border: 5px solid #7a5e3a;
 	font-family: 'Sacramento', cursive;
-	margin-bottom: 0px;
+	margin: 0px auto auto auto;
 
 }
 
@@ -69,7 +76,9 @@ body {
 	color: #7a5e3a;
 	font-size: 20px;
 	font-family: 'Rajdhani', sans-serif;
-	margin-top: 0px;
+	margin: auto auto auto auto;
+	position: absolute;
+	left: 5vw;
 }
 
 .add-btn {
@@ -206,10 +215,20 @@ iframe{
 }
 
 .lazy{
-	width: 100px;
-	position: absolute;
-	bottom: 10vh;
-	right: 10vw;
+	margin: 6vh 3vw 6vh 3vw;
+	width: 20vw;
+	cursor: pointer;
+}
+
+.prevbtn{
+	margin: 6vh 3vw 6vh 3vw;
+	width: 20vw;
+	cursor: pointer;
+}
+
+.nextbtn{
+	margin: 6vh 3vw 6vh 3vw;
+	width: 20vw;
 	cursor: pointer;
 }
 
@@ -371,3 +390,9 @@ html.modal-active, body.modal-active {
 	border-radius: 5px;
 }
 
+.buttons{
+	top: 82vh;
+	position: absolute;
+	height: 18vh;
+	width: 80vw;
+}
