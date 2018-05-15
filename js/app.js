@@ -12,17 +12,33 @@ var currcellPos = 0;
 var carouselNotes = [];
 var currNotes = [];
 
+var rows;
+var cols;
+var totHeight;
+var totWidth; 
+var noteHeight;
+var noteWidth;
+var marginR;
+var marginL;
+var marginU;
+var marginB;
+var lastIndex = 0;
+
+var itemsPerBoard = 27;
+var noOfBoards = 1;
+var displayBoard = 1;
+
 var scrapBoard = document.querySelector(".scrap-board");
 var body = document.querySelector("body");
 
-var zoomed = false;
+//var zoomed = false;
 
 var renderedElem = 0;
 
 $(document).ready(function(e) {
 
 	//object-fit Polyfill for IE, Edge, Safari Support
-	objectFitImages();
+	//objectFitImages();
 
 	var myDropzone = new Dropzone("div#image-select", { 
 		url: "https://api.cloudinary.com/v1_1/dhrqglqw8/image/upload",
@@ -43,9 +59,9 @@ $(document).ready(function(e) {
 			});
 
 			this.on("success", function(file, response) {
-		  		console.log(response);
+	//	  		console.log(response);
 		  		imgUrl = response.url;
-		  		console.log(imgUrl);
+	//	  		console.log(imgUrl);
 			});
 		}
 	});
@@ -67,26 +83,26 @@ $(document).ready(function(e) {
 
 	$("#label1").click(function(){
 		var exists = $("#label1").hasClass("active");
-		console.log(exists);
+	//	console.log(exists);
 		if(!exists)
 		{
 			$("#label1").addClass("active");	
 			$("#label2").removeClass("active");
 			$("#video-select").hide();
-			console.log("show img");	
+		//	console.log("show img");	
 			$("#image-select").show();	
 		}
 	});
 
 	$("#label2").click(function(){
 		var exists = $("#label2").hasClass("active");
-		console.log(exists);
+	//	console.log(exists);
 		if(!exists)
 		{
 			$("#label2").addClass("active");	
 			$("#label1").removeClass("active");
 			$("#image-select").hide();
-			console.log("show vid");	
+	//		console.log("show vid");	
 			$("#video-select").show();	
 		}
 	});
@@ -119,9 +135,9 @@ $(document).ready(function(e) {
 	});
 
 	$(".send-btn").click(function(e){
-		console.log(imgUrl);
+	//	console.log(imgUrl);
 		vidUrl = $("#video-field").val();
-		console.log(vidUrl);
+	//	console.log(vidUrl);
 		if(validForm){
 			validForm = false;
 			var tempnote;
@@ -166,7 +182,7 @@ $(document).ready(function(e) {
 				    videoUrl: vidUrl
 				})
 				.then(function (response) {
-				    console.log(response);
+		//		    console.log(response);
 				    if(response.data.s == 'p'){
 				    	imgUrl = null;
 				       	var notes = currNotes.slice();
@@ -176,7 +192,7 @@ $(document).ready(function(e) {
 			    	}
 				})
 				.catch(function (error) {
-			   		console.log(error);
+		//	   		console.log(error);
 		    		imgUrl = null;
    		    		swal("Awww!","Some unexpected shit has occurred!","error");
 				});
@@ -198,9 +214,39 @@ $(document).ready(function(e) {
 	var noteFetchInterval = window.setInterval(fetchNotes, 30000);
 
 	setTimeout(function(){ 
-		console.log($("#footer-navbar").outerHeight());
+	//	console.log($("#footer-navbar").outerHeight());
 		TweenMax.to( "#footer-navbar", 1, {bottom: "-" + ($("#footer-navbar").outerHeight() - 10) + "px", ease:Power2.easeInOut}); 
 	}, 3000);
+
+	$(".nextbtn").click(function(){
+		if(!$(".nextbtn").hasClass('disabled'))
+		{
+		currBoard = "#board" + displayBoard + ".scrap-board";
+		$(currBoard).hide();	
+		displayBoard++;
+		if(displayBoard == noOfBoards)
+			$(".nextbtn").addClass('disabled');
+		if(displayBoard == 2)
+			$(".prevbtn").removeClass('disabled');
+		currBoard = "#board" + displayBoard + ".scrap-board";
+		$(currBoard).show();
+		}
+	});
+
+	$(".prevbtn").click(function(){
+		if(!$(".prevbtn").hasClass('disabled'))
+		{	
+		currBoard = "#board" + displayBoard + ".scrap-board";
+		$(currBoard).hide();	
+		displayBoard--;
+		if(displayBoard == 1)
+			$(".prevbtn").addClass('disabled');
+		if(displayBoard == noOfBoards - 1)
+			$(".nextbtn").removeClass('disabled');
+		currBoard = "#board" + displayBoard + ".scrap-board";
+		$(currBoard).show();
+		}
+	});
 
 
 	$("#footer-navbar").mouseenter(function(e) {
@@ -228,12 +274,12 @@ $(document).ready(function(e) {
 	});
 */
 
-	$(".scrap-board").panzoom({minScale: 1, contain: "invert"});
+//	$(".scrap-board").panzoom({minScale: 1, contain: "invert"});
 
 	
 
 	//$elem.panzoom("zoom");
-
+/*
 	$(".scrap-board").on('mousewheel.focal', function(event) {
 	    //console.log(event.deltaX, event.deltaY, event.deltaFactor);
 
@@ -244,10 +290,10 @@ $(document).ready(function(e) {
 	    	$(this).panzoom("zoom", true, { focal: event });
 	    }
 	    zoomed = true;
-	});
+	}); */
 	//console.log(body);
 	//console.log(scrapBoard)
-	$(".scrap-board").css({"top": "-45%", "padding": "100px"}).height($(document).height()/0.55);
+//	$(".scrap-board").css({"top": "-45%", "padding": "100px"}).height($(document).height()/0.55);
 
 	
 })
@@ -282,7 +328,7 @@ var checkSendValidity = function(){
 var fetchNotes = function() {
 	axios.get('http://localhost:3000/notes/fetch')
 	.then(function (response) {
-	    console.log(response);
+	//    console.log(response);
 
 	    if(response.data.s == 'p'){
 	    	var notes = response.data.notes;
@@ -290,14 +336,14 @@ var fetchNotes = function() {
 	    }
 	})
 	.catch(function (error) {
-	    console.log(error);
+	//    console.log(error);
 	});
 
 }
 
 var updateView = function(notes) {
-	console.log('Notes display');
-	console.log(notes);
+//	console.log('Notes display');
+//	console.log(notes);
 	if(currNotes.length !== notes.length) {
 		//$(".scrap-board").html("");
 
@@ -305,163 +351,148 @@ var updateView = function(notes) {
 		* Infinity View Implementation
 		*
 		*/
-		var columnSize = 4;
-		var rowSize = 1;
-		var n = notes.length;
-		var a = Math.pow(n/2, 0.5);
-		var b = a - Math.floor(a);
-		if(b > 0.5 || b == 0)
-		{
-			rowSize = Math.ceil(a);
-			columnSize = 2 * rowSize;
+		var totnotes = notes.length;	
+		/*
+		cols = Math.ceil(Math.pow(totnotes,0.67));
+		rows = Math.ceil(totnotes/cols);
+		totHeight = Math.ceil(90/rows);
+		totWidth = Math.ceil(100/cols);
+		noteHeight = 0.9 * totHeight;
+		noteWidth = 0.9 * totWidth;
+		marginU = 0.05 * totHeight;
+		marginL = 0.05 * totWidth;
 
-		}
-		else {
-			var c = n % (2 * Math.floor(a));
-			rowSize = Math.floor(a);
-			if(c > Math.floor(a)){
-				columnSize = 2 * rowSize + 2;
+		console.log(totnotes);
+		console.log(cols);
+		console.log(rows);
+		console.log(totHeight);
+		console.log(totWidth);
+		console.log(noteHeight);
+		console.log(noteWidth);
+		console.log(marginU);
+		console.log(marginB);
+		console.log(marginL);
+		console.log(marginR);
+*/
+	//	TweenMax.staggerFrom(".note",2,{opacity: 0}, 2);
+		noteHeight = 25;
+		noteWidth = 10;
+		marginU = 2;
+		marginL = 1;
+
+		noOfBoards = Math.ceil(totnotes/itemsPerBoard);
+		var noteHtml;
+		var note;
+		var currBoard; 	
+		for(var i = lastIndex ; i < totnotes ; i++){
+			noteHtml = '';
+			note = notes[i];
+			currBoard = "#board" + Math.ceil((i+1)/itemsPerBoard) + ".scrap-board";
+			if(i != 0 && i % itemsPerBoard == 0)
+			{
+				$("body,html").append('<div id="board' + Math.ceil((i+1)/itemsPerBoard) + '" class="scrap-board"></div>');
+				$(currBoard).hide();
+				console.log(currBoard);
+			}
+	//		console.log(note.imageURL);
+	//		console.log('Bridge');
+	//		console.log(note.videoURL);
+			lastIndex++;
+			if(note.imageURL){
+				noteHtml = '<div class="note image-note"><div class="img-element"><img src="'+note.imageURL+'"></div><div class="text-element"><p>'+note.text+'</p><h6 style="text-align: right;">-- '+note.name+' <span style="font-size: smaller; font-weight: 400">'+note.branch+'</span></h6></div></div>';
+				$(noteHtml).appendTo(currBoard)
+				.mouseenter(function(e) {
+				TweenMax.to( $(this).find('.text-element'), 0.5, {bottom: "0", ease:Power2.easeInOut});
+				})
+				.mouseleave(function(e) {
+				TweenMax.to($(this).find('.text-element'), 0.5, {bottom: "-50%", ease:Power2.easeInOut});
+				})
+				.click({noteData: note}, function(e) {
+	//			console.log(e.data.noteData);
+				findDisqusThread(parseInt(e.data.noteData.created));
+				var likesc = 0;
+				var commentsc = 0;
+				var data = {
+				name: e.data.noteData.name,
+				branch: e.data.noteData.branch,
+				text: e.data.noteData.text,
+				time: getTimeString(parseInt(e.data.noteData.created)),
+				actualTime: parseInt(e.data.noteData.created),
+				imgUrl: e.data.noteData.imageURL,
+				commentsCount: commentsc,
+				likesCount: likesc
+				}
+				var template = $('#image-note-view-template').html();
+				var compiledTemplate = Handlebars.compile(template);
+				var result = compiledTemplate(data);
+				$.featherlight(result);
+				})
+				.css({'transform' : 'rotate('+ Math.floor(Math.random() * Math.floor(20) * (Math.round(Math.random()) * 2 - 1)) +'deg)', 'display' : 'flex'});
+				renderedElem++;
+			}
+			else if(note.videoURL){
+				noteHtml = '<div class="note video-note"><div class="video-element"><iframe src="'+embed(note.videoURL)+'" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe></div><div class="text-element"><p>'+note.text+'</p><h6 style="text-align: right;">-- '+note.name+' <span style="font-size: smaller; font-weight: 400">'+note.branch+'</span></h6></div></div>';
+				$(noteHtml).appendTo(".scrap-board")
+				.mouseenter(function(e) {
+					TweenMax.to( $(this).find('.text-element'), 0.5, {bottom: "0", ease:Power2.easeInOut});
+				})
+				.mouseleave(function(e) {
+					TweenMax.to($(this).find('.text-element'), 0.5, {bottom: "-50%", ease:Power2.easeInOut});
+				})
+				.click({noteData: note}, function(e) {
+	//				console.log(e.data.noteData);
+					findDisqusThread(parseInt(e.data.noteData.created));
+					var likesc = 0;
+					var commentsc = 0;
+					var data = {
+						name: e.data.noteData.name,
+						branch: e.data.noteData.branch,
+						text: e.data.noteData.text,
+						time: getTimeString(parseInt(e.data.noteData.created)),
+						actualTime: parseInt(e.data.noteData.created),
+						videoUrl: embed(e.data.noteData.videoURL),
+						commentsCount: commentsc ,
+						likesCount: likesc
+					}
+					var template = $('#video-note-view-template').html();
+					var compiledTemplate = Handlebars.compile(template);
+					var result = compiledTemplate(data);
+					$.featherlight(result);
+				})
+				.css({'transform' : 'rotate('+ Math.floor(Math.random() * Math.floor(20) * (Math.round(Math.random()) * 2 - 1)) +'deg)', 'display' : 'flex'});
+				renderedElem++;
 			}
 			else {
-				columnSize = 2 * rowSize + 1;
+				noteHtml = '<div class="note text-note"><span id="noteText">'+note.text+'</span><span style="text-align: right; width: 100%">-- '+note.name+'</span><span style="font-size: smaller; font-weight: 400">'+note.branch+'</span></div>';
+				$(noteHtml).appendTo(".scrap-board")
+				.click({noteData: note}, function(e) {
+	//				console.log(e.data.noteData);
+					findDisqusThread(parseInt(e.data.noteData.created));
+					var likesc = 0;
+					var commentsc = 0;
+					var data = {
+						name: e.data.noteData.name,
+						branch: e.data.noteData.branch,
+						text: e.data.noteData.text,
+						time: getTimeString(parseInt(e.data.noteData.created)),
+						actualTime: parseInt(e.data.noteData.created),
+						commentsCount: commentsc,
+						likesCount: likesc
+					}
+					var template = $('#text-note-view-template').html();
+					var compiledTemplate = Handlebars.compile(template);
+					var result = compiledTemplate(data);
+					$.featherlight(result);
+				})
+				.css({'transform' : 'rotate('+ Math.floor(Math.random() * Math.floor(20) * (Math.round(Math.random()) * 2 - 1)) +'deg)', 'background' : getRandomColor(), 'display' : 'flex'});
+				renderedElem++;
 			}
 		}
-		//var offsetY = $(".scrap-board").
-		$(".scrap-board").width(columnSize * 310 + 200);
-		var minScale = body.clientWidth/scrapBoard.clientWidth ;
-		$(".scrap-board").panzoom("option", "minScale", minScale).panzoom("zoom", minScale).panzoom("pan", 0, 0);
-		//var transformMatrix = $(".scrap-board").panzoom("getMatrix").slice(0,5);
-		//transformMatrix.push(0);
-		//console.log(transformMatrix);
-		//$(".scrap-board").panzoom("setMatrix", transformMatrix);
-		//console.log($(".scrap-board").panzoom("getMatrix"));
+		$(".note").css({'height': noteHeight+'%', 'width': noteWidth+'%', 'margin-top': marginU+'%', 'margin-left': marginL+'%'});
+		$("#noteText").css({'font-size' : '0.1vw'});
+		$("#noteText").css({'font-size' : '0.1vw'});
+		$("#noteText").css({'font-size' : '0.1vw'});
 
-		/*
-		* Rendering the Notes in scrapboard.
-		* Comparing the Id to render only the difference.
-		* More optimization could be done using the timestamps on notes
-		*/
-		var newNoteNumber = notes.length - currNotes.length;
-		for(var i = notes.length; i > 0; i--){
-			var j;
-			for(j = currNotes.length; j > 0; j--) {
-				if(notes[i - 1]._id == currNotes[j - 1]._id)
-					break;
-			}
-			if(j == 0) {
-				var noteHtml = '';
-				var note = notes[i - 1];
-				console.log(note.imageURL);
-				console.log('Bridge');
-				console.log(note.videoURL);
-				if(note.imageURL){
-					noteHtml = '<div class="note image-note"><div class="img-element"><img src="'+note.imageURL+'"></div><div class="text-element"><p>'+note.text+'</p><h6 style="text-align: right;">-- '+note.name+' <span style="font-size: smaller; font-weight: 400">'+note.branch+'</span></h6></div></div>';
-					$(noteHtml).appendTo(".scrap-board")
-					.mouseenter(function(e) {
-						TweenMax.to( $(this).find('.text-element'), 0.5, {bottom: "0", ease:Power2.easeInOut});
-					})
-					.mouseleave(function(e) {
-						TweenMax.to($(this).find('.text-element'), 0.5, {bottom: "-50%", ease:Power2.easeInOut});
-					})
-					.click({noteData: note}, function(e) {
-						console.log(e.data.noteData);
-						findDisqusThread(parseInt(e.data.noteData.created));
-						var likesc = 0;
-						var commentsc = 0;
-						var data = {
-							name: e.data.noteData.name,
-							branch: e.data.noteData.branch,
-							text: e.data.noteData.text,
-							time: getTimeString(parseInt(e.data.noteData.created)),
-							actualTime: parseInt(e.data.noteData.created),
-							imgUrl: e.data.noteData.imageURL,
-							commentsCount: commentsc,
-							likesCount: likesc
-						}
-						var template = $('#image-note-view-template').html();
-						var compiledTemplate = Handlebars.compile(template);
-						var result = compiledTemplate(data);
-						$.featherlight(result);
-					})
-					.css({'transform' : 'rotate('+ Math.floor(Math.random() * Math.floor(20) * (Math.round(Math.random()) * 2 - 1)) +'deg)', 'display' : 'flex'});
-					renderedElem++;
-				}
-				else if(note.videoURL){
-					noteHtml = '<div class="note video-note"><div class="video-element"><iframe src="'+embed(note.videoURL)+'" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe></div><div class="text-element"><p>'+note.text+'</p><h6 style="text-align: right;">-- '+note.name+' <span style="font-size: smaller; font-weight: 400">'+note.branch+'</span></h6></div></div>';
-					$(noteHtml).appendTo(".scrap-board")
-					.mouseenter(function(e) {
-						TweenMax.to( $(this).find('.text-element'), 0.5, {bottom: "0", ease:Power2.easeInOut});
-					})
-					.mouseleave(function(e) {
-						TweenMax.to($(this).find('.text-element'), 0.5, {bottom: "-50%", ease:Power2.easeInOut});
-					})
-					.click({noteData: note}, function(e) {
-						console.log(e.data.noteData);
-						findDisqusThread(parseInt(e.data.noteData.created));
-						var likesc = 0;
-						var commentsc = 0;
-						var data = {
-							name: e.data.noteData.name,
-							branch: e.data.noteData.branch,
-							text: e.data.noteData.text,
-							time: getTimeString(parseInt(e.data.noteData.created)),
-							actualTime: parseInt(e.data.noteData.created),
-							videoUrl: embed(e.data.noteData.videoURL),
-							commentsCount: commentsc ,
-							likesCount: likesc
-						}
-						var template = $('#video-note-view-template').html();
-						var compiledTemplate = Handlebars.compile(template);
-						var result = compiledTemplate(data);
-						$.featherlight(result);
-					})
-					.css({'transform' : 'rotate('+ Math.floor(Math.random() * Math.floor(20) * (Math.round(Math.random()) * 2 - 1)) +'deg)', 'display' : 'flex'});
-					renderedElem++;
-				}
-				else {
-					noteHtml = '<div class="note text-note"><h2>'+note.text+'</h2><h6 style="text-align: right; width: 100%">-- '+note.name+' <span style="font-size: smaller; font-weight: 400">'+note.branch+'</span></h6></div>';
-					$(noteHtml).appendTo(".scrap-board")
-					.click({noteData: note}, function(e) {
-						console.log(e.data.noteData);
-						findDisqusThread(parseInt(e.data.noteData.created));
-						var likesc = 0;
-						var commentsc = 0;
-						var data = {
-							name: e.data.noteData.name,
-							branch: e.data.noteData.branch,
-							text: e.data.noteData.text,
-							time: getTimeString(parseInt(e.data.noteData.created)),
-							actualTime: parseInt(e.data.noteData.created),
-							commentsCount: commentsc,
-							likesCount: likesc
-						}
-						var template = $('#text-note-view-template').html();
-						var compiledTemplate = Handlebars.compile(template);
-						var result = compiledTemplate(data);
-						$.featherlight(result);
-					})
-					.css({'transform' : 'rotate('+ Math.floor(Math.random() * Math.floor(20) * (Math.round(Math.random()) * 2 - 1)) +'deg)', 'background' : getRandomColor(), 'display' : 'flex'});
-					renderedElem++;
-				}
-				newNoteNumber--;
-			}
-			if(newNoteNumber == 0)
-				break;
-		};
-		
-
-		$(".note").css({'clear': 'none'});
-		for(var i = 1; i < rowSize; i++) {
-				$(".note").eq(columnSize * i).css({'clear': 'both'});
-		}
-
-		if(currNotes.length == 0) {
-
-			TweenMax.staggerFrom(".note",2,{opacity: 0}, 0.1);
-		}
-		console.log(minScale);
-
-		
 		currNotes = notes;
 	}
 }
@@ -507,14 +538,14 @@ function findDisqusThread(id){
 		}
 	})
 	.then(function (response) {
-	    console.log(response);
+//	    console.log(response);
 
 	    if(response.data.s == 'p'){
 	    	var dataRecieved = response.data.apidata;
-			console.log(dataRecieved);
+//			console.log(dataRecieved);
 		    jsonData = JSON.parse(dataRecieved);
-			 console.log(jsonData.response.likes);
-			 console.log(jsonData.response.posts);
+//			 console.log(jsonData.response.likes);
+//			 console.log(jsonData.response.posts);
 			 ans=true;
 		}
 		else ans=false;
@@ -528,7 +559,7 @@ function findDisqusThread(id){
 		document.getElementById("comments-text").innerHTML = jsonData.response.posts;
 	})
 	.catch(function (error) {
-		console.log(error);
+//		console.log(error);
 	});
 }
 
@@ -543,14 +574,14 @@ function genModal(){
 		for(var j = 0 ; j < 5 ; j++)
 		{
 			cellID = "#cell" + j; 
-			console.log("dz "+carouselNotes[j]);
+//			console.log("dz "+carouselNotes[j]);
 			tempnote = currNotes[carouselNotes[j]]; 
 			if(tempnote.imageURL){
-					console.log('imgg');
+//					console.log('imgg');
 					noteHtml = '<img class = "modalcard" src="'+tempnote.imageURL+'"></img><div class="modalcard text-element" style="bottom: -30%"><p style="width: 100%">'+tempnote.text+'</p><h6 style="margin-top: 20px; width: 100%; text-align: right">-- '+tempnote.name+' <span style="font-size: smaller; font-weight: 400">'+tempnote.branch+'</span></h6></div></div>';
 					$(noteHtml).appendTo(cellID)
 					.click({noteData: tempnote}, function(e) {
-						console.log(e.data.noteData);
+//						console.log(e.data.noteData);
 						findDisqusThread(parseInt(e.data.noteData.created));
 						var likesc = 0;
 						var commentsc = 0;
@@ -572,11 +603,11 @@ function genModal(){
 					.css({'display' : 'flex'});
 			}
 				else if(tempnote.videoURL){
-					console.log('vidd');
+	//				console.log('vidd');
 					noteHtml = '<iframe class = "modalcard" src="'+embed(vidUrl)+'" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe><div class="modalcard text-element" style="bottom: -30%"><p>'+tempnote.text+'</p><h6 style="text-align: right;">-- '+tempnote.name+' <span style="font-size: smaller; font-weight: 400">'+tempnote.branch+'</span></h6></div></div>';
 					$(noteHtml).appendTo(cellID)
 					.click({noteData: tempnote}, function(e) {
-						console.log(e.data.noteData);
+	//					console.log(e.data.noteData);
 						findDisqusThread(parseInt(e.data.noteData.created));
 						var likesc = 0;
 						var commentsc = 0;
@@ -597,11 +628,11 @@ function genModal(){
 					});
 				}
 				else {
-					console.log('notee');
+	//				console.log('notee');
 					noteHtml = '<div class="modalcard note text-note" style="background-color: '+getRandomColor()+'"><h2 style="text-align: center">'+tempnote.text+'</h2><h6 style="text-align: right; width: 100%">-- '+tempnote.name+' <span style="font-size: smaller; font-weight: 400">'+tempnote.branch+'</span></h6></div>';
 					$(noteHtml).appendTo(cellID)
 					.click({noteData: tempnote}, function(e) {
-						console.log(e.data.noteData);
+	//					console.log(e.data.noteData);
 						findDisqusThread(parseInt(e.data.noteData.created));
 						var likesc = 0;
 						var commentsc = 0;
@@ -644,11 +675,11 @@ function prevClick(){
 	var cellID = "#cell" + (currcellPos+2)%5;
 	$(cellID).find(".modalcard").remove();
 	if(tempnote.imageURL){
-		console.log('imgg');
+//		console.log('imgg');
 		noteHtml = '<img class = "modalcard" src="'+tempnote.imageURL+'"></img><div class="modalcard text-element" style="bottom: -30%"><p style="width: 100%">'+tempnote.text+'</p><h6 style="margin-top: 20px; width: 100%; text-align: right">-- '+tempnote.name+' <span style="font-size: smaller; font-weight: 400">'+tempnote.branch+'</span></h6></div></div>';
 		$(noteHtml).appendTo(cellID)
 		.click({noteData: tempnote}, function(e) {
-						console.log(e.data.noteData);
+//						console.log(e.data.noteData);
 						findDisqusThread(parseInt(e.data.noteData.created));
 						var likesc = 0;
 						var commentsc = 0;
@@ -670,11 +701,11 @@ function prevClick(){
 		.css({'display' : 'flex'});
 	}
 	else if(tempnote.videoURL){
-		console.log('vidd');
+//		console.log('vidd');
 		noteHtml = '<iframe class="modalcard" src="'+embed(tempnote.videoURL)+'" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe><div class="modalcard text-element" style="bottom: -30%"><p>'+tempnote.text+'</p><h6 style="text-align: right;">-- '+tempnote.name+' <span style="font-size: smaller; font-weight: 400">'+tempnote.branch+'</span></h6></div></div>';
 		$(noteHtml).appendTo(cellID)
 		.click({noteData: tempnote}, function(e) {
-						console.log(e.data.noteData);
+//						console.log(e.data.noteData);
 						findDisqusThread(parseInt(e.data.noteData.created));
 						var likesc = 0;
 						var commentsc = 0;
@@ -695,11 +726,11 @@ function prevClick(){
 					});
 	}
 	else {
-		console.log('notee');
+//		console.log('notee');
 		noteHtml = '<div class="modalcard note text-note" style="background-color: '+getRandomColor()+'"><h2 style="text-align: center">'+tempnote.text+'</h2><h6 style="text-align: right; width: 100%">-- '+tempnote.name+' <span style="font-size: smaller; font-weight: 400">'+tempnote.branch+'</span></h6></div>';
 		$(noteHtml).appendTo(cellID)
 		.click({noteData: tempnote}, function(e) {
-						console.log(e.data.noteData);
+//						console.log(e.data.noteData);
 						findDisqusThread(parseInt(e.data.noteData.created));
 						var likesc = 0;
 						var commentsc = 0;
@@ -737,11 +768,11 @@ function nextClick(){
 	var cellID = "#cell" + (currcellPos+3)%5;
 	$(cellID).find(".modalcard").remove();
 	if(tempnote.imageURL){
-		console.log('imgg');
+//		console.log('imgg');
 		noteHtml = '<img class = "modalcard" src="'+tempnote.imageURL+'"></img><div class="modalcard text-element" style="bottom: -30%"><p style="width: 100%">'+tempnote.text+'</p><h6 style="margin-top: 20px; width: 100%; text-align: right">-- '+tempnote.name+' <span style="font-size: smaller; font-weight: 400">'+tempnote.branch+'</span></h6></div></div>';
 		$(noteHtml).appendTo(cellID)
 		.click({noteData: tempnote}, function(e) {
-						console.log(e.data.noteData);
+//						console.log(e.data.noteData);
 						findDisqusThread(parseInt(e.data.noteData.created));
 						var likesc = 0;
 						var commentsc = 0;
@@ -763,11 +794,11 @@ function nextClick(){
 		.css({'display' : 'flex'});
 	}
 	else if(tempnote.videoURL){
-		console.log('vidd');
+//		console.log('vidd');
 		noteHtml = '<iframe class="modalcard" src="'+embed(tempnote.videoURL)+'" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe><div class="modalcard text-element" style="bottom: -30%"><p>'+tempnote.text+'</p><h6 style="text-align: right;">-- '+tempnote.name+' <span style="font-size: smaller; font-weight: 400">'+tempnote.branch+'</span></h6></div></div>';
 		$(noteHtml).appendTo(cellID)
 		.click({noteData: tempnote}, function(e) {
-						console.log(e.data.noteData);
+//						console.log(e.data.noteData);
 						findDisqusThread(parseInt(e.data.noteData.created));
 						var likesc = 0;
 						var commentsc = 0;
@@ -788,11 +819,11 @@ function nextClick(){
 					});
 	}
 	else {
-		console.log('notee');
+//		console.log('notee');
 		noteHtml = '<div class="modalcard note text-note" style="background-color: '+getRandomColor()+'"><h2 style="text-align: center">'+tempnote.text+'</h2><h6 style="text-align: right; width: 100%">-- '+tempnote.name+' <span style="font-size: smaller; font-weight: 400">'+tempnote.branch+'</span></h6></div>';
 		$(noteHtml).appendTo(cellID)
 		.click({noteData: tempnote}, function(e) {
-						console.log(e.data.noteData);
+//						console.log(e.data.noteData);
 						findDisqusThread(parseInt(e.data.noteData.created));
 						var likesc = 0;
 						var commentsc = 0;

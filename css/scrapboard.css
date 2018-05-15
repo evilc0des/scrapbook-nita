@@ -2,12 +2,16 @@
 	/*display: flex;
 	flex-direction: column;*/
 	position: absolute;
-	width: 1820px;
-	height: 100vh;
-	top: 0;
+	height: 60vh;
+	width: 96vw;
+	top: 22vh;
+	bottom: 18vh;
 	left: 0;
 	justify-content: space-around;
 	align-items: center;
+	overflow: hidden;
+	border: 5px solid #7a5e3a;
+	margin: 0vh 2vw 0vh 2vw;
 }
 .scrap-board-row {
 	width: 100%;
@@ -19,20 +23,16 @@
 
 .note {
 	float: left;
-	margin-right: 10px;
 	position: relative;
-	padding-top: 10px;
-	padding-bottom: 10px;
-	width: 300px;
-	min-height: 200px;
+	width: 20vw;
+	height: 35vh;
 	background-color: white;
 	display: flex;
 	flex-direction: column;
 	justify-content: center;
 	align-items: center;
 	overflow: hidden;
-	margin-bottom: 20px;
-	margin-top: 20px;
+	border: 2px solid;
 }
 
 .image-note{
@@ -50,13 +50,12 @@
 	width: 94%;
 }
 
-
-.img-element img {
+.img-element img{
 	width: 100%;
 }
 
+
 .video-element{
-	width: 100%;
 }
 
 .text-element {
