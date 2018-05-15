@@ -24,7 +24,7 @@ var marginU;
 var marginB;
 var lastIndex = 0;
 
-var itemsPerBoard = 27;
+var itemsPerBoard = 18;
 var noOfBoards = 1;
 var displayBoard = 1;
 
@@ -225,9 +225,16 @@ $(document).ready(function(e) {
 		$(currBoard).hide();	
 		displayBoard++;
 		if(displayBoard == noOfBoards)
+		{
 			$(".nextbtn").addClass('disabled');
+			$(".nextbtn").css({'cursor':'auto'});
+		}
 		if(displayBoard == 2)
+		{
 			$(".prevbtn").removeClass('disabled');
+			$(".prevbtn").css({'cursor':'pointer'});
+
+		}
 		currBoard = "#board" + displayBoard + ".scrap-board";
 		$(currBoard).show();
 		}
@@ -240,14 +247,20 @@ $(document).ready(function(e) {
 		$(currBoard).hide();	
 		displayBoard--;
 		if(displayBoard == 1)
+		{
 			$(".prevbtn").addClass('disabled');
+			$(".prevbtn").css({'cursor':'auto'});
+
+		}
 		if(displayBoard == noOfBoards - 1)
+		{
 			$(".nextbtn").removeClass('disabled');
+			$(".nextbtn").css({'cursor':'pointer'});
+		}
 		currBoard = "#board" + displayBoard + ".scrap-board";
 		$(currBoard).show();
 		}
 	});
-
 
 	$("#footer-navbar").mouseenter(function(e) {
 		TweenMax.to( "#footer-navbar", 0.6, {bottom: "0", ease:Power2.easeInOut});
@@ -375,24 +388,31 @@ var updateView = function(notes) {
 		console.log(marginR);
 */
 	//	TweenMax.staggerFrom(".note",2,{opacity: 0}, 2);
-		noteHeight = 25;
-		noteWidth = 10;
+		noteHeight = 26;
+		noteWidth = 14;
 		marginU = 2;
-		marginL = 1;
+		marginL = 2;
 
 		noOfBoards = Math.ceil(totnotes/itemsPerBoard);
+		if(noOfBoards <= 1)
+		{
+			$(".nextbtn").addClass('disabled');
+			$(".nextbtn").css({'cursor':'auto'});
+		}
 		var noteHtml;
 		var note;
 		var currBoard; 	
 		for(var i = lastIndex ; i < totnotes ; i++){
 			noteHtml = '';
-			note = notes[i];
+			note = notes[0];
 			currBoard = "#board" + Math.ceil((i+1)/itemsPerBoard) + ".scrap-board";
 			if(i != 0 && i % itemsPerBoard == 0)
 			{
-				$("body,html").append('<div id="board' + Math.ceil((i+1)/itemsPerBoard) + '" class="scrap-board"></div>');
+				$(".scrapboards").append('<div id="board' + Math.ceil((i+1)/itemsPerBoard) + '" class="scrap-board"></div>');
 				$(currBoard).hide();
 				console.log(currBoard);
+				if(i == itemsPerBoard)
+					$(".nextbtn").css({'cursor':'pointer'});
 			}
 	//		console.log(note.imageURL);
 	//		console.log('Bridge');
@@ -432,7 +452,7 @@ var updateView = function(notes) {
 			}
 			else if(note.videoURL){
 				noteHtml = '<div class="note video-note"><div class="video-element"><iframe src="'+embed(note.videoURL)+'" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe></div><div class="text-element"><p>'+note.text+'</p><h6 style="text-align: right;">-- '+note.name+' <span style="font-size: smaller; font-weight: 400">'+note.branch+'</span></h6></div></div>';
-				$(noteHtml).appendTo(".scrap-board")
+				$(noteHtml).appendTo(currBoard)
 				.mouseenter(function(e) {
 					TweenMax.to( $(this).find('.text-element'), 0.5, {bottom: "0", ease:Power2.easeInOut});
 				})
@@ -464,7 +484,7 @@ var updateView = function(notes) {
 			}
 			else {
 				noteHtml = '<div class="note text-note"><span id="noteText">'+note.text+'</span><span style="text-align: right; width: 100%">-- '+note.name+'</span><span style="font-size: smaller; font-weight: 400">'+note.branch+'</span></div>';
-				$(noteHtml).appendTo(".scrap-board")
+				$(noteHtml).appendTo(currBoard)
 				.click({noteData: note}, function(e) {
 	//				console.log(e.data.noteData);
 					findDisqusThread(parseInt(e.data.noteData.created));
