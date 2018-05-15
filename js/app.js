@@ -431,8 +431,9 @@ var updateView = function(notes) {
 				renderedElem++;
 			}
 			else if(note.videoURL){
-				noteHtml = '<div class="note video-note"><div class="video-element"><iframe src="'+embed(note.videoURL)+'" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe></div><div class="text-element"><p>'+note.text+'</p><h6 style="text-align: right;">-- '+note.name+' <span style="font-size: smaller; font-weight: 400">'+note.branch+'</span></h6></div></div>';
-				$(noteHtml).appendTo(".scrap-board")
+				// noteHtml = '<div class="note video-note"><div class="video-element"><iframe src="'+embed(note.videoURL)+'" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe></div><div class="text-element"><p>'+note.text+'</p><h6 style="text-align: right;">-- '+note.name+' <span style="font-size: smaller; font-weight: 400">'+note.branch+'</span></h6></div></div>';
+				noteHtml = '<div class="note video-note" style="background-image: url('+"https://img.youtube.com/vi/"+getYoutubeId(note.videoURL)+"/0.jpg"+');background-size: cover;background-repeat: no-repeat; background-position: center;"'+'><div class="video-element"><img style="width:50%;height:50%;display:block;margin:auto;" src="assets/playbutton.png"></div><div class="text-element"><p>'+note.text+'</p><h6 style="text-align: right;">-- '+note.name+' <span style="font-size: smaller; font-weight: 400">'+note.branch+'</span></h6></div></div>';
+				$(noteHtml).appendTo(currBoard)
 				.mouseenter(function(e) {
 					TweenMax.to( $(this).find('.text-element'), 0.5, {bottom: "0", ease:Power2.easeInOut});
 				})
@@ -464,7 +465,7 @@ var updateView = function(notes) {
 			}
 			else {
 				noteHtml = '<div class="note text-note"><span id="noteText">'+note.text+'</span><span style="text-align: right; width: 100%">-- '+note.name+'</span><span style="font-size: smaller; font-weight: 400">'+note.branch+'</span></div>';
-				$(noteHtml).appendTo(".scrap-board")
+				$(noteHtml).appendTo(currBoard)
 				.click({noteData: note}, function(e) {
 	//				console.log(e.data.noteData);
 					findDisqusThread(parseInt(e.data.noteData.created));
@@ -561,6 +562,17 @@ function findDisqusThread(id){
 	.catch(function (error) {
 //		console.log(error);
 	});
+}
+
+function getYoutubeId(url){
+var regExp = /^.*(youtu\.be\/|v\/|u\/\w\/|embed\/|watch\?v=|\&v=)([^#\&\?]*).*/;
+var match = url.match(regExp);
+if (match && match[2].length == 11) {
+  return match[2];
+} else {
+  return url; 
+}
+
 }
 
 
