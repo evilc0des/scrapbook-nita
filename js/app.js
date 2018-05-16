@@ -886,14 +886,16 @@ function nextClick(){
 }
 
 function dynamicUpdate(xi,notes) {
-	if (x.matches) { //Mobile-Site
+	if (xi.matches) { //Mobile-Site
 		console.log("In mobile site");
 		if(firstTimeMob == 0)
 			$("#board" + 0 + ".scrap-board").show();
-	else
+		else
 		firstTimeMob = 0;
-	if(firstTimeDesk == 0)
-		$("#board" + displayBoard + ".scrap-board").hide();
+		if(firstTimeDesk == 0)
+			$("#board" + displayBoard + ".scrap-board").hide();
+		console.log(notes);
+		console.log(currNotesMob);
 		if(currNotesMob.length !== notes.length) {
 			var totnotes = notes.length;	
 			noteHeight = 25;
@@ -903,12 +905,13 @@ function dynamicUpdate(xi,notes) {
 			var noteHtml;
 			var note;
 			for(var i = lastIndexMob ; i < totnotes ; i++){
+				console.log("I am here "+i);
 				noteHtml = '';
 				note = notes[i];
 				lastIndexMob++;
 				if(note.imageURL){
 					noteHtml = '<div class="note image-note"><div class="img-element"><img src="'+note.imageURL+'"></div><div class="text-element"><p>'+note.text+'</p><h6 style="text-align: right;">-- '+note.name+' <span style="font-size: smaller; font-weight: 400">'+note.branch+'</span></h6></div></div>';
-					noteHtml.appendTo("#board" + 0 + ".scrap-board")
+					$(noteHtml).appendTo("#board0.scrap-board")
 					.mouseenter(function(e) {
 					TweenMax.to( $(this).find('.text-element'), 0.5, {bottom: "0", ease:Power2.easeInOut});
 					})
@@ -941,7 +944,7 @@ function dynamicUpdate(xi,notes) {
 				else if(note.videoURL){
 					// noteHtml = '<div class="note video-note"><div class="video-element"><iframe src="'+embed(note.videoURL)+'" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe></div><div class="text-element"><p>'+note.text+'</p><h6 style="text-align: right;">-- '+note.name+' <span style="font-size: smaller; font-weight: 400">'+note.branch+'</span></h6></div></div>';
 					noteHtml = '<div class="note video-note" style="background-image: url('+"https://img.youtube.com/vi/"+getYoutubeId(note.videoURL)+"/0.jpg"+');background-size: cover;background-repeat: no-repeat; background-position: center;"'+'><div class="video-element"><img style="width:50%;height:50%;display:block;margin:auto;" src="assets/playbutton.png"></div><div class="text-element"><p>'+note.text+'</p><h6 style="text-align: right;">-- '+note.name+' <span style="font-size: smaller; font-weight: 400">'+note.branch+'</span></h6></div></div>';
-					noteHtml.appendTo("#board" + 0 + ".scrap-board")
+					$(noteHtml).appendTo("#board" + 0 + ".scrap-board")
 					.mouseenter(function(e) {
 						TweenMax.to( $(this).find('.text-element'), 0.5, {bottom: "0", ease:Power2.easeInOut});
 					})
@@ -972,8 +975,10 @@ function dynamicUpdate(xi,notes) {
 					renderedElem++;
 				}
 				else {
+					console.log(note);
 					noteHtml = '<div class="note text-note"><span id="noteText">'+note.text+'</span><span style="text-align: right; width: 100%">-- '+note.name+'</span><span style="font-size: smaller; font-weight: 400">'+note.branch+'</span></div>';
-					noteHtml.appendTo("#board" + 0 + ".scrap-board")
+					console.log(noteHtml);
+					$(noteHtml).appendTo($("#board0.scrap-board"))
 					.click({noteData: note}, function(e) {
 		//				console.log(e.data.noteData);
 						findDisqusThread(parseInt(e.data.noteData.created));
