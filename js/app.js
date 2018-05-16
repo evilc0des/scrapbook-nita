@@ -409,7 +409,7 @@ var updateView = function(notes) {
 		var currBoard; 	
 		for(var i = lastIndex ; i < totnotes ; i++){
 			noteHtml = '';
-			note = notes[0];
+			note = notes[i];
 			currBoard = "#board" + Math.ceil((i+1)/itemsPerBoard) + ".scrap-board";
 			if(i != 0 && i % itemsPerBoard == 0)
 			{
@@ -1059,7 +1059,7 @@ function dynamicUpdate(xi,notes) {
 				var currBoard; 	
 				for(var i = lastIndexDesk ; i < totnotes ; i++){
 					noteHtml = '';
-					note = notes[0];
+					note = notes[i];
 					currBoard = "#board" + Math.ceil((i+1)/itemsPerBoard) + ".scrap-board";
 					if(i != 0 && i % itemsPerBoard == 0)
 					{
