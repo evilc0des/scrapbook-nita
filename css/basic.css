@@ -396,3 +396,21 @@ html.modal-active, body.modal-active {
 	height: 18vh;
 	width: 80vw;
 }
+
+
+
+@media only screen and (max-width: 600px) {
+
+	.lazy{
+		display: none;
+	}
+
+	.prevbtn{
+		display:none;
+	}
+
+	.nextbtn{
+		display:none;
+	}
+
+}
