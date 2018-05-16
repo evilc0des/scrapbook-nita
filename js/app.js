@@ -10,8 +10,10 @@ var threadInf = -1;
 
 var currcellPos = 0;
 var carouselNotes = [];
-var currNotes = [];
-
+var currNotesDesk = [];
+var currNotesMob = [];
+var firstTimeDesk = 1;
+var firstTimeMob = 1;
 var rows;
 var cols;
 var totHeight;
@@ -22,9 +24,10 @@ var marginR;
 var marginL;
 var marginU;
 var marginB;
-var lastIndex = 0;
+var lastIndexDesk = 0;
+var lastIndexMob = 0;
 
-var itemsPerBoard = 27;
+var itemsPerBoard = 18;
 var noOfBoards = 1;
 var displayBoard = 1;
 
@@ -34,6 +37,8 @@ var body = document.querySelector("body");
 //var zoomed = false;
 
 var renderedElem = 0;
+
+var x;
 
 $(document).ready(function(e) {
 
@@ -187,7 +192,7 @@ $(document).ready(function(e) {
 				    	imgUrl = null;
 				       	var notes = currNotes.slice();
 				    	notes.push(response.data.d);
-				    	updateView(notes);
+				    	fetchNotes(x);
 				    	swal("Great!", "You have added your note!", "success");
 			    	}
 				})
@@ -205,13 +210,11 @@ $(document).ready(function(e) {
   		}
   	});	
 
-	fetchNotes();
-
 	$('.lazy').click(function(){
 	genModal();
 	});
 
-	var noteFetchInterval = window.setInterval(fetchNotes, 30000);
+	var noteFetchInterval = window.setInterval(fetchNotes(x), 30000);
 
 	setTimeout(function(){ 
 	//	console.log($("#footer-navbar").outerHeight());
@@ -225,9 +228,16 @@ $(document).ready(function(e) {
 		$(currBoard).hide();	
 		displayBoard++;
 		if(displayBoard == noOfBoards)
+		{
 			$(".nextbtn").addClass('disabled');
+			$(".nextbtn").css({'cursor':'auto'});
+		}
 		if(displayBoard == 2)
+		{
 			$(".prevbtn").removeClass('disabled');
+			$(".prevbtn").css({'cursor':'pointer'});
+
+		}
 		currBoard = "#board" + displayBoard + ".scrap-board";
 		$(currBoard).show();
 		}
@@ -240,14 +250,20 @@ $(document).ready(function(e) {
 		$(currBoard).hide();	
 		displayBoard--;
 		if(displayBoard == 1)
+		{
 			$(".prevbtn").addClass('disabled');
+			$(".prevbtn").css({'cursor':'auto'});
+
+		}
 		if(displayBoard == noOfBoards - 1)
+		{
 			$(".nextbtn").removeClass('disabled');
+			$(".nextbtn").css({'cursor':'pointer'});
+		}
 		currBoard = "#board" + displayBoard + ".scrap-board";
 		$(currBoard).show();
 		}
 	});
-
 
 	$("#footer-navbar").mouseenter(function(e) {
 		TweenMax.to( "#footer-navbar", 0.6, {bottom: "0", ease:Power2.easeInOut});
@@ -325,14 +341,16 @@ var checkSendValidity = function(){
 }
 
 
-var fetchNotes = function() {
+var fetchNotes = function(xi) {
 	axios.get('http://localhost:3000/notes/fetch')
 	.then(function (response) {
 	//    console.log(response);
 
 	    if(response.data.s == 'p'){
-	    	var notes = response.data.notes;
-	    	updateView(notes);
+			var notes = response.data.notes;
+			console.log("notes-fetched");
+			//updateView(notes);
+			dynamicUpdate(xi,notes);
 	    }
 	})
 	.catch(function (error) {
@@ -375,24 +393,31 @@ var updateView = function(notes) {
 		console.log(marginR);
 */
 	//	TweenMax.staggerFrom(".note",2,{opacity: 0}, 2);
-		noteHeight = 25;
-		noteWidth = 10;
+		noteHeight = 26;
+		noteWidth = 14;
 		marginU = 2;
-		marginL = 1;
+		marginL = 2;
 
 		noOfBoards = Math.ceil(totnotes/itemsPerBoard);
+		if(noOfBoards <= 1)
+		{
+			$(".nextbtn").addClass('disabled');
+			$(".nextbtn").css({'cursor':'auto'});
+		}
 		var noteHtml;
 		var note;
 		var currBoard; 	
 		for(var i = lastIndex ; i < totnotes ; i++){
 			noteHtml = '';
-			note = notes[i];
+			note = notes[0];
 			currBoard = "#board" + Math.ceil((i+1)/itemsPerBoard) + ".scrap-board";
 			if(i != 0 && i % itemsPerBoard == 0)
 			{
-				$("body,html").append('<div id="board' + Math.ceil((i+1)/itemsPerBoard) + '" class="scrap-board"></div>');
+				$(".scrapboards").append('<div id="board' + Math.ceil((i+1)/itemsPerBoard) + '" class="scrap-board"></div>');
 				$(currBoard).hide();
 				console.log(currBoard);
+				if(i == itemsPerBoard)
+					$(".nextbtn").css({'cursor':'pointer'});
 			}
 	//		console.log(note.imageURL);
 	//		console.log('Bridge');
@@ -431,8 +456,10 @@ var updateView = function(notes) {
 				renderedElem++;
 			}
 			else if(note.videoURL){
-				noteHtml = '<div class="note video-note"><div class="video-element"><iframe src="'+embed(note.videoURL)+'" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe></div><div class="text-element"><p>'+note.text+'</p><h6 style="text-align: right;">-- '+note.name+' <span style="font-size: smaller; font-weight: 400">'+note.branch+'</span></h6></div></div>';
-				$(noteHtml).appendTo(".scrap-board")
+				// noteHtml = '<div class="note video-note"><div class="video-element"><iframe src="'+embed(note.videoURL)+'" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe></div><div class="text-element"><p>'+note.text+'</p><h6 style="text-align: right;">-- '+note.name+' <span style="font-size: smaller; font-weight: 400">'+note.branch+'</span></h6></div></div>';
+				noteHtml = '<div class="note video-note" style="background-image: url('+"https://img.youtube.com/vi/"+getYoutubeId(note.videoURL)+"/0.jpg"+');background-size: cover;background-repeat: no-repeat; background-position: center;"'+'><div class="video-element"><img style="width:50%;height:50%;display:block;margin:auto;" src="assets/playbutton.png"></div><div class="text-element"><p>'+note.text+'</p><h6 style="text-align: right;">-- '+note.name+' <span style="font-size: smaller; font-weight: 400">'+note.branch+'</span></h6></div></div>';
+
+				$(noteHtml).appendTo(currBoard)
 				.mouseenter(function(e) {
 					TweenMax.to( $(this).find('.text-element'), 0.5, {bottom: "0", ease:Power2.easeInOut});
 				})
@@ -464,7 +491,7 @@ var updateView = function(notes) {
 			}
 			else {
 				noteHtml = '<div class="note text-note"><span id="noteText">'+note.text+'</span><span style="text-align: right; width: 100%">-- '+note.name+'</span><span style="font-size: smaller; font-weight: 400">'+note.branch+'</span></div>';
-				$(noteHtml).appendTo(".scrap-board")
+				$(noteHtml).appendTo(currBoard)
 				.click({noteData: note}, function(e) {
 	//				console.log(e.data.noteData);
 					findDisqusThread(parseInt(e.data.noteData.created));
@@ -561,6 +588,17 @@ function findDisqusThread(id){
 	.catch(function (error) {
 //		console.log(error);
 	});
+}
+
+function getYoutubeId(url){
+var regExp = /^.*(youtu\.be\/|v\/|u\/\w\/|embed\/|watch\?v=|\&v=)([^#\&\?]*).*/;
+var match = url.match(regExp);
+if (match && match[2].length == 11) {
+  return match[2];
+} else {
+  return url; 
+}
+
 }
 
 
@@ -847,5 +885,289 @@ function nextClick(){
   	//console.log("Current contents: " + carouselNotes);
 }
 
+function dynamicUpdate(xi,notes) {
+	if (x.matches) { //Mobile-Site
+		console.log("In mobile site");
+		if(firstTimeMob == 0)
+			$("#board" + 0 + ".scrap-board").show();
+	else
+		firstTimeMob = 0;
+	if(firstTimeDesk == 0)
+		$("#board" + displayBoard + ".scrap-board").hide();
+		if(currNotesMob.length !== notes.length) {
+			var totnotes = notes.length;	
+			noteHeight = 25;
+			noteWidth = 10;
+			marginU = 2;
+			marginL = 1;
+			var noteHtml;
+			var note;
+			for(var i = lastIndexMob ; i < totnotes ; i++){
+				noteHtml = '';
+				note = notes[i];
+				lastIndexMob++;
+				if(note.imageURL){
+					noteHtml = '<div class="note image-note"><div class="img-element"><img src="'+note.imageURL+'"></div><div class="text-element"><p>'+note.text+'</p><h6 style="text-align: right;">-- '+note.name+' <span style="font-size: smaller; font-weight: 400">'+note.branch+'</span></h6></div></div>';
+					noteHtml.appendTo("#board" + 0 + ".scrap-board")
+					.mouseenter(function(e) {
+					TweenMax.to( $(this).find('.text-element'), 0.5, {bottom: "0", ease:Power2.easeInOut});
+					})
+					.mouseleave(function(e) {
+					TweenMax.to($(this).find('.text-element'), 0.5, {bottom: "-50%", ease:Power2.easeInOut});
+					})
+					.click({noteData: note}, function(e) {
+		//			console.log(e.data.noteData);
+					findDisqusThread(parseInt(e.data.noteData.created));
+					var likesc = 0;
+					var commentsc = 0;
+					var data = {
+					name: e.data.noteData.name,
+					branch: e.data.noteData.branch,
+					text: e.data.noteData.text,
+					time: getTimeString(parseInt(e.data.noteData.created)),
+					actualTime: parseInt(e.data.noteData.created),
+					imgUrl: e.data.noteData.imageURL,
+					commentsCount: commentsc,
+					likesCount: likesc
+					}
+					var template = $('#image-note-view-template').html();
+					var compiledTemplate = Handlebars.compile(template);
+					var result = compiledTemplate(data);
+					$.featherlight(result);
+					})
+					.css( {'display' : 'flex'});
+					renderedElem++;
+				}
+				else if(note.videoURL){
+					// noteHtml = '<div class="note video-note"><div class="video-element"><iframe src="'+embed(note.videoURL)+'" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe></div><div class="text-element"><p>'+note.text+'</p><h6 style="text-align: right;">-- '+note.name+' <span style="font-size: smaller; font-weight: 400">'+note.branch+'</span></h6></div></div>';
+					noteHtml = '<div class="note video-note" style="background-image: url('+"https://img.youtube.com/vi/"+getYoutubeId(note.videoURL)+"/0.jpg"+');background-size: cover;background-repeat: no-repeat; background-position: center;"'+'><div class="video-element"><img style="width:50%;height:50%;display:block;margin:auto;" src="assets/playbutton.png"></div><div class="text-element"><p>'+note.text+'</p><h6 style="text-align: right;">-- '+note.name+' <span style="font-size: smaller; font-weight: 400">'+note.branch+'</span></h6></div></div>';
+					noteHtml.appendTo("#board" + 0 + ".scrap-board")
+					.mouseenter(function(e) {
+						TweenMax.to( $(this).find('.text-element'), 0.5, {bottom: "0", ease:Power2.easeInOut});
+					})
+					.mouseleave(function(e) {
+						TweenMax.to($(this).find('.text-element'), 0.5, {bottom: "-50%", ease:Power2.easeInOut});
+					})
+					.click({noteData: note}, function(e) {
+		//				console.log(e.data.noteData);
+						findDisqusThread(parseInt(e.data.noteData.created));
+						var likesc = 0;
+						var commentsc = 0;
+						var data = {
+							name: e.data.noteData.name,
+							branch: e.data.noteData.branch,
+							text: e.data.noteData.text,
+							time: getTimeString(parseInt(e.data.noteData.created)),
+							actualTime: parseInt(e.data.noteData.created),
+							videoUrl: embed(e.data.noteData.videoURL),
+							commentsCount: commentsc ,
+							likesCount: likesc
+						}
+						var template = $('#video-note-view-template').html();
+						var compiledTemplate = Handlebars.compile(template);
+						var result = compiledTemplate(data);
+						$.featherlight(result);
+					})
+					.css({ 'display' : 'flex'});
+					renderedElem++;
+				}
+				else {
+					noteHtml = '<div class="note text-note"><span id="noteText">'+note.text+'</span><span style="text-align: right; width: 100%">-- '+note.name+'</span><span style="font-size: smaller; font-weight: 400">'+note.branch+'</span></div>';
+					noteHtml.appendTo("#board" + 0 + ".scrap-board")
+					.click({noteData: note}, function(e) {
+		//				console.log(e.data.noteData);
+						findDisqusThread(parseInt(e.data.noteData.created));
+						var likesc = 0;
+						var commentsc = 0;
+						var data = {
+							name: e.data.noteData.name,
+							branch: e.data.noteData.branch,
+							text: e.data.noteData.text,
+							time: getTimeString(parseInt(e.data.noteData.created)),
+							actualTime: parseInt(e.data.noteData.created),
+							commentsCount: commentsc,
+							likesCount: likesc
+						}
+						var template = $('#text-note-view-template').html();
+						var compiledTemplate = Handlebars.compile(template);
+						var result = compiledTemplate(data);
+						$.featherlight(result);
+					})
+					.css({'background' : getRandomColor(), 'display' : 'flex'});
+					renderedElem++;
+				}
+			}
+			$(".note").css({'height': noteHeight+'%', 'width': noteWidth+'%', 'margin-top': marginU+'%', 'margin-left': marginL+'%'});
+			$("#noteText").css({'font-size' : '0.1vw'});
+			$("#noteText").css({'font-size' : '0.1vw'});
+			$("#noteText").css({'font-size' : '0.1vw'});
+	
+			currNotesMob = notes;
+		}
+	} else { //Desktop -SITE
+		console.log("In Desktop Site");
+		if(firstTimeDesk == 0)
+			$("#board" + displayBoard + ".scrap-board").show();
+		else
+			firstTimeDesk = 0;
+		if(firstTimeMob == 0)
+			$("#board" + 0 + ".scrap-board").hide();
+		if(currNotesDesk.length !== notes.length) {
+			//$(".scrap-board").html("");
+	
+			/*--
+			* Infinity View Implementation
+			*
+			*/
+			var totnotes = notes.length;	
+			/*
+			cols = Math.ceil(Math.pow(totnotes,0.67));
+			rows = Math.ceil(totnotes/cols);
+			totHeight = Math.ceil(90/rows);
+			totWidth = Math.ceil(100/cols);
+			noteHeight = 0.9 * totHeight;
+			noteWidth = 0.9 * totWidth;
+			marginU = 0.05 * totHeight;
+			marginL = 0.05 * totWidth;
+	
+			console.log(totnotes);
+			console.log(cols);
+			console.log(rows);
+			console.log(totHeight);
+			console.log(totWidth);
+			console.log(noteHeight);
+			console.log(noteWidth);
+			console.log(marginU);
+			console.log(marginB);
+			console.log(marginL);
+			console.log(marginR);
+	*/
+		//	TweenMax.staggerFrom(".note",2,{opacity: 0}, 2);
+			noteHeight = 25;
+			noteWidth = 10;
+			marginU = 2;
+			marginL = 1;
+	
+			noOfBoards = Math.ceil(totnotes/itemsPerBoard);
+			var noteHtml;
+			var note;
+			var currBoard; 	
+			for(var i = lastIndexDesk ; i < totnotes ; i++){
+				noteHtml = '';
+				note = notes[i];
+				currBoard = "#board" + Math.ceil((i+1)/itemsPerBoard) + ".scrap-board";
+				if(i != 0 && i % itemsPerBoard == 0)
+				{
+					$("body,html").append('<div id="board' + Math.ceil((i+1)/itemsPerBoard) + '" class="scrap-board"></div>');
+					$(currBoard).hide();
+					console.log(currBoard);
+				}
+		//		console.log(note.imageURL);
+		//		console.log('Bridge');
+		//		console.log(note.videoURL);
+				lastIndexDesk++;
+				if(note.imageURL){
+					noteHtml = '<div class="note image-note"><div class="img-element"><img src="'+note.imageURL+'"></div><div class="text-element"><p>'+note.text+'</p><h6 style="text-align: right;">-- '+note.name+' <span style="font-size: smaller; font-weight: 400">'+note.branch+'</span></h6></div></div>';
+					$(noteHtml).appendTo(currBoard)
+					.mouseenter(function(e) {
+					TweenMax.to( $(this).find('.text-element'), 0.5, {bottom: "0", ease:Power2.easeInOut});
+					})
+					.mouseleave(function(e) {
+					TweenMax.to($(this).find('.text-element'), 0.5, {bottom: "-50%", ease:Power2.easeInOut});
+					})
+					.click({noteData: note}, function(e) {
+		//			console.log(e.data.noteData);
+					findDisqusThread(parseInt(e.data.noteData.created));
+					var likesc = 0;
+					var commentsc = 0;
+					var data = {
+					name: e.data.noteData.name,
+					branch: e.data.noteData.branch,
+					text: e.data.noteData.text,
+					time: getTimeString(parseInt(e.data.noteData.created)),
+					actualTime: parseInt(e.data.noteData.created),
+					imgUrl: e.data.noteData.imageURL,
+					commentsCount: commentsc,
+					likesCount: likesc
+					}
+					var template = $('#image-note-view-template').html();
+					var compiledTemplate = Handlebars.compile(template);
+					var result = compiledTemplate(data);
+					$.featherlight(result);
+					})
+					.css({'transform' : 'rotate('+ Math.floor(Math.random() * Math.floor(20) * (Math.round(Math.random()) * 2 - 1)) +'deg)', 'display' : 'flex'});
+					renderedElem++;
+				}
+				else if(note.videoURL){
+					// noteHtml = '<div class="note video-note"><div class="video-element"><iframe src="'+embed(note.videoURL)+'" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe></div><div class="text-element"><p>'+note.text+'</p><h6 style="text-align: right;">-- '+note.name+' <span style="font-size: smaller; font-weight: 400">'+note.branch+'</span></h6></div></div>';
+					noteHtml = '<div class="note video-note" style="background-image: url('+"https://img.youtube.com/vi/"+getYoutubeId(note.videoURL)+"/0.jpg"+');background-size: cover;background-repeat: no-repeat; background-position: center;"'+'><div class="video-element"><img style="width:50%;height:50%;display:block;margin:auto;" src="assets/playbutton.png"></div><div class="text-element"><p>'+note.text+'</p><h6 style="text-align: right;">-- '+note.name+' <span style="font-size: smaller; font-weight: 400">'+note.branch+'</span></h6></div></div>';
+					$(noteHtml).appendTo(currBoard)
+					.mouseenter(function(e) {
+						TweenMax.to( $(this).find('.text-element'), 0.5, {bottom: "0", ease:Power2.easeInOut});
+					})
+					.mouseleave(function(e) {
+						TweenMax.to($(this).find('.text-element'), 0.5, {bottom: "-50%", ease:Power2.easeInOut});
+					})
+					.click({noteData: note}, function(e) {
+		//				console.log(e.data.noteData);
+						findDisqusThread(parseInt(e.data.noteData.created));
+						var likesc = 0;
+						var commentsc = 0;
+						var data = {
+							name: e.data.noteData.name,
+							branch: e.data.noteData.branch,
+							text: e.data.noteData.text,
+							time: getTimeString(parseInt(e.data.noteData.created)),
+							actualTime: parseInt(e.data.noteData.created),
+							videoUrl: embed(e.data.noteData.videoURL),
+							commentsCount: commentsc ,
+							likesCount: likesc
+						}
+						var template = $('#video-note-view-template').html();
+						var compiledTemplate = Handlebars.compile(template);
+						var result = compiledTemplate(data);
+						$.featherlight(result);
+					})
+					.css({'transform' : 'rotate('+ Math.floor(Math.random() * Math.floor(20) * (Math.round(Math.random()) * 2 - 1)) +'deg)', 'display' : 'flex'});
+					renderedElem++;
+				}
+				else {
+					noteHtml = '<div class="note text-note"><span id="noteText">'+note.text+'</span><span style="text-align: right; width: 100%">-- '+note.name+'</span><span style="font-size: smaller; font-weight: 400">'+note.branch+'</span></div>';
+					$(noteHtml).appendTo(currBoard)
+					.click({noteData: note}, function(e) {
+		//				console.log(e.data.noteData);
+						findDisqusThread(parseInt(e.data.noteData.created));
+						var likesc = 0;
+						var commentsc = 0;
+						var data = {
+							name: e.data.noteData.name,
+							branch: e.data.noteData.branch,
+							text: e.data.noteData.text,
+							time: getTimeString(parseInt(e.data.noteData.created)),
+							actualTime: parseInt(e.data.noteData.created),
+							commentsCount: commentsc,
+							likesCount: likesc
+						}
+						var template = $('#text-note-view-template').html();
+						var compiledTemplate = Handlebars.compile(template);
+						var result = compiledTemplate(data);
+						$.featherlight(result);
+					})
+					.css({'transform' : 'rotate('+ Math.floor(Math.random() * Math.floor(20) * (Math.round(Math.random()) * 2 - 1)) +'deg)', 'background' : getRandomColor(), 'display' : 'flex'});
+					renderedElem++;
+				}
+			}
+			$(".note").css({'height': noteHeight+'%', 'width': noteWidth+'%', 'margin-top': marginU+'%', 'margin-left': marginL+'%'});
+			$("#noteText").css({'font-size' : '0.1vw'});
+			$("#noteText").css({'font-size' : '0.1vw'});
+			$("#noteText").css({'font-size' : '0.1vw'});
+	
+			currNotesDesk = notes;
+		}
+    }
+}
 
+x = window.matchMedia("(max-width: 600px)");
+fetchNotes(x);
+x.addListener(fetchNotes);
 

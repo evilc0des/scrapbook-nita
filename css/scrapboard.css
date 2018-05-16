@@ -3,7 +3,7 @@
 	flex-direction: column;*/
 	position: absolute;
 	height: 60vh;
-	width: 96vw;
+	width: 80vw;
 	top: 22vh;
 	bottom: 18vh;
 	left: 0;
@@ -11,7 +11,7 @@
 	align-items: center;
 	overflow: hidden;
 	border: 5px solid #7a5e3a;
-	margin: 0vh 2vw 0vh 2vw;
+	margin: 0vh 10vw 0vh 10vw;
 }
 .scrap-board-row {
 	width: 100%;
@@ -19,7 +19,6 @@
 	align-items: center;
 	justify-content: center;
 }
-
 
 .note {
 	float: left;
@@ -32,6 +31,10 @@
 	justify-content: center;
 	align-items: center;
 	overflow: hidden;
+	cursor: pointer;
+}
+
+.scrap-board .note{
 	border: 2px solid;
 }
 
@@ -165,4 +168,40 @@
 	display: flex;
 	background-color: black;
 	align-items: center;
+}
+
+#board0{
+	display: none;
+}
+
+#board1{
+	display: inline-block;
+}
+
+@media only screen and (max-width: 600px) {
+	.scrap-board {
+		/*display: flex;
+		flex-direction: column;*/
+		width: 90%;
+		height: auto;
+		justify-content: space-around;
+		align-items: center;
+		overflow: hidden;
+		border: 5px solid #7a5e3a;
+		display: inline-block;
+		margin-left: 5%;
+		margin-right: 5%;
+		margin-bottom: 5%;
+	}
+	
+	
+	#board0{
+		display: inline-block;
+	}
+
+	#board1{
+		display: none;
+	}
+
+
 }

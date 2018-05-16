@@ -214,24 +214,6 @@ iframe{
 	padding: 0px 10px 0px 10px;
 }
 
-.lazy{
-	margin: 6vh 3vw 6vh 3vw;
-	width: 20vw;
-	cursor: pointer;
-}
-
-.prevbtn{
-	margin: 6vh 3vw 6vh 3vw;
-	width: 20vw;
-	cursor: pointer;
-}
-
-.nextbtn{
-	margin: 6vh 3vw 6vh 3vw;
-	width: 20vw;
-	cursor: pointer;
-}
-
 * { 
   box-sizing: border-box;
 }
@@ -395,4 +377,22 @@ html.modal-active, body.modal-active {
 	position: absolute;
 	height: 18vh;
 	width: 80vw;
+}
+
+
+
+@media only screen and (max-width: 600px) {
+
+	.lazy{
+		display: none;
+	}
+
+	.prevbtn{
+		display:none;
+	}
+
+	.nextbtn{
+		display:none;
+	}
+
 }
