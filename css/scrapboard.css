@@ -169,3 +169,39 @@
 	background-color: black;
 	align-items: center;
 }
+
+#board0{
+	display: none;
+}
+
+#board1{
+	display: inline-block;
+}
+
+@media only screen and (max-width: 600px) {
+	.scrap-board {
+		/*display: flex;
+		flex-direction: column;*/
+		width: 90%;
+		height: auto;
+		justify-content: space-around;
+		align-items: center;
+		overflow: hidden;
+		border: 5px solid #7a5e3a;
+		display: inline-block;
+		margin-left: 5%;
+		margin-right: 5%;
+		margin-bottom: 5%;
+	}
+	
+	
+	#board0{
+		display: inline-block;
+	}
+
+	#board1{
+		display: none;
+	}
+
+
+}

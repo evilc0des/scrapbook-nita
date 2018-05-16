@@ -379,20 +379,20 @@ html.modal-active, body.modal-active {
 	width: 80vw;
 }
 
-.lazy{
-	margin: 6vh 2vw 6vh 2vw;
-	width: 25vw;
-	cursor: pointer;
-}
 
-.prevbtn{
-	margin: 6vh 2vw 6vh 3vw;
-	width: 20vw;
-	cursor: auto;
-}
 
-.nextbtn{
-	margin: 6vh 2vw 6vh 2vw;
-	width: 20vw;
-	cursor: pointer;
+@media only screen and (max-width: 600px) {
+
+	.lazy{
+		display: none;
+	}
+
+	.prevbtn{
+		display:none;
+	}
+
+	.nextbtn{
+		display:none;
+	}
+
 }
