@@ -1012,158 +1012,166 @@ function dynamicUpdate(xi,notes) {
 			firstTimeDesk = 0;
 		if(firstTimeMob == 0)
 			$("#board" + 0 + ".scrap-board").hide();
-		if(currNotesDesk.length !== notes.length) {
-			//$(".scrap-board").html("");
-	
-			/*--
-			* Infinity View Implementation
-			*
-			*/
-			var totnotes = notes.length;	
-			/*
-			cols = Math.ceil(Math.pow(totnotes,0.67));
-			rows = Math.ceil(totnotes/cols);
-			totHeight = Math.ceil(90/rows);
-			totWidth = Math.ceil(100/cols);
-			noteHeight = 0.9 * totHeight;
-			noteWidth = 0.9 * totWidth;
-			marginU = 0.05 * totHeight;
-			marginL = 0.05 * totWidth;
-	
-			console.log(totnotes);
-			console.log(cols);
-			console.log(rows);
-			console.log(totHeight);
-			console.log(totWidth);
-			console.log(noteHeight);
-			console.log(noteWidth);
-			console.log(marginU);
-			console.log(marginB);
-			console.log(marginL);
-			console.log(marginR);
-	*/
-		//	TweenMax.staggerFrom(".note",2,{opacity: 0}, 2);
-			noteHeight = 25;
-			noteWidth = 10;
-			marginU = 2;
-			marginL = 1;
-	
-			noOfBoards = Math.ceil(totnotes/itemsPerBoard);
-			var noteHtml;
-			var note;
-			var currBoard; 	
-			for(var i = lastIndexDesk ; i < totnotes ; i++){
-				noteHtml = '';
-				note = notes[i];
-				currBoard = "#board" + Math.ceil((i+1)/itemsPerBoard) + ".scrap-board";
-				if(i != 0 && i % itemsPerBoard == 0)
+			if(currNotesDesk.length !== notes.length) {
+				//$(".scrap-board").html("");
+		
+				/*--
+				* Infinity View Implementation
+				*
+				*/
+				var totnotes = notes.length;	
+				/*
+				cols = Math.ceil(Math.pow(totnotes,0.67));
+				rows = Math.ceil(totnotes/cols);
+				totHeight = Math.ceil(90/rows);
+				totWidth = Math.ceil(100/cols);
+				noteHeight = 0.9 * totHeight;
+				noteWidth = 0.9 * totWidth;
+				marginU = 0.05 * totHeight;
+				marginL = 0.05 * totWidth;
+		
+				console.log(totnotes);
+				console.log(cols);
+				console.log(rows);
+				console.log(totHeight);
+				console.log(totWidth);
+				console.log(noteHeight);
+				console.log(noteWidth);
+				console.log(marginU);
+				console.log(marginB);
+				console.log(marginL);
+				console.log(marginR);
+		*/
+			//	TweenMax.staggerFrom(".note",2,{opacity: 0}, 2);
+				noteHeight = 26;
+				noteWidth = 14;
+				marginU = 2;
+				marginL = 2;
+		
+				noOfBoards = Math.ceil(totnotes/itemsPerBoard);
+				if(noOfBoards <= 1)
 				{
-					$("body,html").append('<div id="board' + Math.ceil((i+1)/itemsPerBoard) + '" class="scrap-board"></div>');
-					$(currBoard).hide();
-					console.log(currBoard);
+					$(".nextbtn").addClass('disabled');
+					$(".nextbtn").css({'cursor':'auto'});
 				}
-		//		console.log(note.imageURL);
-		//		console.log('Bridge');
-		//		console.log(note.videoURL);
-				lastIndexDesk++;
-				if(note.imageURL){
-					noteHtml = '<div class="note image-note"><div class="img-element"><img src="'+note.imageURL+'"></div><div class="text-element"><p>'+note.text+'</p><h6 style="text-align: right;">-- '+note.name+' <span style="font-size: smaller; font-weight: 400">'+note.branch+'</span></h6></div></div>';
-					$(noteHtml).appendTo(currBoard)
-					.mouseenter(function(e) {
-					TweenMax.to( $(this).find('.text-element'), 0.5, {bottom: "0", ease:Power2.easeInOut});
-					})
-					.mouseleave(function(e) {
-					TweenMax.to($(this).find('.text-element'), 0.5, {bottom: "-50%", ease:Power2.easeInOut});
-					})
-					.click({noteData: note}, function(e) {
-		//			console.log(e.data.noteData);
-					findDisqusThread(parseInt(e.data.noteData.created));
-					var likesc = 0;
-					var commentsc = 0;
-					var data = {
-					name: e.data.noteData.name,
-					branch: e.data.noteData.branch,
-					text: e.data.noteData.text,
-					time: getTimeString(parseInt(e.data.noteData.created)),
-					actualTime: parseInt(e.data.noteData.created),
-					imgUrl: e.data.noteData.imageURL,
-					commentsCount: commentsc,
-					likesCount: likesc
+				var noteHtml;
+				var note;
+				var currBoard; 	
+				for(var i = lastIndexDesk ; i < totnotes ; i++){
+					noteHtml = '';
+					note = notes[0];
+					currBoard = "#board" + Math.ceil((i+1)/itemsPerBoard) + ".scrap-board";
+					if(i != 0 && i % itemsPerBoard == 0)
+					{
+						$(".scrapboards").append('<div id="board' + Math.ceil((i+1)/itemsPerBoard) + '" class="scrap-board"></div>');
+						$(currBoard).hide();
+						console.log(currBoard);
+						if(i == itemsPerBoard)
+							$(".nextbtn").css({'cursor':'pointer'});
 					}
-					var template = $('#image-note-view-template').html();
-					var compiledTemplate = Handlebars.compile(template);
-					var result = compiledTemplate(data);
-					$.featherlight(result);
-					})
-					.css({'transform' : 'rotate('+ Math.floor(Math.random() * Math.floor(20) * (Math.round(Math.random()) * 2 - 1)) +'deg)', 'display' : 'flex'});
-					renderedElem++;
-				}
-				else if(note.videoURL){
-					// noteHtml = '<div class="note video-note"><div class="video-element"><iframe src="'+embed(note.videoURL)+'" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe></div><div class="text-element"><p>'+note.text+'</p><h6 style="text-align: right;">-- '+note.name+' <span style="font-size: smaller; font-weight: 400">'+note.branch+'</span></h6></div></div>';
-					noteHtml = '<div class="note video-note" style="background-image: url('+"https://img.youtube.com/vi/"+getYoutubeId(note.videoURL)+"/0.jpg"+');background-size: cover;background-repeat: no-repeat; background-position: center;"'+'><div class="video-element"><img style="width:50%;height:50%;display:block;margin:auto;" src="assets/playbutton.png"></div><div class="text-element"><p>'+note.text+'</p><h6 style="text-align: right;">-- '+note.name+' <span style="font-size: smaller; font-weight: 400">'+note.branch+'</span></h6></div></div>';
-					$(noteHtml).appendTo(currBoard)
-					.mouseenter(function(e) {
+			//		console.log(note.imageURL);
+			//		console.log('Bridge');
+			//		console.log(note.videoURL);
+					lastIndexDesk++;
+					if(note.imageURL){
+						noteHtml = '<div class="note image-note"><div class="img-element"><img src="'+note.imageURL+'"></div><div class="text-element"><p>'+note.text+'</p><h6 style="text-align: right;">-- '+note.name+' <span style="font-size: smaller; font-weight: 400">'+note.branch+'</span></h6></div></div>';
+						$(noteHtml).appendTo(currBoard)
+						.mouseenter(function(e) {
 						TweenMax.to( $(this).find('.text-element'), 0.5, {bottom: "0", ease:Power2.easeInOut});
-					})
-					.mouseleave(function(e) {
+						})
+						.mouseleave(function(e) {
 						TweenMax.to($(this).find('.text-element'), 0.5, {bottom: "-50%", ease:Power2.easeInOut});
-					})
-					.click({noteData: note}, function(e) {
-		//				console.log(e.data.noteData);
+						})
+						.click({noteData: note}, function(e) {
+			//			console.log(e.data.noteData);
 						findDisqusThread(parseInt(e.data.noteData.created));
 						var likesc = 0;
 						var commentsc = 0;
 						var data = {
-							name: e.data.noteData.name,
-							branch: e.data.noteData.branch,
-							text: e.data.noteData.text,
-							time: getTimeString(parseInt(e.data.noteData.created)),
-							actualTime: parseInt(e.data.noteData.created),
-							videoUrl: embed(e.data.noteData.videoURL),
-							commentsCount: commentsc ,
-							likesCount: likesc
+						name: e.data.noteData.name,
+						branch: e.data.noteData.branch,
+						text: e.data.noteData.text,
+						time: getTimeString(parseInt(e.data.noteData.created)),
+						actualTime: parseInt(e.data.noteData.created),
+						imgUrl: e.data.noteData.imageURL,
+						commentsCount: commentsc,
+						likesCount: likesc
 						}
-						var template = $('#video-note-view-template').html();
+						var template = $('#image-note-view-template').html();
 						var compiledTemplate = Handlebars.compile(template);
 						var result = compiledTemplate(data);
 						$.featherlight(result);
-					})
-					.css({'transform' : 'rotate('+ Math.floor(Math.random() * Math.floor(20) * (Math.round(Math.random()) * 2 - 1)) +'deg)', 'display' : 'flex'});
-					renderedElem++;
+						})
+						.css({'transform' : 'rotate('+ Math.floor(Math.random() * Math.floor(20) * (Math.round(Math.random()) * 2 - 1)) +'deg)', 'display' : 'flex'});
+						renderedElem++;
+					}
+					else if(note.videoURL){
+						// noteHtml = '<div class="note video-note"><div class="video-element"><iframe src="'+embed(note.videoURL)+'" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe></div><div class="text-element"><p>'+note.text+'</p><h6 style="text-align: right;">-- '+note.name+' <span style="font-size: smaller; font-weight: 400">'+note.branch+'</span></h6></div></div>';
+						noteHtml = '<div class="note video-note" style="background-image: url('+"https://img.youtube.com/vi/"+getYoutubeId(note.videoURL)+"/0.jpg"+');background-size: cover;background-repeat: no-repeat; background-position: center;"'+'><div class="video-element"><img style="width:50%;height:50%;display:block;margin:auto;" src="assets/playbutton.png"></div><div class="text-element"><p>'+note.text+'</p><h6 style="text-align: right;">-- '+note.name+' <span style="font-size: smaller; font-weight: 400">'+note.branch+'</span></h6></div></div>';
+		
+						$(noteHtml).appendTo(currBoard)
+						.mouseenter(function(e) {
+							TweenMax.to( $(this).find('.text-element'), 0.5, {bottom: "0", ease:Power2.easeInOut});
+						})
+						.mouseleave(function(e) {
+							TweenMax.to($(this).find('.text-element'), 0.5, {bottom: "-50%", ease:Power2.easeInOut});
+						})
+						.click({noteData: note}, function(e) {
+			//				console.log(e.data.noteData);
+							findDisqusThread(parseInt(e.data.noteData.created));
+							var likesc = 0;
+							var commentsc = 0;
+							var data = {
+								name: e.data.noteData.name,
+								branch: e.data.noteData.branch,
+								text: e.data.noteData.text,
+								time: getTimeString(parseInt(e.data.noteData.created)),
+								actualTime: parseInt(e.data.noteData.created),
+								videoUrl: embed(e.data.noteData.videoURL),
+								commentsCount: commentsc ,
+								likesCount: likesc
+							}
+							var template = $('#video-note-view-template').html();
+							var compiledTemplate = Handlebars.compile(template);
+							var result = compiledTemplate(data);
+							$.featherlight(result);
+						})
+						.css({'transform' : 'rotate('+ Math.floor(Math.random() * Math.floor(20) * (Math.round(Math.random()) * 2 - 1)) +'deg)', 'display' : 'flex'});
+						renderedElem++;
+					}
+					else {
+						noteHtml = '<div class="note text-note"><span id="noteText">'+note.text+'</span><span style="text-align: right; width: 100%">-- '+note.name+'</span><span style="font-size: smaller; font-weight: 400">'+note.branch+'</span></div>';
+						$(noteHtml).appendTo(currBoard)
+						.click({noteData: note}, function(e) {
+			//				console.log(e.data.noteData);
+							findDisqusThread(parseInt(e.data.noteData.created));
+							var likesc = 0;
+							var commentsc = 0;
+							var data = {
+								name: e.data.noteData.name,
+								branch: e.data.noteData.branch,
+								text: e.data.noteData.text,
+								time: getTimeString(parseInt(e.data.noteData.created)),
+								actualTime: parseInt(e.data.noteData.created),
+								commentsCount: commentsc,
+								likesCount: likesc
+							}
+							var template = $('#text-note-view-template').html();
+							var compiledTemplate = Handlebars.compile(template);
+							var result = compiledTemplate(data);
+							$.featherlight(result);
+						})
+						.css({'transform' : 'rotate('+ Math.floor(Math.random() * Math.floor(20) * (Math.round(Math.random()) * 2 - 1)) +'deg)', 'background' : getRandomColor(), 'display' : 'flex'});
+						renderedElem++;
+					}
 				}
-				else {
-					noteHtml = '<div class="note text-note"><span id="noteText">'+note.text+'</span><span style="text-align: right; width: 100%">-- '+note.name+'</span><span style="font-size: smaller; font-weight: 400">'+note.branch+'</span></div>';
-					$(noteHtml).appendTo(currBoard)
-					.click({noteData: note}, function(e) {
-		//				console.log(e.data.noteData);
-						findDisqusThread(parseInt(e.data.noteData.created));
-						var likesc = 0;
-						var commentsc = 0;
-						var data = {
-							name: e.data.noteData.name,
-							branch: e.data.noteData.branch,
-							text: e.data.noteData.text,
-							time: getTimeString(parseInt(e.data.noteData.created)),
-							actualTime: parseInt(e.data.noteData.created),
-							commentsCount: commentsc,
-							likesCount: likesc
-						}
-						var template = $('#text-note-view-template').html();
-						var compiledTemplate = Handlebars.compile(template);
-						var result = compiledTemplate(data);
-						$.featherlight(result);
-					})
-					.css({'transform' : 'rotate('+ Math.floor(Math.random() * Math.floor(20) * (Math.round(Math.random()) * 2 - 1)) +'deg)', 'background' : getRandomColor(), 'display' : 'flex'});
-					renderedElem++;
-				}
+				$(".note").css({'height': noteHeight+'%', 'width': noteWidth+'%', 'margin-top': marginU+'%', 'margin-left': marginL+'%'});
+				$("#noteText").css({'font-size' : '0.1vw'});
+				$("#noteText").css({'font-size' : '0.1vw'});
+				$("#noteText").css({'font-size' : '0.1vw'});
+		
+				currNotesDesk = notes;
 			}
-			$(".note").css({'height': noteHeight+'%', 'width': noteWidth+'%', 'margin-top': marginU+'%', 'margin-left': marginL+'%'});
-			$("#noteText").css({'font-size' : '0.1vw'});
-			$("#noteText").css({'font-size' : '0.1vw'});
-			$("#noteText").css({'font-size' : '0.1vw'});
-	
-			currNotesDesk = notes;
-		}
     }
 }
 
