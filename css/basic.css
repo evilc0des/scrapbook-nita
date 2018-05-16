@@ -214,24 +214,6 @@ iframe{
 	padding: 0px 10px 0px 10px;
 }
 
-.lazy{
-	margin: 6vh 3vw 6vh 3vw;
-	width: 20vw;
-	cursor: pointer;
-}
-
-.prevbtn{
-	margin: 6vh 3vw 6vh 3vw;
-	width: 20vw;
-	cursor: pointer;
-}
-
-.nextbtn{
-	margin: 6vh 3vw 6vh 3vw;
-	width: 20vw;
-	cursor: pointer;
-}
-
 * { 
   box-sizing: border-box;
 }
