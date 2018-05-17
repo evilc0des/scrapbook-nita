@@ -12,6 +12,7 @@ var currcellPos = 0;
 var carouselNotes = [];
 var currNotesDesk = [];
 var currNotesMob = [];
+var currNotes = [];
 var firstTimeDesk = 1;
 var firstTimeMob = 1;
 var rows;
@@ -348,6 +349,7 @@ var fetchNotes = function(xi) {
 
 	    if(response.data.s == 'p'){
 			var notes = response.data.notes;
+			currNotes = notes;
 			console.log("notes-fetched");
 			//updateView(notes);
 			dynamicUpdate(xi,notes);
@@ -898,8 +900,8 @@ function dynamicUpdate(xi,notes) {
 		console.log(currNotesMob);
 		if(currNotesMob.length !== notes.length) {
 			var totnotes = notes.length;	
-			noteHeight = 25;
-			noteWidth = 10;
+			noteHeight = 15;
+			noteWidth = 30;
 			marginU = 2;
 			marginL = 1;
 			var noteHtml;
@@ -1180,7 +1182,7 @@ function dynamicUpdate(xi,notes) {
     }
 }
 
-x = window.matchMedia("(max-width: 600px)");
+x = window.matchMedia("(max-device-width: 1080px)");
 fetchNotes(x);
 x.addListener(fetchNotes);
 
