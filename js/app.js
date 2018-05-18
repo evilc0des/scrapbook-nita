@@ -45,7 +45,7 @@ $(document).ready(function(e) {
 
 	//object-fit Polyfill for IE, Edge, Safari Support
 	//objectFitImages();
-
+	$(".add-container").hide();
 	var myDropzone = new Dropzone("div#image-select", { 
 		url: "https://api.cloudinary.com/v1_1/dhrqglqw8/image/upload",
 		paramName: "file",
@@ -78,11 +78,13 @@ $(document).ready(function(e) {
 	});
 
 	$(".add-btn").click(function(e) {
+		$(".add-container").show();
 		TweenMax.to(".add-container", 1, {right: "0vw", ease:Power2.easeInOut});
 	});
 
 	$(".close-btn").click(function(e) {
 		TweenMax.to(".add-container", 1, {right: "-45vw", ease:Power2.easeInOut});
+		$(".add-container").hide(2000);
 	});
 
 	$(".dz-default.dz-message").html("<b>Drop an Image here to upload.</b><br><span>Or Click here to select a file.</span>");
