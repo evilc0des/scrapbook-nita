@@ -379,19 +379,70 @@ html.modal-active, body.modal-active {
 	width: 80vw;
 }
 
+.prevbtn{
+	width: 20vw;
+	margin-left: 3vw;
+	margin-top: 5vh;
+}
+
+.lazy{
+	width: 25vw;
+	margin-left: 4vw;
+	margin-top: 5vh;
+}
+
+.nextbtn{
+	width: 20vw;
+	margin-left: 4vw;
+	margin-top: 5vh;
+}
+
+.lazymobutton{
+	display: none;
+}
 
 
 @media only screen and (max-device-width: 1080px) {
 
-	.lazy{
+	.buttons{
 		display: none;
 	}
 
-	.prevbtn{
-		display:none;
+	.pageinfo{
+		height: 7%;
 	}
 
-	.nextbtn{
-		display:none;
+	.lazymobutton{
+		display: inline-block;
+		top: 90vh;
+		position: absolute;
+	}
+
+	#modal-container{
+		height: 40vh;
+	}
+
+	.carousel-cell{
+		height: 40vh;
+	}
+
+	.carousel-cell img{
+	height: 30vh;
+	max-width: 40vw;
+	border-radius: 5px;
+	margin: 5vh auto 5vh auto;
+	}
+
+	.carousel-cell iframe{
+	margin: 5vh auto 5vh auto;
+	height: 30vh;
+	}
+
+	.carousel-cell .text-note{
+	float: none;
+	height: 30vh;
+	width: 40vw;
+	margin: 5vh auto 5vh auto;
+	border-radius: 5px;
 	}
 }

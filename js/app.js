@@ -178,7 +178,7 @@ $(document).ready(function(e) {
   			confirmButtonText: "Yes, submit it!",
   			cancelButtonText: "No, cancel it!",
   			allowOutsideClick: false,
-  			footer: "<em>In case of image cards and video cards, the card description would appear only when someone hovers the pointer above them!</em>"
+  			footer: "<em>Don't bother about the color of your card, it would change anyway ;)</em>"
    			})
   			.then((result) => {
   			   	if(result.value){
@@ -214,7 +214,11 @@ $(document).ready(function(e) {
   	});	
 
 	$('.lazy').click(function(){
-	genModal();
+		genModal();
+	});
+
+	$('.lazymobutton').click(function(){
+		genModal();
 	});
 
 	var noteFetchInterval = window.setInterval(fetchNotes(x), 30000);
@@ -907,6 +911,7 @@ function dynamicUpdate(xi,notes) {
 			var noteHtml;
 			var note;
 			for(var i = lastIndexMob ; i < totnotes ; i++){
+				console.log("I am here "+i);
 				noteHtml = '';
 				note = notes[i];
 				var newText = note.text.split(/\s+/).slice(0,10).join(" ");
