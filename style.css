@@ -52,7 +52,7 @@ body {
 .section{
 	width: 600px;
 	margin: auto;
-	font-size: 20px;
+	font-size: 28px;
 	color: #d3bb74;
 	text-align: justify;
 	height: 0;
@@ -68,3 +68,38 @@ body {
 	font-size: 22px;
 	font-family: 'Rajdhani';
 }
+.navbar-dark{
+	background:#7a5e3a;
+}
+
+.navbar-dark .navbar-brand{
+	font-family: 'Sacramento', cursive;
+	color:#7a5e3a;
+	font-size: 200%;
+}
+
+.navbar-dark .navbar-nav .nav-link:link {
+	color: #ffffff;
+	font-size: 18px;
+}
+.navbar-dark .navbar-nav .nav-link:hover {
+	color: #ffffff;
+	font-weight: 700;
+}
+
+.navbar-dark .navbar-nav .nav-link:visited {
+	color: #ffffff;
+	font-weight: 700;
+}
+
+.navbar-dark .navbar-text{
+	color:white;
+	font-size: 150%;
+}
+#footer-logo-text {
+	color: #ffffff;
+	font-size: 36px;
+	padding: 5px 10px 0px;
+	border: 3px solid #ffffff;
+	font-family: 'Sacramento', cursive;
+	margin-bottom: 0px;
