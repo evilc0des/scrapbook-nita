@@ -14,8 +14,9 @@ Instruction to run the Memorabilia web app -
 
 Run the below instructions in a command line shell of your choice(Bash or power shell it's power to you) 
 
-1)Clone this github repo - If using https - git clone https://github.com/evilc0des/scrapbook-nita.git<br />
-                            If using ssh - git clone git@github.com:evilc0des/scrapbook-nita.git <br />
+1)Clone this github repo -<br />
+If using https - git clone https://github.com/evilc0des/scrapbook-nita.git<br />
+If using ssh - git clone git@github.com:evilc0des/scrapbook-nita.git <br />
 2)Navigate to the backend folder in your shell.<br />
 3)Run the command - set DEBUG=scrapbook-nita-back*<br />
 4)Run the command - npm start<br />
