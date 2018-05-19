@@ -12,6 +12,7 @@ var currcellPos = 0;
 var carouselNotes = [];
 var currNotesDesk = [];
 var currNotesMob = [];
+var currNotes = [];
 var firstTimeDesk = 1;
 var firstTimeMob = 1;
 var rows;
@@ -44,7 +45,7 @@ $(document).ready(function(e) {
 
 	//object-fit Polyfill for IE, Edge, Safari Support
 	//objectFitImages();
-
+	$(".add-container").hide();
 	var myDropzone = new Dropzone("div#image-select", { 
 		url: "https://api.cloudinary.com/v1_1/dhrqglqw8/image/upload",
 		paramName: "file",
@@ -77,11 +78,13 @@ $(document).ready(function(e) {
 	});
 
 	$(".add-btn").click(function(e) {
+		$(".add-container").show();
 		TweenMax.to(".add-container", 1, {right: "0vw", ease:Power2.easeInOut});
 	});
 
 	$(".close-btn").click(function(e) {
 		TweenMax.to(".add-container", 1, {right: "-45vw", ease:Power2.easeInOut});
+		$(".add-container").hide(2000);
 	});
 
 	$(".dz-default.dz-message").html("<b>Drop an Image here to upload.</b><br><span>Or Click here to select a file.</span>");
@@ -348,6 +351,7 @@ var fetchNotes = function(xi) {
 
 	    if(response.data.s == 'p'){
 			var notes = response.data.notes;
+			currNotes = notes;
 			console.log("notes-fetched");
 			//updateView(notes);
 			dynamicUpdate(xi,notes);
@@ -894,23 +898,23 @@ function dynamicUpdate(xi,notes) {
 		firstTimeMob = 0;
 		if(firstTimeDesk == 0)
 			$("#board" + displayBoard + ".scrap-board").hide();
-		console.log(notes);
-		console.log(currNotesMob);
 		if(currNotesMob.length !== notes.length) {
 			var totnotes = notes.length;	
-			noteHeight = 25;
-			noteWidth = 10;
+			noteHeight = 15;
+			noteWidth = 30;
 			marginU = 2;
 			marginL = 1;
 			var noteHtml;
 			var note;
 			for(var i = lastIndexMob ; i < totnotes ; i++){
-				console.log("I am here "+i);
 				noteHtml = '';
 				note = notes[i];
+				var newText = note.text.split(/\s+/).slice(0,10).join(" ");
+				if(newText.length>0)
+				newText= newText+"<br>...... Read More";
 				lastIndexMob++;
 				if(note.imageURL){
-					noteHtml = '<div class="note image-note"><div class="img-element"><img src="'+note.imageURL+'"></div><div class="text-element"><p>'+note.text+'</p><h6 style="text-align: right;">-- '+note.name+' <span style="font-size: smaller; font-weight: 400">'+note.branch+'</span></h6></div></div>';
+					noteHtml = '<div class="note image-note"><div class="img-element"><img src="'+note.imageURL+'"></div><div class="text-element"><p>'+newText+'</p><h6 style="text-align: right;">-- '+note.name+' <span style="font-size: smaller; font-weight: 400">'+note.branch+'</span></h6></div></div>';
 					$(noteHtml).appendTo("#board0.scrap-board")
 					.mouseenter(function(e) {
 					TweenMax.to( $(this).find('.text-element'), 0.5, {bottom: "0", ease:Power2.easeInOut});
@@ -943,7 +947,7 @@ function dynamicUpdate(xi,notes) {
 				}
 				else if(note.videoURL){
 					// noteHtml = '<div class="note video-note"><div class="video-element"><iframe src="'+embed(note.videoURL)+'" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe></div><div class="text-element"><p>'+note.text+'</p><h6 style="text-align: right;">-- '+note.name+' <span style="font-size: smaller; font-weight: 400">'+note.branch+'</span></h6></div></div>';
-					noteHtml = '<div class="note video-note" style="background-image: url('+"https://img.youtube.com/vi/"+getYoutubeId(note.videoURL)+"/0.jpg"+');background-size: cover;background-repeat: no-repeat; background-position: center;"'+'><div class="video-element"><img style="width:50%;height:50%;display:block;margin:auto;" src="assets/playbutton.png"></div><div class="text-element"><p>'+note.text+'</p><h6 style="text-align: right;">-- '+note.name+' <span style="font-size: smaller; font-weight: 400">'+note.branch+'</span></h6></div></div>';
+					noteHtml = '<div class="note video-note" style="background-image: url('+"https://img.youtube.com/vi/"+getYoutubeId(note.videoURL)+"/0.jpg"+');background-size: cover;background-repeat: no-repeat; background-position: center;"'+'><div class="video-element"><img style="width:50%;height:50%;display:block;margin:auto;" src="assets/playbutton.png"></div><div class="text-element"><p>'+newText+'</p><h6 style="text-align: right;">-- '+note.name+' <span style="font-size: smaller; font-weight: 400">'+note.branch+'</span></h6></div></div>';
 					$(noteHtml).appendTo("#board" + 0 + ".scrap-board")
 					.mouseenter(function(e) {
 						TweenMax.to( $(this).find('.text-element'), 0.5, {bottom: "0", ease:Power2.easeInOut});
@@ -975,9 +979,7 @@ function dynamicUpdate(xi,notes) {
 					renderedElem++;
 				}
 				else {
-					console.log(note);
-					noteHtml = '<div class="note text-note"><span id="noteText">'+note.text+'</span><span style="text-align: right; width: 100%">-- '+note.name+'</span><span style="font-size: smaller; font-weight: 400">'+note.branch+'</span></div>';
-					console.log(noteHtml);
+					noteHtml = '<div class="note text-note"><span id="noteText">'+newText+'</span><span style="text-align: right; width: 100%">-- '+note.name+'</span><span style="font-size: smaller; font-weight: 400">'+note.branch+'</span></div>';
 					$(noteHtml).appendTo($("#board0.scrap-board"))
 					.click({noteData: note}, function(e) {
 		//				console.log(e.data.noteData);
@@ -1077,9 +1079,15 @@ function dynamicUpdate(xi,notes) {
 			//		console.log(note.imageURL);
 			//		console.log('Bridge');
 			//		console.log(note.videoURL);
+					var newTextforText = note.text.split(/\s+/).slice(0,6).join(" ");
+					var newTextforImage = note.text.split(/\s+/).slice(0,3).join(" ");
+					if(newTextforText.length>0)
+					newTextforText= newTextforText+" ...... ";
+					if(newTextforImage.length>0)
+					newTextforImage= newTextforImage+" ...... ";
 					lastIndexDesk++;
 					if(note.imageURL){
-						noteHtml = '<div class="note image-note"><div class="img-element"><img src="'+note.imageURL+'"></div><div class="text-element"><p>'+note.text+'</p><h6 style="text-align: right;">-- '+note.name+' <span style="font-size: smaller; font-weight: 400">'+note.branch+'</span></h6></div></div>';
+						noteHtml = '<div class="note image-note"><div class="img-element"><img src="'+note.imageURL+'"></div><div class="text-element"><p>'+newTextforImage+'</p><h6 style="text-align: right;">-- '+note.name+' <span style="font-size: smaller; font-weight: 400">'+note.branch+'</span></h6></div></div>';
 						$(noteHtml).appendTo(currBoard)
 						.mouseenter(function(e) {
 						TweenMax.to( $(this).find('.text-element'), 0.5, {bottom: "0", ease:Power2.easeInOut});
@@ -1112,7 +1120,7 @@ function dynamicUpdate(xi,notes) {
 					}
 					else if(note.videoURL){
 						// noteHtml = '<div class="note video-note"><div class="video-element"><iframe src="'+embed(note.videoURL)+'" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe></div><div class="text-element"><p>'+note.text+'</p><h6 style="text-align: right;">-- '+note.name+' <span style="font-size: smaller; font-weight: 400">'+note.branch+'</span></h6></div></div>';
-						noteHtml = '<div class="note video-note" style="background-image: url('+"https://img.youtube.com/vi/"+getYoutubeId(note.videoURL)+"/0.jpg"+');background-size: cover;background-repeat: no-repeat; background-position: center;"'+'><div class="video-element"><img style="width:50%;height:50%;display:block;margin:auto;" src="assets/playbutton.png"></div><div class="text-element"><p>'+note.text+'</p><h6 style="text-align: right;">-- '+note.name+' <span style="font-size: smaller; font-weight: 400">'+note.branch+'</span></h6></div></div>';
+						noteHtml = '<div class="note video-note" style="background-image: url('+"https://img.youtube.com/vi/"+getYoutubeId(note.videoURL)+"/0.jpg"+');background-size: cover;background-repeat: no-repeat; background-position: center;"'+'><div class="video-element"><img style="width:50%;height:50%;display:block;margin:auto;" src="assets/playbutton.png"></div><div class="text-element"><p>'+newTextforImage+'</p><h6 style="text-align: right;">-- '+note.name+' <span style="font-size: smaller; font-weight: 400">'+note.branch+'</span></h6></div></div>';
 		
 						$(noteHtml).appendTo(currBoard)
 						.mouseenter(function(e) {
@@ -1145,7 +1153,7 @@ function dynamicUpdate(xi,notes) {
 						renderedElem++;
 					}
 					else {
-						noteHtml = '<div class="note text-note"><span id="noteText">'+note.text+'</span><span style="text-align: right; width: 100%">-- '+note.name+'</span><span style="font-size: smaller; font-weight: 400">'+note.branch+'</span></div>';
+						noteHtml = '<div class="note text-note"><span id="noteText">'+newTextforText+'</span><span style="text-align: right; width: 100%">-- '+note.name+'</span><span style="font-size: smaller; font-weight: 400">'+note.branch+'</span></div>';
 						$(noteHtml).appendTo(currBoard)
 						.click({noteData: note}, function(e) {
 			//				console.log(e.data.noteData);
@@ -1180,7 +1188,7 @@ function dynamicUpdate(xi,notes) {
     }
 }
 
-x = window.matchMedia("(max-width: 600px)");
+x = window.matchMedia("(max-device-width: 1080px)");
 fetchNotes(x);
 x.addListener(fetchNotes);
 

@@ -11,10 +11,12 @@ body {
 
 .pageinfo{
 	position: absolute;
-	width: 22vw;
-	height: 20vh;
+	width: 50%;
+	height: 20%;
 	margin: 0px auto auto auto; 
 	top: 2vh;
+	left: 42%;
+	align-content: center;
 }
 
 .navbar-dark{
@@ -49,12 +51,11 @@ body {
 
 .logo-text {
 	color: #7a5e3a;
-	font-size: 52px;
-	padding: 15px 25px 0px;
 	border: 5px solid #7a5e3a;
+	padding: 0px 10px 5px;	
 	font-family: 'Sacramento', cursive;
 	margin: 0px auto auto auto;
-
+	display: inline;
 }
 
 #footer-logo-text {
@@ -76,9 +77,8 @@ body {
 	color: #7a5e3a;
 	font-size: 20px;
 	font-family: 'Rajdhani', sans-serif;
-	margin: auto auto auto auto;
-	position: absolute;
-	left: 5vw;
+	margin: 20px 0px 20px 20px;
+	position: relative;
 }
 
 .add-btn {
@@ -110,7 +110,7 @@ body {
 	min-height: 100vh;
 	width: 45vw;
 	position: absolute;
-	top: 0px;
+	top: 0;
 	right: -45vw;
 	background-color: rgba(255, 255, 255, 0.8);
 	
@@ -381,7 +381,7 @@ html.modal-active, body.modal-active {
 
 
 
-@media only screen and (max-width: 600px) {
+@media only screen and (max-device-width: 1080px) {
 
 	.lazy{
 		display: none;
@@ -394,5 +394,4 @@ html.modal-active, body.modal-active {
 	.nextbtn{
 		display:none;
 	}
-
 }
