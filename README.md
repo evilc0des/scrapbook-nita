@@ -8,9 +8,21 @@ The zeal to code and basic html, css and js for now :-).
 
 Good to have - 
 
-Node, mongoDB - MEAN knowledge :-) 
+jquery, node, mongoDB knowledge :-) 
 
-This README doc will be updated as our project evolves. 
+Instruction to run the Memorabilia web app - 
+
+Run the below instructions in a command line shell of your choice(Bash or power shell it's power to you) 
+
+1)Clone this github repo - If using https - git clone https://github.com/evilc0des/scrapbook-nita.git 
+                        If using ssh - git clone git@github.com:evilc0des/scrapbook-nita.git
+2)Navigate to the backend folder in your shell.
+3)Run the command - set DEBUG=scrapbook-nita-back*
+4)Run the command - npm start
+5)Wait for the "Connected to MongoDB" console log to appear on the shell window.
+6)Go back to the root of scrapbook-nita and run index.html file in your favourite browser.(We don't judge but prefer browsers made from the chromium project ;) )
+7)To check the site in mobile view right click on the browser DOM and click on inspect element, then click on the toggle device toolbar option besides the elements option, this should bring the main browser DOM to mobile view; to go back click on the toggle device toolbar again. Refresh the page if you feel the elements have not loaded properly in any case.
+8)Have fun :)
 
 Regards,
 FboiLogix Team 
