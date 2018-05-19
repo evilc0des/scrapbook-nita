@@ -22,7 +22,7 @@ If using ssh - git clone git@github.com:evilc0des/scrapbook-nita.git <br />
 4)Run the command - npm start<br />
 5)Wait for the "Connected to MongoDB" console log to appear on the shell window.<br />
 6)Go back to the root of scrapbook-nita and run index.html file in your favourite browser.(We don't judge but prefer browsers made from the chromium project ;) )<br />
-7)To check the site in mobile view right click on the browser DOM and click on inspect element, then click on the toggle device toolbar option besides the elements option, this should bring the main browser DOM to mobile view; to go back click on the toggle device toolbar again. Refresh the page if you feel the elements have not loaded properly in any case.
+7)To check the site in mobile view right click on the browser DOM and click on inspect element, then click on the toggle device toolbar option besides the elements option, this should bring the main browser DOM to mobile view; to go back click on the toggle device toolbar again. Refresh the page if you feel the elements have not loaded properly in any case.<br />
 8)Have fun :)<br />
 
 Regards,
