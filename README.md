@@ -2,7 +2,7 @@ This Web app aims to build a scrapbook for the batch of 2014-2018 of NIT Agartal
 
 We invite contributers from interested people all over the world and especially from the batch 2014-2018 of NITA.
 
-Prequisites -
+Prerequisites -
 
 The zeal to code and basic html, css and js for now :-). 
 
@@ -12,7 +12,8 @@ jquery, node, mongoDB knowledge :-)
 
 Instruction to run the Memorabilia web app - 
 
-Run the below instructions in a command line shell of your choice(Bash or power shell it's power to you) 
+Run the below instructions in a command line shell of your choice(Bash or power shell it's power to you).<br />
+Having git and node installed and configured properly in your system is a prerequisite.
 
 1)Clone this github repo -<br />
 If using https - git clone https://github.com/evilc0des/scrapbook-nita.git<br />
