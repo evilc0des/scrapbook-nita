@@ -66,7 +66,8 @@ $(document).ready(function(e) {
 
 			this.on("success", function(file, response) {
 	//	  		console.log(response);
-		  		imgUrl = file.dataURL;
+				  imgPrevUrl = file.dataURL;
+				  imgUrl = response.url;
 	//	  		console.log(imgUrl);
 			});
 		}
@@ -153,7 +154,7 @@ $(document).ready(function(e) {
 			var branch = $("#branch-field").val();
 			var text = $("#text-message").val();
 			if(imgUrl){
-				tempnote = '<div class="note image-note" style="width: 100%;height:100%; float:none; margin-left:auto; margin-right:auto"><div class="img-element"><img style="width:100%;height:auto;display:block;" src="'+imgUrl+'"></div><div class="text-element" style="bottom: -20%"><p>'+text+'</p><h6 style="text-align: right;">-- '+name+' <span style="font-size: smaller; font-weight: 400">'+branch+'</span></h6></div></div>';
+				tempnote = '<div class="note image-note" style="width: 100%;height:100%; float:none; margin-left:auto; margin-right:auto"><div class="img-element"><img style="width:100%;height:auto;display:block;" src="'+imgPrevUrl+'"></div><div class="text-element" style="bottom: -20%"><p>'+text+'</p><h6 style="text-align: right;">-- '+name+' <span style="font-size: smaller; font-weight: 400">'+branch+'</span></h6></div></div>';
 			}
 			else if(vidUrl){
 				tempnote = '<div class="note video-note" style="width: 100%; float:none; margin-left:auto; margin-right:auto"><div class="video-element"><iframe src="'+embed(vidUrl)+'" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe></div><div class="text-element" style="bottom: -15%"><p>'+text+'</p><h6 style="text-align: right;">-- '+name+' <span style="font-size: smaller; font-weight: 400">'+branch+'</span></h6></div></div>';
