@@ -66,7 +66,8 @@ $(document).ready(function(e) {
 
 			this.on("success", function(file, response) {
 	//	  		console.log(response);
-		  		imgUrl = file.dataURL;
+				  imgPrevUrl = file.dataURL;
+				  imgUrl = response.url;
 	//	  		console.log(imgUrl);
 			});
 		}
@@ -153,7 +154,7 @@ $(document).ready(function(e) {
 			var branch = $("#branch-field").val();
 			var text = $("#text-message").val();
 			if(imgUrl){
-				tempnote = '<div class="note image-note" style="width: 100%;height:100%; float:none; margin-left:auto; margin-right:auto"><div class="img-element"><img style="width:100%;height:auto;display:block;" src="'+imgUrl+'"></div><div class="text-element" style="bottom: -20%"><p>'+text+'</p><h6 style="text-align: right;">-- '+name+' <span style="font-size: smaller; font-weight: 400">'+branch+'</span></h6></div></div>';
+				tempnote = '<div class="note image-note" style="width: 100%;height:100%; float:none; margin-left:auto; margin-right:auto"><div class="img-element"><img style="width:100%;height:auto;display:block;" src="'+imgPrevUrl+'"></div><div class="text-element" style="bottom: -20%"><p>'+text+'</p><h6 style="text-align: right;">-- '+name+' <span style="font-size: smaller; font-weight: 400">'+branch+'</span></h6></div></div>';
 			}
 			else if(vidUrl){
 				tempnote = '<div class="note video-note" style="width: 100%; float:none; margin-left:auto; margin-right:auto"><div class="video-element"><iframe src="'+embed(vidUrl)+'" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe></div><div class="text-element" style="bottom: -15%"><p>'+text+'</p><h6 style="text-align: right;">-- '+name+' <span style="font-size: smaller; font-weight: 400">'+branch+'</span></h6></div></div>';
@@ -367,171 +368,6 @@ var fetchNotes = function(xi) {
 
 }
 
-var updateView = function(notes) {
-//	console.log('Notes display');
-//	console.log(notes);
-	if(currNotes.length !== notes.length) {
-		//$(".scrap-board").html("");
-
-		/*--
-		* Infinity View Implementation
-		*
-		*/
-		var totnotes = notes.length;	
-		/*
-		cols = Math.ceil(Math.pow(totnotes,0.67));
-		rows = Math.ceil(totnotes/cols);
-		totHeight = Math.ceil(90/rows);
-		totWidth = Math.ceil(100/cols);
-		noteHeight = 0.9 * totHeight;
-		noteWidth = 0.9 * totWidth;
-		marginU = 0.05 * totHeight;
-		marginL = 0.05 * totWidth;
-
-		console.log(totnotes);
-		console.log(cols);
-		console.log(rows);
-		console.log(totHeight);
-		console.log(totWidth);
-		console.log(noteHeight);
-		console.log(noteWidth);
-		console.log(marginU);
-		console.log(marginB);
-		console.log(marginL);
-		console.log(marginR);
-*/
-	//	TweenMax.staggerFrom(".note",2,{opacity: 0}, 2);
-		noteHeight = 26;
-		noteWidth = 14;
-		marginU = 2;
-		marginL = 2;
-
-		noOfBoards = Math.ceil(totnotes/itemsPerBoard);
-		if(noOfBoards <= 1)
-		{
-			$(".nextbtn").addClass('disabled');
-			$(".nextbtn").css({'cursor':'auto'});
-		}
-		var noteHtml;
-		var note;
-		var currBoard; 	
-		for(var i = lastIndex ; i < totnotes ; i++){
-			noteHtml = '';
-			note = notes[i];
-			currBoard = "#board" + Math.ceil((i+1)/itemsPerBoard) + ".scrap-board";
-			if(i != 0 && i % itemsPerBoard == 0)
-			{
-				$(".scrapboards").append('<div id="board' + Math.ceil((i+1)/itemsPerBoard) + '" class="scrap-board"></div>');
-				$(currBoard).hide();
-				console.log(currBoard);
-				if(i == itemsPerBoard)
-					$(".nextbtn").css({'cursor':'pointer'});
-			}
-	//		console.log(note.imageURL);
-	//		console.log('Bridge');
-	//		console.log(note.videoURL);
-			lastIndex++;
-			if(note.imageURL){
-				noteHtml = '<div class="note image-note"><div class="img-element"><img src="'+note.imageURL+'"></div><div class="text-element"><p>'+note.text+'</p><h6 style="text-align: right;">-- '+note.name+' <span style="font-size: smaller; font-weight: 400">'+note.branch+'</span></h6></div></div>';
-				$(noteHtml).appendTo(currBoard)
-				.mouseenter(function(e) {
-				TweenMax.to( $(this).find('.text-element'), 0.5, {bottom: "0", ease:Power2.easeInOut});
-				})
-				.mouseleave(function(e) {
-				TweenMax.to($(this).find('.text-element'), 0.5, {bottom: "-50%", ease:Power2.easeInOut});
-				})
-				.click({noteData: note}, function(e) {
-	//			console.log(e.data.noteData);
-				findDisqusThread(parseInt(e.data.noteData.created));
-				var likesc = 0;
-				var commentsc = 0;
-				var data = {
-				name: e.data.noteData.name,
-				branch: e.data.noteData.branch,
-				text: e.data.noteData.text,
-				time: getTimeString(parseInt(e.data.noteData.created)),
-				actualTime: parseInt(e.data.noteData.created),
-				imgUrl: e.data.noteData.imageURL,
-				commentsCount: commentsc,
-				likesCount: likesc
-				}
-				var template = $('#image-note-view-template').html();
-				var compiledTemplate = Handlebars.compile(template);
-				var result = compiledTemplate(data);
-				$.featherlight(result);
-				})
-				.css({'transform' : 'rotate('+ Math.floor(Math.random() * Math.floor(20) * (Math.round(Math.random()) * 2 - 1)) +'deg)', 'display' : 'flex'});
-				renderedElem++;
-			}
-			else if(note.videoURL){
-				// noteHtml = '<div class="note video-note"><div class="video-element"><iframe src="'+embed(note.videoURL)+'" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe></div><div class="text-element"><p>'+note.text+'</p><h6 style="text-align: right;">-- '+note.name+' <span style="font-size: smaller; font-weight: 400">'+note.branch+'</span></h6></div></div>';
-				noteHtml = '<div class="note video-note" style="background-image: url('+"https://img.youtube.com/vi/"+getYoutubeId(note.videoURL)+"/0.jpg"+');background-size: cover;background-repeat: no-repeat; background-position: center;"'+'><div class="video-element"><img style="width:50%;height:50%;display:block;margin:auto;" src="assets/playbutton.png"></div><div class="text-element"><p>'+note.text+'</p><h6 style="text-align: right;">-- '+note.name+' <span style="font-size: smaller; font-weight: 400">'+note.branch+'</span></h6></div></div>';
-
-				$(noteHtml).appendTo(currBoard)
-				.mouseenter(function(e) {
-					TweenMax.to( $(this).find('.text-element'), 0.5, {bottom: "0", ease:Power2.easeInOut});
-				})
-				.mouseleave(function(e) {
-					TweenMax.to($(this).find('.text-element'), 0.5, {bottom: "-50%", ease:Power2.easeInOut});
-				})
-				.click({noteData: note}, function(e) {
-	//				console.log(e.data.noteData);
-					findDisqusThread(parseInt(e.data.noteData.created));
-					var likesc = 0;
-					var commentsc = 0;
-					var data = {
-						name: e.data.noteData.name,
-						branch: e.data.noteData.branch,
-						text: e.data.noteData.text,
-						time: getTimeString(parseInt(e.data.noteData.created)),
-						actualTime: parseInt(e.data.noteData.created),
-						videoUrl: embed(e.data.noteData.videoURL),
-						commentsCount: commentsc ,
-						likesCount: likesc
-					}
-					var template = $('#video-note-view-template').html();
-					var compiledTemplate = Handlebars.compile(template);
-					var result = compiledTemplate(data);
-					$.featherlight(result);
-				})
-				.css({'transform' : 'rotate('+ Math.floor(Math.random() * Math.floor(20) * (Math.round(Math.random()) * 2 - 1)) +'deg)', 'display' : 'flex'});
-				renderedElem++;
-			}
-			else {
-				noteHtml = '<div class="note text-note"><span id="noteText">'+note.text+'</span><span style="text-align: right; width: 100%">-- '+note.name+'</span><span style="font-size: smaller; font-weight: 400">'+note.branch+'</span></div>';
-				$(noteHtml).appendTo(currBoard)
-				.click({noteData: note}, function(e) {
-	//				console.log(e.data.noteData);
-					findDisqusThread(parseInt(e.data.noteData.created));
-					var likesc = 0;
-					var commentsc = 0;
-					var data = {
-						name: e.data.noteData.name,
-						branch: e.data.noteData.branch,
-						text: e.data.noteData.text,
-						time: getTimeString(parseInt(e.data.noteData.created)),
-						actualTime: parseInt(e.data.noteData.created),
-						commentsCount: commentsc,
-						likesCount: likesc
-					}
-					var template = $('#text-note-view-template').html();
-					var compiledTemplate = Handlebars.compile(template);
-					var result = compiledTemplate(data);
-					$.featherlight(result);
-				})
-				.css({'transform' : 'rotate('+ Math.floor(Math.random() * Math.floor(20) * (Math.round(Math.random()) * 2 - 1)) +'deg)', 'background' : getRandomColor(), 'display' : 'flex'});
-				renderedElem++;
-			}
-		}
-		$(".note").css({'height': noteHeight+'%', 'width': noteWidth+'%', 'margin-top': marginU+'%', 'margin-left': marginL+'%'});
-		$("#noteText").css({'font-size' : '0.1vw'});
-		$("#noteText").css({'font-size' : '0.1vw'});
-		$("#noteText").css({'font-size' : '0.1vw'});
-
-		currNotes = notes;
-	}
-}
-
 function getRandomColor() {
   color = "hsl(" + Math.random() * 360 + ", 100%, 75%)";
   return color;
@@ -661,7 +497,7 @@ function genModal(){
 			}
 				else if(tempnote.videoURL){
 	//				console.log('vidd');
-					noteHtml = '<iframe class = "modalcard" src="'+embed(vidUrl)+'" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe><div class="modalcard text-element" style="bottom: -30%"><p>'+tempnote.text+'</p><h6 style="text-align: right;">-- '+tempnote.name+' <span style="font-size: smaller; font-weight: 400">'+tempnote.branch+'</span></h6></div></div>';
+					noteHtml = '<iframe class = "modalcard" src="'+embed(tempnote.videoURL)+'" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe><div class="modalcard text-element" style="bottom: -30%"><p>'+tempnote.text+'</p><h6 style="text-align: right;">-- '+tempnote.name+' <span style="font-size: smaller; font-weight: 400">'+tempnote.branch+'</span></h6></div></div>';
 					$(noteHtml).appendTo(cellID)
 					.click({noteData: tempnote}, function(e) {
 	//					console.log(e.data.noteData);
