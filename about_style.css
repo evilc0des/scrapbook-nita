@@ -1,0 +1,64 @@
+body {
+	margin: 0;
+	height: 100vh;
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+	overflow: hidden;
+	background-color: #d3bb74;
+	margin-bottom: 3.5rem;
+}
+.about-section h1{
+	margin-bottom: 60px;
+	color: #7a5e3a;
+	font-size: 40px;
+	font-family: 'Sacramento', cursive;
+	text-align: center;
+
+
+}
+.navbar-dark{
+	background:rgba(255,255,255,0.8);
+}
+
+.navbar-dark .navbar-brand{
+	font-family: 'Sacramento', cursive;
+	color:white;
+	font-size: 200%;
+}
+
+.navbar-dark .navbar-nav .nav-link:link {
+	color: #7a5e3a;
+	font-size: 18px;
+}
+
+.navbar-dark .navbar-nav .nav-link:hover {
+	color: #7a5e3a;
+	font-weight: 700;
+}
+
+.navbar-dark .navbar-nav .nav-link:visited {
+	color: #7a5e3a;
+	font-weight: 700;
+}
+
+.navbar-dark .navbar-text{
+	color:white;
+	font-size: 150%;
+}
+
+#footer-logo-text {
+	color: #7a5e3a;
+	font-size: 36px;
+	padding: 5px 10px 0px;
+	border: 3px solid #7a5e3a;
+	font-family: 'Sacramento', cursive;
+	margin-bottom: 0px;
+
+}
+
+#footer-team-logo {
+	height: 50px;
+
+}
