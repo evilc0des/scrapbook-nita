@@ -7,7 +7,7 @@ var validForm = false;
 var imgUrl = null;
 var vidUrl = null;
 var threadInf = -1;
-
+var imgPrevUrl = null;
 var currcellPos = 0;
 var carouselNotes = [];
 var currNotesDesk = [];
