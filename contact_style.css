@@ -6,10 +6,11 @@ body{
 	font-family: sans-serif;
 }
 .contact-title{
-	margin-top: 100px;
-	color: #fff;
+	margin-top: 5%;
+	color: #d3bb74;
 	text-transform: uppercase;
 	transition: all 4s ease-in-out;
+	margin-bottom: 5%;
 }
 .contact-title h1{
 	font-size: 32px;
