@@ -556,9 +556,20 @@ function getTimeString(timestamp) {
 function embed(url)
 {
 //	console.log(url);
+var regex = /^(https:\/\/youtu\.be\/.*)$/;
+var matchStatus = url.match(regex);
+if(!matchStatus){
 	modUrl = "https://www.youtube.com/embed/" + url.split('&')[0].substring(url.indexOf('=')+1);
-//	console.log("Embed: " + modUrl);
 	return modUrl;
+}
+else
+	{
+		modUrl = "https://www.youtube.com/embed/" + url.substring(url.indexOf('.')+4);
+		console.log(modUrl);
+		return modUrl;
+	}
+//	console.log("Embed: " + modUrl);
+	
 }
 
 function findDisqusThread(id){
