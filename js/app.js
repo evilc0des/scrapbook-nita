@@ -497,7 +497,7 @@ function genModal(){
 			}
 				else if(tempnote.videoURL){
 	//				console.log('vidd');
-					noteHtml = '<iframe class = "modalcard" src="'+embed(tempnote.videoURL)+'" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe><div class="modalcard text-element" style="bottom: -30%"><p>'+tempnote.text+'</p><h6 style="text-align: right;">-- '+tempnote.name+' <span style="font-size: smaller; font-weight: 400">'+tempnote.branch+'</span></h6></div></div>';
+					noteHtml = '<iframe class = "modalcard" src="'+embed(tempnote.videoURL)+'" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe><div class="modalcard text-element" style="bottom: -40%">'+tempnote.text+'<h6 style="text-align: right;">-- '+tempnote.name+' <span style="font-size: smaller; font-weight: 400">'+tempnote.branch+'</span></h6></div></div>';
 					$(noteHtml).appendTo(cellID)
 					.click({noteData: tempnote}, function(e) {
 	//					console.log(e.data.noteData);
@@ -595,7 +595,7 @@ function prevClick(){
 	}
 	else if(tempnote.videoURL){
 //		console.log('vidd');
-		noteHtml = '<iframe class="modalcard" src="'+embed(tempnote.videoURL)+'" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe><div class="modalcard text-element" style="bottom: -30%"><p>'+tempnote.text+'</p><h6 style="text-align: right;">-- '+tempnote.name+' <span style="font-size: smaller; font-weight: 400">'+tempnote.branch+'</span></h6></div></div>';
+		noteHtml = '<iframe class="modalcard" src="'+embed(tempnote.videoURL)+'" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe><div class="modalcard text-element" style="bottom: -40%">'+tempnote.text+'<h6 style="text-align: right;">-- '+tempnote.name+' <span style="font-size: smaller; font-weight: 400">'+tempnote.branch+'</span></h6></div></div>';
 		$(noteHtml).appendTo(cellID)
 		.click({noteData: tempnote}, function(e) {
 //						console.log(e.data.noteData);
@@ -688,7 +688,7 @@ function nextClick(){
 	}
 	else if(tempnote.videoURL){
 //		console.log('vidd');
-		noteHtml = '<iframe class="modalcard" src="'+embed(tempnote.videoURL)+'" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe><div class="modalcard text-element" style="bottom: -30%"><p>'+tempnote.text+'</p><h6 style="text-align: right;">-- '+tempnote.name+' <span style="font-size: smaller; font-weight: 400">'+tempnote.branch+'</span></h6></div></div>';
+		noteHtml = '<iframe class="modalcard" src="'+embed(tempnote.videoURL)+'" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe><div class="modalcard text-element" style="bottom: -40%">'+tempnote.text+'<h6 style="text-align: right;">-- '+tempnote.name+' <span style="font-size: smaller; font-weight: 400">'+tempnote.branch+'</span></h6></div></div>';
 		$(noteHtml).appendTo(cellID)
 		.click({noteData: tempnote}, function(e) {
 //						console.log(e.data.noteData);
