@@ -437,8 +437,8 @@ function findDisqusThread(id){
 		else
 		threadInf = -1;
 
-		document.getElementById("likes-text").innerHTML = jsonData.response.likes;
-		document.getElementById("comments-text").innerHTML = jsonData.response.posts;
+		// document.getElementById("likes-text").innerHTML = jsonData.response.likes;
+		// document.getElementById("comments-text").innerHTML = jsonData.response.posts;
 	})
 	.catch(function (error) {
 //		console.log(error);
