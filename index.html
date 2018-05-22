@@ -10,6 +10,7 @@
 	<link rel="stylesheet" href="https://unpkg.com/flickity@2/dist/flickity.min.css">
 	<link rel="stylesheet" type="text/css" href="./css/basic.css">
 	<link rel="stylesheet" type="text/css" href="./css/scrapboard.css">
+	<meta name="viewport" content="width=device-width, initial-scale=0.41, maximum-scale=1" />
 </head>
 <body>
 <!--Footer-->
@@ -48,9 +49,13 @@
 <!--Footer end-->
 			
 <!--Main Page-->
-<div class="pageinfo">
+<div class="pageinfo" class="container">
+	<div class="row">
+		<div class="col-sm-6">
 <h1 class="logo-text">Memorabilia</h1>
-<p class="bylogo-text">NITA 2014-18 BATCH</p>
+<h2 class="bylogo-text">NITA 2014-18 BATCH</p>
+</div>
+</div>
 </div>
 <div id="modal-container">
     <span id="close-modal"><strong>X</strong></span> 
@@ -68,7 +73,10 @@
     		</div>
     	</div>    
 </div>
-<div id="board0" class="scrap-board"></div>
+<div id="board0" class="scrap-board container">
+
+</div>
+<div class="scrapboards">
 <div id = "board1" class="scrap-board">
 
 	<!--div class="scrap-board-row">
@@ -130,6 +138,8 @@
 <button class="lazy btn btn-primary">Gotcha  display  'em  all!</button>
 <button class="nextbtn btn btn-danger">Next Board</button> 
 </div>
+<button class="lazymobutton btn btn-primary">Gotcha  display  'em  all!</button>
+
 <!--Main Page end-->
 <!--Upload slider-->
 <div class="add-container">

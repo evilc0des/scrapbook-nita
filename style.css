@@ -1,6 +1,7 @@
 body {
 	margin: 0;
-	height: 100vh;
+	height: 100%;
+	width:100%;
 	display: flex;
 	flex-direction: column;
 	justify-content: center;
@@ -12,10 +13,13 @@ body {
 	overflow: hidden;
 	text-align: center;
 	background: white;
-	padding: 60px;
+	position: absolute;
+	width:100%;
+	height:auto;
+	top: 10vh;
 }
 .team-section h1{
-	margin-bottom: 60px;
+	margin-bottom: 0;
 	color: #d3bb74;
 	font-size: 40px;
 	font-family: 'Sacramento', cursive;
@@ -28,6 +32,14 @@ body {
 	background: #7a5e3a;
 	margin-bottom: 40px;
 }
+
+.border-contents{
+	height: 40%;
+	width: 100%;
+	text-align: center;
+	float: left;
+}
+
 .photo{
 	margin-bottom: 40px;
 }
@@ -63,7 +75,7 @@ body {
 }
 .name{
 	display: block;
-	margin-bottom: 30px;
+	margin-bottom: 10px;
 	text-align: center;
 	font-size: 22px;
 	font-family: 'Rajdhani';
@@ -96,6 +108,7 @@ body {
 	color:white;
 	font-size: 150%;
 }
+
 #footer-logo-text {
 	color: #ffffff;
 	font-size: 36px;
@@ -103,3 +116,4 @@ body {
 	border: 3px solid #ffffff;
 	font-family: 'Sacramento', cursive;
 	margin-bottom: 0px;
+}

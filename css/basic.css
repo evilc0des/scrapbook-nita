@@ -11,10 +11,12 @@ body {
 
 .pageinfo{
 	position: absolute;
-	width: 22vw;
-	height: 20vh;
+	width: 50%;
+	height: 20%;
 	margin: 0px auto auto auto; 
 	top: 2vh;
+	left: 42%;
+	align-content: center;
 }
 
 .navbar-dark{
@@ -49,12 +51,11 @@ body {
 
 .logo-text {
 	color: #7a5e3a;
-	font-size: 52px;
-	padding: 15px 25px 0px;
 	border: 5px solid #7a5e3a;
+	padding: 0px 10px 5px;	
 	font-family: 'Sacramento', cursive;
 	margin: 0px auto auto auto;
-
+	display: inline;
 }
 
 #footer-logo-text {
@@ -76,9 +77,8 @@ body {
 	color: #7a5e3a;
 	font-size: 20px;
 	font-family: 'Rajdhani', sans-serif;
-	margin: auto auto auto auto;
-	position: absolute;
-	left: 5vw;
+	margin: 20px 0px 20px 20px;
+	position: relative;
 }
 
 .add-btn {
@@ -110,7 +110,7 @@ body {
 	min-height: 100vh;
 	width: 45vw;
 	position: absolute;
-	top: 0px;
+	top: 0;
 	right: -45vw;
 	background-color: rgba(255, 255, 255, 0.8);
 	
@@ -379,20 +379,70 @@ html.modal-active, body.modal-active {
 	width: 80vw;
 }
 
+.prevbtn{
+	width: 20vw;
+	margin-left: 3vw;
+	margin-top: 5vh;
+}
+
+.lazy{
+	width: 25vw;
+	margin-left: 4vw;
+	margin-top: 5vh;
+}
+
+.nextbtn{
+	width: 20vw;
+	margin-left: 4vw;
+	margin-top: 5vh;
+}
+
+.lazymobutton{
+	display: none;
+}
 
 
-@media only screen and (max-width: 600px) {
+@media only screen and (max-device-width: 1080px) {
 
-	.lazy{
+	.buttons{
 		display: none;
 	}
 
-	.prevbtn{
-		display:none;
+	.pageinfo{
+		height: 7%;
 	}
 
-	.nextbtn{
-		display:none;
+	.lazymobutton{
+		display: inline-block;
+		top: 90vh;
+		position: absolute;
 	}
 
+	#modal-container{
+		height: 40vh;
+	}
+
+	.carousel-cell{
+		height: 40vh;
+	}
+
+	.carousel-cell img{
+	height: 30vh;
+	max-width: 40vw;
+	border-radius: 5px;
+	margin: 5vh auto 5vh auto;
+	}
+
+	.carousel-cell iframe{
+	margin: 5vh auto 5vh auto;
+	height: 30vh;
+	}
+
+	.carousel-cell .text-note{
+	float: none;
+	height: 30vh;
+	width: 40vw;
+	margin: 5vh auto 5vh auto;
+	border-radius: 5px;
+	}
 }

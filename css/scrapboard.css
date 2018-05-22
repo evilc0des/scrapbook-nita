@@ -36,6 +36,7 @@
 
 .scrap-board .note{
 	border: 2px solid;
+	padding: 5px 5px 5px 5px;
 }
 
 .image-note{
@@ -178,20 +179,21 @@
 	display: inline-block;
 }
 
-@media only screen and (max-width: 600px) {
+@media only screen and (max-device-width: 1080px) {
 	.scrap-board {
 		/*display: flex;
 		flex-direction: column;*/
-		width: 90%;
-		height: auto;
+		width: 100%;
 		justify-content: space-around;
 		align-items: center;
-		overflow: hidden;
+		overflow: scroll;
 		border: 5px solid #7a5e3a;
 		display: inline-block;
 		margin-left: 5%;
 		margin-right: 5%;
-		margin-bottom: 5%;
+		margin: 0vh 10vw 0vh 10vw;
+		height: 75vh;
+		top: 12vh;
 	}
 	
 	
