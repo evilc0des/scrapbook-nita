@@ -4,6 +4,7 @@ body{
 	text-align: center;
 	background: white;
 	font-family: sans-serif;
+	overflow: hidden;
 }
 .contact-title{
 	margin-top: 5%;
@@ -19,10 +20,7 @@ body{
 .contact-title h2{
 	font-size: 16px;
 }
-form{
-	margin-top: 50px;
-	transition: all 4s ease-in-out;
-}
+
 .form-control{
 	width: 600px;
 	background: transparent;
@@ -85,3 +83,4 @@ form .submit:hover{
 	border: 3px solid #ffffff;
 	font-family: 'Sacramento', cursive;
 	margin-bottom: 0px;
+}
